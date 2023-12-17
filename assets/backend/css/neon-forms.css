@@ -2386,6 +2386,8 @@ input[type="checkbox"] {
 }
 input[type="file"] {
   display: block;
+  background-color: #2f2b3a;
+  border: #2f2b3a;
 }
 input[type="range"] {
   display: block;
@@ -4871,7 +4873,7 @@ input[type="button"].btn-block {
 }
 .page-body .select2-container .select2-choice {
   border-color: #ebebeb !important;
-  background: #fff;
+  background: #46424f;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -4998,6 +5000,7 @@ input[type="button"].btn-block {
 .page-body .select2-drop .select2-results {
   padding: 0;
   margin: 0;
+  background-color: #46424f;
 }
 .page-body .select2-drop .select2-search .select2-no-results,
 .page-body .select2-drop .select2-results .select2-no-results {

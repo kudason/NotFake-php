@@ -94,7 +94,7 @@
 			<?php
 				// by deault, email & general thumb shown at top
 				$bar_text	=	$this->db->get_where('user', array('user_id'=>$this->session->userdata('user_id')))->row('email');
-				$bar_thumb	=	base_url('assets/global/thumb1.png');
+				$bar_thumb	=	base_url('assets/global/user_thumb/1_user1.jpg');
 
 				// check if there is active subscription
 				$subscription_validation	=	$this->crud_model->validate_subscription();

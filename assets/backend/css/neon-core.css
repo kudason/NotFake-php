@@ -6049,8 +6049,8 @@ blockquote.blockquote-danger small strong {
   padding: 6px 12px;
   font-size: 12px;
   line-height: 1.42857143;
-  color: #555555;
-  background-color: #ffffff;
+  color: #ffffff;
+  background-color: #46424f;
   background-image: none;
   border: 1px solid #ebebeb;
   border-radius: 3px;
@@ -6071,28 +6071,28 @@ blockquote.blockquote-danger small strong {
   box-shadow:  0 2px 1px rgba(203, 208, 217, 0.08);
 }
 .dataTables_wrapper .dataTables_filter > label input::-webkit-input-placeholder {
-  color: #aaaaaa;
+  color: #ffffff;
 }
 .dataTables_wrapper .dataTables_filter > label input:-moz-placeholder {
-  color: #aaaaaa;
+  color: #ffffff;
 }
 .dataTables_wrapper .dataTables_filter > label input::-moz-placeholder {
-  color: #aaaaaa;
+  color: #ffffff;
 }
 .dataTables_wrapper .dataTables_filter > label input:-ms-input-placeholder {
-  color: #aaaaaa;
+  color: #ffffff;
 }
 .dataTables_wrapper .dataTables_filter > label input:-moz-placeholder {
-  color: #aaaaaa;
+  color: #ffffff;
 }
 .dataTables_wrapper .dataTables_filter > label input::-moz-placeholder {
-  color: #aaaaaa;
+  color: #ffffff;
 }
 .dataTables_wrapper .dataTables_filter > label input:-ms-input-placeholder {
-  color: #aaaaaa;
+  color: #ffffff;
 }
 .dataTables_wrapper .dataTables_filter > label input::-webkit-input-placeholder {
-  color: #aaaaaa;
+  color: #ffffff;
 }
 .dataTables_wrapper .dataTables_filter > label input[disabled],
 .dataTables_wrapper .dataTables_filter > label input[readonly],
@@ -6141,6 +6141,7 @@ textarea.dataTables_wrapper .dataTables_filter > label input {
 }
 .dataTables_wrapper .dataTables_info.dataTables_info,
 .dataTables_wrapper .dataTables_paginate.dataTables_info {
+  color:#ffffff;
   border-right: 0;
   -webkit-border-radius: 0 0 0 3px;
   -webkit-background-clip: padding-box;
@@ -6173,6 +6174,7 @@ textarea.dataTables_wrapper .dataTables_filter > label input {
 .page-body .datatable.table tbody td,
 .page-body .datatable.table tbody th {
   vertical-align: middle;
+  color:#ffffff;
 }
 table .replace-inputs input {
   display: block;

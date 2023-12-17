@@ -4,15 +4,16 @@
  *
 */
 
+
 body {
     font-family: 'poppins', sans-serif !important;
-    background-color: #f2f4f8 !important;
+    background-color: #1a1625; !important;  /*Thay đổi màu của trang admin*/
     color: #6c7293;
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: 300;
-    color: #212529;
+    color: #ffffff;  /*Thay đổi tên chức năng trong body*/
 }
 
 #branding_element {
@@ -88,11 +89,11 @@ blockquote.blockquote-blue p strong, blockquote.blockquote-info p strong, blockq
 
 .panel-primary {
     border: 0;
-    box-shadow: 0 0 20px rgba(0,0,0,0.11);
+    box-shadow: 0 0 20px rgba(53, 8, 78, 0.914);  /*Màu sắc đổ bóng của các bảng*/
 }
 
 .modal-header {
-    border-bottom: 1px solid #ebedf2;
+    border-bottom: 1px solid #0945de;
 }
 
 .page-container .sidebar-menu .logo-env {
@@ -100,7 +101,7 @@ blockquote.blockquote-blue p strong, blockquote.blockquote-info p strong, blockq
 }
 
 .nav-tabs {
-    background-color : #ffffff;
+    background-color : #2f2b3a;
     border-bottom: 1px solid #ebedf2;
 }
 
@@ -133,7 +134,7 @@ blockquote.blockquote-blue p strong, blockquote.blockquote-info p strong, blockq
 }
 
 .tab-content {
-    background-color: #ffffff;
+    background-color: #2f2b3a;
     padding: 15px;
 }
 
@@ -258,44 +259,44 @@ blockquote.blockquote-blue p strong, blockquote.blockquote-info p strong, blockq
 .page-container .sidebar-menu #main-menu li a {
     padding-top: 12px;
     padding-bottom: 12px;
-    color: #a2a3b7 !important;
+    color: #a2a3b7 !important;  /*Thay đổi màu chữ các chức năng trong sidebar menu*/
 }
 .page-container .sidebar-menu #main-menu li a:hover,
 .page-container .sidebar-menu #main-menu li.active a{
-    background-color: #232640 !important;
+    background-color:#524965; !important;  /*Thay đổi màu khi con trỏ di chuyển đến sidebar menu*/
 }
 .page-container .sidebar-menu #main-menu li.has-sub ul,
 .page-container .sidebar-menu #main-menu li.has-sub ul a{
-    background-color: #292b3a !important;
+    background-color: #292b3a !important;  /*Thay đổi màu cho Addon và Settings*/
 }
 .page-container .sidebar-menu #main-menu li.has-sub ul li.active a,
 .page-container .sidebar-menu #main-menu li.has-sub ul a:hover{
-    background-color: #262935 !important;
+    background-color: #524965 !important;  /*Thay đổi màu khi con trỏ di chuyển bên trong Addon và Settings*/
 }
 .page-container .sidebar-menu #main-menu li.has-sub ul,
 .page-container .sidebar-menu #main-menu li.has-sub ul li{
     border: 0;
 }
 .page-container .sidebar-menu #main-menu li a i {
-    color: #8f95bd;
+    color: #8f95bd;  /*Thay đổi màu cho biểu tượng trong sidebar menu*/
     margin-right: 12px;
     width: 20px;
 }
 
 .page-container .sidebar-menu #main-menu li.has-sub > a:before {
-    color:#5e6c77;
+    color:#1a1625;  /*Thay đổi màu hình mũi tên mở rộng của Addon và Settings*/
 }
 
 body .page-container .sidebar-menu {
-    background-color: #1e1e2d !important;
+    background-color: #46424f; !important;  /*Đổi màu cho thanh chức năng*/
 }
 .page-container .sidebar-menu .sidebar-user-info{
-    border-top-color: #323443;
+    border-top-color: #324333;
 }
 
-.table-bordered > thead > tr > th, .table-bordered > thead > tr > td{
-    color:#6c7293;
-    background: #ffffff;
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td{  /*Thay đổi màu của tên và background cột trong bảng*/
+    color:#ffffff;
+    background: #2f2b3a;;
 }
 
 .table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
@@ -304,12 +305,13 @@ body .page-container .sidebar-menu {
 
 .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter{
     border: 0;
+    background-color: #2f2b3a;
 }
 .dataTables_wrapper{
     margin-top: 20px;
     margin-bottom: 20px;
     box-shadow: 0 0 20px rgba(0,0,0,0.11);
-    background-color: #ffffff;
+    background-color: #2f2b3a;  /*Màu sắc của table*/
     padding: 30px 0px;
     border-radius: 5px;
 }
@@ -319,13 +321,13 @@ body .page-container .sidebar-menu {
 
 .panel-primary > .panel-heading {
     border: 0;
-    background-color: #282a3c;
+    background-color: #2f2b3a;;  /*Thay đổi màu của tên table*/
     border-radius: 4px 4px 0px 0px;
 }
 
 .table-bordered {
-    border: /*0;
-    box-shad*/ow: 0 0 20px rgba(0,0,0,0.11);
+    border: 0;
+    box-shadow: 0 0 20px rgba(0,0,0,0.11);
     border-right: 0px;
     border-left: 0px;
 }
@@ -347,7 +349,7 @@ body .page-container .sidebar-menu {
 }
 
 label{
-    color: #646c9a;
+    color: #ffffff; /*Màu của tên nhãn trong table*/
     font-weight: 400;
     font-size: 13px;
 }
@@ -375,6 +377,8 @@ label{
 .mt--45{
     margin-top: -45px;
 }
+
+
 
 
 /*Custom responsive content*/

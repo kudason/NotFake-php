@@ -398,6 +398,7 @@ class Crud_model extends CI_Model {
     function get_image_url_of_user($user_number)
     {
         $user_id	=	$this->session->userdata('user_id');
+		
         if (file_exists('assets/global/user_thumb/'.$user_id.'_'.$user_number.'.jpg')) {
             return base_url('assets/global/user_thumb/'.$user_id.'_'.$user_number.'.jpg');
         }
@@ -410,6 +411,7 @@ class Crud_model extends CI_Model {
             }
         }
     }
+	
 
 	function get_genres()
 	{

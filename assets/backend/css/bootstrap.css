@@ -4744,8 +4744,8 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > .disabled > a,
 .pagination > .disabled > a:hover,
 .pagination > .disabled > a:focus {
-  color: #999999;
-  background-color: #fff;
+  color: #ffffff;
+  background-color: #46424f;
   border-color: #ddd;
   cursor: not-allowed;
 }
@@ -5417,7 +5417,7 @@ button.list-group-item-danger.active:focus {
 }
 .panel {
   margin-bottom: 17px;
-  background-color: #fff;
+  background-color: #2f2b3a;
   border: 1px solid transparent;
   border-radius: 3px;
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
@@ -5425,6 +5425,8 @@ button.list-group-item-danger.active:focus {
 }
 .panel-body {
   padding: 15px;
+  background-color: #2f2b3a;   /*Chỉnh màu body của panel*/
+  color:#ffffff;
 }
 .panel-heading {
   padding: 10px 15px;

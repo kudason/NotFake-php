@@ -19,7 +19,19 @@
             <li class="profile-info dropdown pull-right"><!-- add class "pull-right" if you want to place this from right -->
                 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img src="<?php echo base_url();?>assets/backend/images/admin.png" alt="" class="img-circle" width="44">
+                    <!-- <img src="<?php echo base_url();?>assets/backend/images/admin.png" alt="" class="img-circle" width="44"> -->
+
+                    <?php
+                        // Gọi hàm để lấy đường dẫn ảnh của admin
+                    // $imageUrl = $this->crud_model->get_image_url_of_admin('admin');
+                    $imageUrl = $this->crud_model->get_image_url_of_user('user1');
+                    ?>
+                    <?php if ($imageUrl) : ?>
+                        <img src="<?php echo $imageUrl; ?>" alt="" class="img-circle" width="44">
+                    <?php endif; ?>
+
+                    
+                    
                     <?php
                         $user_id    =   $this->session->userdata('user_id');
                         $user_detail = $this->db->get_where('user',array('user_id'=>$user_id))->row();

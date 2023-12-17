@@ -314,7 +314,7 @@ class Browse extends CI_Controller {
 				if (!file_exists($path)) {
 				    mkdir($path, 0777, true);
 				}
-				move_uploaded_file($_FILES['userimage']['tmp_name'], $path.'/'.$image_name);
+				move_uploaded_file($_FILES['userimage']['tmp_name'], $path.'/'.$image_name); 
 			}
 
 			$this->db->update('user', array($user_field => $username), array('user_id' => $user_id));
