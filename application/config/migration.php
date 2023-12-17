@@ -3,82 +3,82 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 |--------------------------------------------------------------------------
-| Enable/Disable Migrations
+| Bật/Tắt Di chuyển
 |--------------------------------------------------------------------------
 |
-| Migrations are disabled by default for security reasons.
-| You should enable migrations whenever you intend to do a schema migration
-| and disable it back when you're done.
+| Di chuyển được tắt mặc định vì lý do bảo mật.
+| Bạn nên bật di chuyển mỗi khi bạn có ý định thực hiện di chuyển schema
+| và tắt lại sau khi bạn hoàn thành.
 |
 */
 $config['migration_enabled'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Migration Type
+| Loại Di chuyển
 |--------------------------------------------------------------------------
 |
-| Migration file names may be based on a sequential identifier or on
-| a timestamp. Options are:
+| Tên tệp di chuyển có thể được dựa trên một định danh tuần tự hoặc
+| một dấu thời gian. Các tùy chọn là:
 |
-|   'sequential' = Sequential migration naming (001_add_blog.php)
-|   'timestamp'  = Timestamp migration naming (20121031104401_add_blog.php)
-|                  Use timestamp format YYYYMMDDHHIISS.
+|   'sequential' = Đặt tên di chuyển theo thứ tự tuần tự (001_add_blog.php)
+|   'timestamp'  = Đặt tên di chuyển theo dấu thời gian (20121031104401_add_blog.php)
+|                  Sử dụng định dạng dấu thời gian YYYYMMDDHHIISS.
 |
-| Note: If this configuration value is missing the Migration library
-|       defaults to 'sequential' for backward compatibility with CI2.
+| Lưu ý: Nếu giá trị cấu hình này bị thiếu, thư viện Di chuyển
+|       mặc định là 'sequential' để tương thích ngược với CI2.
 |
 */
 $config['migration_type'] = 'timestamp';
 
 /*
 |--------------------------------------------------------------------------
-| Migrations table
+| Bảng Di chuyển
 |--------------------------------------------------------------------------
 |
-| This is the name of the table that will store the current migrations state.
-| When migrations runs it will store in a database table which migration
-| level the system is at. It then compares the migration level in this
-| table to the $config['migration_version'] if they are not the same it
-| will migrate up. This must be set.
+| Đây là tên bảng sẽ lưu trạng thái di chuyển hiện tại.
+| Khi di chuyển chạy, nó sẽ lưu trữ trong bảng cơ sở dữ liệu này mức di chuyển
+| hệ thống đang ở. Sau đó, nó so sánh mức di chuyển trong bảng này
+| với $config['migration_version'] nếu chúng không giống nhau nó
+| sẽ di chuyển lên. Điều này phải được đặt.
 |
 */
 $config['migration_table'] = 'migrations';
 
 /*
 |--------------------------------------------------------------------------
-| Auto Migrate To Latest
+| Tự động Di chuyển Đến Mới Nhất
 |--------------------------------------------------------------------------
 |
-| If this is set to TRUE when you load the migrations class and have
-| $config['migration_enabled'] set to TRUE the system will auto migrate
-| to your latest migration (whatever $config['migration_version'] is
-| set to). This way you do not have to call migrations anywhere else
-| in your code to have the latest migration.
+| Nếu đặt thành TRUE khi bạn tải lớp di chuyển và có
+| $config['migration_enabled'] được đặt thành TRUE, hệ thống sẽ tự động di chuyển
+| đến di chuyển mới nhất của bạn (bất kể $config['migration_version'] là
+| đặt thành). Điều này giúp bạn không cần phải gọi di chuyển ở bất kỳ nơi nào khác
+| trong mã code của bạn để có di chuyển mới nhất.
 |
 */
 $config['migration_auto_latest'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Migrations version
+| Phiên bản Di chuyển
 |--------------------------------------------------------------------------
 |
-| This is used to set migration version that the file system should be on.
-| If you run $this->migration->current() this is the version that schema will
-| be upgraded / downgraded to.
+| Được sử dụng để đặt phiên bản di chuyển mà hệ thống tệp tin nên sử dụng.
+| Nếu bạn chạy $this->migration->current() đây là phiên bản mà schema sẽ
+| được nâng cấp / hạ cấp đến.
 |
 */
 $config['migration_version'] = 0;
 
 /*
 |--------------------------------------------------------------------------
-| Migrations Path
+| Đường Dẫn Di chuyển
 |--------------------------------------------------------------------------
 |
-| Path to your migrations folder.
-| Typically, it will be within your application path.
-| Also, writing permission is required within the migrations path.
+| Đường dẫn đến thư mục di chuyển của bạn.
+| Thông thường, nó sẽ ở trong đường dẫn ứng dụng của bạn.
+| Ngoài ra, cần có quyền ghi trong đường dẫn di chuyển.
 |
 */
 $config['migration_path'] = APPPATH.'migrations/';

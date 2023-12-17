@@ -5,11 +5,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------
 | SMILEYS
 | -------------------------------------------------------------------
-| This file contains an array of smileys for use with the emoticon helper.
-| Individual images can be used to replace multiple smileys.  For example:
-| :-) and :) use the same image replacement.
-|
-| Please see user guide for more info:
+| Tệp này chứa một mảng các biểu tượng cười để sử dụng với trợ giúp emoticon.
+| Hình ảnh cá nhân có thể được sử dụng để thay thế cho nhiều biểu tượng cười. Ví dụ:
+| :-) và :) sử dụng cùng một hình ảnh thay thế.
+| Vui lòng xem hướng dẫn người dùng để biết thêm thông tin:
 | https://codeigniter.com/user_guide/helpers/smiley_helper.html
 |
 */

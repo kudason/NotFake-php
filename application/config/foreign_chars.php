@@ -3,12 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
-| Foreign Characters
+| Ký tự Ngoại quốc
 | -------------------------------------------------------------------
-| This file contains an array of foreign characters for transliteration
-| conversion used by the Text helper
+| Tập tin này chứa một mảng các ký tự ngoại quốc được sử dụng để chuyển
+| đổi bởi trợ giúp Text
 |
 */
+
 $foreign_characters = array(
 	'/ä|æ|ǽ/' => 'ae',
 	'/ö|œ/' => 'oe',

@@ -10,28 +10,31 @@ class Addon_model extends CI_Model
 	}
 
 	public function install_addon() {
-
-		// CHECK IF THE ADDON FORLDER INSIDE CONTROLLERS EXISTS
+		// Hàm này được sử dụng để cài đặt một addon vào hệ thống.
+		
+		// Kiểm tra nếu thư mục 'addons' bên trong 'controllers' không tồn tại, thì tạo mới.
 		if (!is_dir('application/controllers/addons')){
 			mkdir("application/controllers/addons", 0777, true);
 		}
 
-		// CHECK IF THE ADDON FORLDER INSIDE MODELS EXISTS
+		// Kiểm tra nếu thư mục 'addons' bên trong 'models' không tồn tại, thì tạo mới.
 		if (!is_dir('application/models/addons')){
 			mkdir("application/models/addons", 0777, true);
 		}
 
+		// Lấy tên file nén addon từ dữ liệu POST.
 		$zipped_file_name = $_FILES['addon_zip']['name'];
 
 		if (!empty($zipped_file_name)) {
-			// Create update directory.
+			// Tạo thư mục 'uploads/addons' nếu chưa tồn tại.
 			$dir = 'uploads/addons';
 			if (!is_dir($dir))
 			mkdir($dir, 0777, true);
 
 			$path = "uploads/addons/".$zipped_file_name;
 			move_uploaded_file($_FILES['addon_zip']['tmp_name'], $path);
-			//Unzip uploaded update file and remove zip file.
+
+			// Giải nén tệp tin addon và xóa tệp nén.
 			$zip = new ZipArchive;
 			$res = $zip->open($path);
 			if ($res === TRUE) {
@@ -39,6 +42,7 @@ class Addon_model extends CI_Model
 				$zip->close();
 				unlink($path);
 			}else{
+				// Xử lý lỗi nếu không thể giải nén tệp tin.
 				$this->session->set_flashdata('error_message', get_phrase('make_sure').' ZipArchive '.get_phrase('is_enabled_on_your_server'));
 				redirect(base_url('index.php?admin/addon'), 'refresh');
 			}
@@ -47,7 +51,7 @@ class Addon_model extends CI_Model
 			$config_str = file_get_contents('uploads/addons/' . $unzipped_file_name . '/config.json');
 			$config = json_decode($config_str, true);
 
-			// CREATE DIRECTORIES
+			// Tạo các thư mục nếu được định nghĩa trong tệp cấu hình.
 			if (!empty($config['directories'])) {
 				foreach ($config['directories'] as $directory) {
 					if (!is_dir($directory['name'])){
@@ -56,22 +60,22 @@ class Addon_model extends CI_Model
 				}
 			}
 
-			// CREATE OR REPLACE NEW FILES
+			// Tạo hoặc thay thế các tệp tin mới.
 			if (!empty($config['files'])) {
 				foreach ($config['files'] as $file){
 					copy($file['root_directory'], $file['update_directory']);
 				}
 			}
 
-			// CREATE OR REPLACE NEW LIBRARIES
+			// Tạo hoặc thay thế các thư viện mới.
 			if (!empty($config['libraries'])) {
 				foreach ($config['libraries'] as $libraries){
 					copy($libraries['root_directory'], $libraries['update_directory']);
 
-					//Unzip zip file and remove zip file.
+					// Giải nén tệp tin thư viện và xóa tệp tin nén.
 					$library_path = $libraries['update_directory'];
 
-					// PATH OF EXTRACTING LIBRARY FILE
+					// Đường dẫn để giải nén thư viện.
 					$library_path_array = explode('/', $library_path);
 					array_pop($library_path_array);
 					$extract_to = implode('/', $library_path_array);
@@ -81,6 +85,7 @@ class Addon_model extends CI_Model
 						$library_zip->extractTo($extract_to);
 						$library_zip->close();
 					}else{
+						// Xử lý lỗi nếu không thể giải nén thư viện.
 						$this->session->set_flashdata('error_message', get_phrase('make_sure').' ZipArchive '.get_phrase('is_enabled_on_your_server'));
 						redirect(base_url('index.php?admin/addon'), 'refresh');
 					}
@@ -88,20 +93,19 @@ class Addon_model extends CI_Model
 				}
 			}
 
-			// EXECUTE THE SQL FILE
+			// Thực hiện tệp SQL để cài đặt cơ sở dữ liệu.
 			if (!empty($config['sql_file'])) {
 				require './uploads/addons/'.$unzipped_file_name.'/sql/'.$config['sql_file'];
 			}
 
-			// INSERT OR UPDATE AN ENTRY ON DATABASE
-
+			// Thêm hoặc cập nhật một bản ghi addon vào cơ sở dữ liệu.
 			$data['name'] = $config['name'];
 			$data['unique_identifier'] = $config['unique_identifier'];
 			$data['version'] = $config['version'];
 			$data['about'] = $config['about'];
 			$data['status'] = 1;
 
-			//CHECK IF THE ADDON IS ALREADY INSTALLED OR NOT
+			// Kiểm tra nếu addon đã được cài đặt trước đó.
 			$addon_details = $this->db->get_where('addons', array('unique_identifier' => $data['unique_identifier'], 'version' => $data['version']));
 
 			if ($addon_details->num_rows() > 0) {
@@ -127,10 +131,10 @@ class Addon_model extends CI_Model
 	}
 
 	public function remove_from_uploads($folder_name) {
+		// Hàm này dùng để xóa thư mục addon đã giải nén và sạch sau khi cài đặt.
 		$dir = 'uploads/addons/'.$folder_name;
 		$it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
-		$files = new RecursiveIteratorIterator($it,
-		RecursiveIteratorIterator::CHILD_FIRST);
+		$files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
 		foreach($files as $file) {
 			if ($file->isDir()){
 				rmdir($file->getRealPath());
@@ -142,6 +146,7 @@ class Addon_model extends CI_Model
 	}
 
 	public function addon_activate($addon_id = ""){
+		// Hàm này dùng để kích hoạt addon dựa trên ID của addon.
 		$check_addon_status = $this->db->get_where('addons', array('id' => $addon_id))->row('status');
 		if($check_addon_status == 0):
 			$data['status'] = 1;
@@ -154,6 +159,7 @@ class Addon_model extends CI_Model
 	}
 
 	public function addon_deactivate($addon_id = ""){
+		// Hàm này dùng để vô hiệu hóa addon dựa trên ID của addon.
 		$check_addon_status = $this->db->get_where('addons', array('id' => $addon_id))->row('status');
 		if($check_addon_status == 1):
 			$data['status'] = 0;
@@ -166,11 +172,13 @@ class Addon_model extends CI_Model
 	}
 
 	public function addon_delete($addon_id = ""){
+		// Hàm này dùng để xóa addon dựa trên ID của addon.
 		$this->db->where('id', $addon_id);
 		$this->db->delete('addons');
 	}
 
 	public function addon_list($unique_identifier = ""){
+		// Hàm này dùng để lấy danh sách addon dựa trên một số tiêu chí, như một unique identifier cụ thể.
 		if($unique_identifier != ""){
 			$this->db->where('unique_identifier', $unique_identifier);
 		}

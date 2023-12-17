@@ -3,52 +3,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
-| URI ROUTING
+| ĐỊNH TUYẾN URI
 | -------------------------------------------------------------------------
-| This file lets you re-map URI requests to specific controller functions.
+| Tập tin này cho phép bạn ánh xạ lại yêu cầu URI đến các hàm cụ thể của bộ điều khiển.
 |
-| Typically there is a one-to-one relationship between a URL string
-| and its corresponding controller class/method. The segments in a
-| URL normally follow this pattern:
+| Thông thường, có mối quan hệ một-đến-một giữa chuỗi URL
+| và lớp/phương thức điều khiển tương ứng của nó. Các đoạn trong một
+| URL thường tuân theo mẫu sau:
 |
 |	example.com/class/method/id/
 |
-| In some instances, however, you may want to remap this relationship
-| so that a different class/function is called than the one
-| corresponding to the URL.
+| Tuy nhiên, đôi khi, bạn có thể muốn ánh xạ lại mối quan hệ này
+| để một lớp/phương thức khác được gọi hơn là lớp/phương thức
+| tương ứng với URL.
 |
-| Please see the user guide for complete details:
+| Vui lòng xem hướng dẫn người dùng để biết thông tin chi tiết:
 |
 |	https://codeigniter.com/user_guide/general/routing.html
 |
 | -------------------------------------------------------------------------
-| RESERVED ROUTES
+| CÁC ĐƯỜNG DẪN DỰ TRỮ
 | -------------------------------------------------------------------------
 |
-| There are three reserved routes:
+| Có ba đường dẫn dự trữ:
 |
 |	$route['default_controller'] = 'welcome';
 |
-| This route indicates which controller class should be loaded if the
-| URI contains no data. In the above example, the "welcome" class
-| would be loaded.
+| Đường dẫn này chỉ định lớp điều khiển nào sẽ được tải nếu
+| URI không chứa dữ liệu. Trong ví dụ trên, lớp "welcome"
+| sẽ được tải.
 |
 |	$route['404_override'] = 'errors/page_missing';
 |
-| This route will tell the Router which controller/method to use if those
-| provided in the URL cannot be matched to a valid route.
+| Đường dẫn này sẽ cho Router biết lớp/phương thức nào được sử dụng nếu những
+| thông tin được cung cấp trong URL không thể được phù hợp với một đường dẫn hợp lệ.
 |
 |	$route['translate_uri_dashes'] = FALSE;
 |
-| This is not exactly a route, but allows you to automatically route
-| controller and method names that contain dashes. '-' isn't a valid
-| class or method name character, so it requires translation.
-| When you set this option to TRUE, it will replace ALL dashes in the
-| controller and method URI segments.
+| Đây không phải là một đường dẫn chính xác, nhưng cho phép bạn tự động định tuyến
+| tên lớp điều khiển và phương thức chứa dấu gạch ngang. Dấu '-' không phải là một
+| ký tự hợp lệ cho tên lớp hoặc phương thức, nên nó cần phải được dịch.
+| Khi bạn đặt tùy chọn này thành TRUE, nó sẽ thay thế TẤT CẢ dấu gạch ngang trong
+| các đoạn URI của lớp điều khiển và phương thức.
 |
-| Examples:	my-controller/index	-> my_controller/index
+| Ví dụ:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'install';
+$route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

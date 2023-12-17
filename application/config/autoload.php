@@ -5,28 +5,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------
 | AUTO-LOADER
 | -------------------------------------------------------------------
-| This file specifies which systems should be loaded by default.
+| Tệp này chỉ định hệ thống nào nên được tải mặc định.
 |
-| In order to keep the framework as light-weight as possible only the
-| absolute minimal resources are loaded by default. For example,
-| the database is not connected to automatically since no assumption
-| is made regarding whether you intend to use it.  This file lets
-| you globally define which systems you would like loaded with every
-| request.
+| Để giữ framework nhẹ nhất có thể, chỉ tải tài nguyên tối thiểu tuyệt đối.
+| Ví dụ, cơ sở dữ liệu không được kết nối tự động vì không có giả định
+| rằng bạn có ý định sử dụng nó. Tệp này cho phép bạn đặt toàn cầu
+| xác định hệ thống nào bạn muốn tải với mỗi yêu cầu.
 |
 | -------------------------------------------------------------------
-| Instructions
+| Hướng dẫn
 | -------------------------------------------------------------------
 |
-| These are the things you can load automatically:
+| Đây là những điều bạn có thể tải tự động:
 |
-| 1. Packages
-| 2. Libraries
-| 3. Drivers
-| 4. Helper files
-| 5. Custom config files
-| 6. Language files
-| 7. Models
+| 1. Gói
+| 2. Thư viện
+| 3. Trình điều khiển
+| 4. Tệp trợ giúp
+| 5. Tệp cấu hình tùy chỉnh
+| 6. Tệp ngôn ngữ
+| 7. Mô hình
 |
 */
 
@@ -34,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | -------------------------------------------------------------------
 |  Auto-load Packages
 | -------------------------------------------------------------------
-| Prototype:
+| Mẫu:
 |
 |  $autoload['packages'] = array(APPPATH.'third_party', '/usr/local/shared');
 |
@@ -45,16 +43,16 @@ $autoload['packages'] = array();
 | -------------------------------------------------------------------
 |  Auto-load Libraries
 | -------------------------------------------------------------------
-| These are the classes located in system/libraries/ or your
-| application/libraries/ directory, with the addition of the
-| 'database' library, which is somewhat of a special case.
+| Đây là các lớp nằm trong thư mục system/libraries/ hoặc thư mục của bạn
+| application/libraries/, với thêm vào đó của thư viện 'database',
+| một trường hợp đặc biệt một chút.
 |
-| Prototype:
+| Mẫu:
 |
 |	$autoload['libraries'] = array('database', 'email', 'session');
 |
-| You can also supply an alternative library name to be assigned
-| in the controller:
+| Bạn cũng có thể cung cấp tên thư viện thay thế để được gán
+| trong điều khiển:
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
@@ -64,17 +62,17 @@ $autoload['libraries'] = array('pagination' , 'xmlrpc' , 'form_validation', 'ema
 | -------------------------------------------------------------------
 |  Auto-load Drivers
 | -------------------------------------------------------------------
-| These classes are located in system/libraries/ or in your
-| application/libraries/ directory, but are also placed inside their
-| own subdirectory and they extend the CI_Driver_Library class. They
-| offer multiple interchangeable driver options.
+| Những lớp này nằm trong thư mục system/libraries/ hoặc trong thư mục của bạn
+| application/libraries/, nhưng cũng được đặt bên trong
+| thư mục con của chúng và chúng mở rộng từ lớp CI_Driver_Library. Chúng
+| cung cấp nhiều tùy chọn trình điều khiển có thể hoán đổi.
 |
-| Prototype:
+| Mẫu:
 |
 |	$autoload['drivers'] = array('cache');
 |
-| You can also supply an alternative property name to be assigned in
-| the controller:
+| Bạn cũng có thể cung cấp tên thuộc tính thay thế để được gán trong
+| điều khiển:
 |
 |	$autoload['drivers'] = array('cache' => 'cch');
 |
@@ -85,7 +83,7 @@ $autoload['drivers'] = array();
 | -------------------------------------------------------------------
 |  Auto-load Helper Files
 | -------------------------------------------------------------------
-| Prototype:
+| Mẫu:
 |
 |	$autoload['helper'] = array('url', 'file');
 */
@@ -95,12 +93,12 @@ $autoload['helper'] = array('url','file','form','security','string','inflector',
 | -------------------------------------------------------------------
 |  Auto-load Config files
 | -------------------------------------------------------------------
-| Prototype:
+| Mẫu:
 |
 |	$autoload['config'] = array('config1', 'config2');
 |
-| NOTE: This item is intended for use ONLY if you have created custom
-| config files.  Otherwise, leave it blank.
+| LƯU Ý: Mục này được dành CHỈ nếu bạn đã tạo tệp cấu hình tùy chỉnh
+| Nếu không, hãy để nó trống.
 |
 */
 $autoload['config'] = array();
@@ -109,12 +107,12 @@ $autoload['config'] = array();
 | -------------------------------------------------------------------
 |  Auto-load Language files
 | -------------------------------------------------------------------
-| Prototype:
+| Mẫu:
 |
 |	$autoload['language'] = array('lang1', 'lang2');
 |
-| NOTE: Do not include the "_lang" part of your file.  For example
-| "codeigniter_lang.php" would be referenced as array('codeigniter');
+| LƯU Ý: Đừng bao gồm phần "_lang" của tệp. Ví dụ
+| "codeigniter_lang.php" sẽ được tham chiếu như là array('codeigniter');
 |
 */
 $autoload['language'] = array();
@@ -123,12 +121,12 @@ $autoload['language'] = array();
 | -------------------------------------------------------------------
 |  Auto-load Models
 | -------------------------------------------------------------------
-| Prototype:
+| Mẫu:
 |
 |	$autoload['model'] = array('first_model', 'second_model');
 |
-| You can also supply an alternative model name to be assigned
-| in the controller:
+| Bạn cũng có thể cung cấp tên mô hình thay thế để được gán
+| trong điều khiển:
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
