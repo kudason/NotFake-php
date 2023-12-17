@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Holds font family and size.
+ * Giữ họ phông chữ và kích thước.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -24,7 +24,7 @@ class BCGFontFile implements BCGFont {
     private $boxFix;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      *
      * @param string $fontPath path to the file
      * @param int $size size in point
@@ -42,7 +42,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Gets the text associated to the font.
+     * Lấy văn bản liên quan đến phông chữ.
      *
      * @return string
      */
@@ -51,7 +51,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Sets the text associated to the font.
+     * Đặt văn bản liên quan đến phông chữ.
      *
      * @param string text
      */
@@ -61,7 +61,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Gets the rotation in degree.
+     * Nhận được vòng quay theo mức độ.
      *
      * @return int
      */
@@ -70,7 +70,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Sets the rotation in degree.
+     * Đặt mức độ xoay.
      *
      * @param int
      */
@@ -86,7 +86,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Gets the background color.
+     * Lấy màu nền.
      *
      * @return BCGColor
      */
@@ -94,7 +94,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Sets the background color.
+     * Đặt màu nền.
      *
      * @param BCGColor $backgroundColor
      */
@@ -102,7 +102,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Gets the foreground color.
+     * Lấy màu nền trước.
      *
      * @return BCGColor
      */
@@ -111,7 +111,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Sets the foreground color.
+     * Đặt màu nền trước.
      *
      * @param BCGColor $foregroundColor
      */
@@ -120,7 +120,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Gets the box fix information.
+     * Nhận thông tin sửa chữa hộp.
      *
      * @return int
      */
@@ -129,7 +129,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Sets the box fix information.
+     * Đặt thông tin sửa hộp.
      *
      * @param int $value
      */
@@ -138,7 +138,7 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Returns the width and height that the text takes to be written.
+     * Trả về chiều rộng và chiều cao mà văn bản cần được viết.
      *
      * @return int[]
      */
@@ -166,8 +166,8 @@ class BCGFontFile implements BCGFont {
     }
 
     /**
-     * Draws the text on the image at a specific position.
-     * $x and $y represent the left bottom corner.
+     * Vẽ văn bản trên hình ảnh ở một vị trí cụ thể.
+     * $x và $y đại diện cho góc dưới bên trái.
      *
      * @param resource $im
      * @param int $x

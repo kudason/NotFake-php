@@ -2,14 +2,14 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - Code 128, A, B, C
+ * Lớp con - Code 128, A, B, C
  *
  * # Code C Working properly only on PHP4 or PHP5.0.3+ due to bug :
  * http://bugs.php.net/bug.php?id=28862
  *
- * !! Warning !!
- * If you display the checksum on the label, you may obtain
- * some garbage since some characters are not displayable.
+ * !! Cảnh báo !!
+ * Nếu bạn hiển thị checksum trên nhãn, bạn có thể nhận được
+ * một số rác vì một số ký tự không thể hiển thị được.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -18,9 +18,9 @@
 include_once('BCGParseException.php');
 include_once('BCGBarcode1D.php');
 
-define('CODE128_A',    1);            // Table A
-define('CODE128_B',    2);            // Table B
-define('CODE128_C',    3);            // Table C
+define('CODE128_A',    1);            // Bảng A
+define('CODE128_B',    2);            // Bảng B
+define('CODE128_C',    3);            // Bảng C
 class BCGcode128 extends BCGBarcode1D {
     const KEYA_FNC3 = 96;
     const KEYA_FNC2 = 97;
@@ -57,10 +57,10 @@ class BCGcode128 extends BCGBarcode1D {
     private $latch;
     private $fnc;
 
-    private $METHOD            = null; // Array of method available to create Code128 (CODE128_A, CODE128_B, CODE128_C)
+    private $METHOD            = null; // Mảng phương thức có sẵn để tạo Code128 (CODE128_A, CODE128_B, CODE128_C)
 
     /**
-     * Constructor.
+     * Hàm khởi tọa.
      *
      * @param char $start
      */
@@ -191,7 +191,7 @@ class BCGcode128 extends BCGBarcode1D {
         $this->setStart($start);
         $this->setTilde(true);
 
-        // Latches and Shifts
+        // Chốt và Chuyển đổi
         $this->latch = array(
             array(null,             self::KEYA_CODEB,   self::KEYA_CODEC),
             array(self::KEYB_CODEA, null,               self::KEYB_CODEC),
@@ -207,18 +207,18 @@ class BCGcode128 extends BCGBarcode1D {
             array(self::KEYC_FNC1,  null,               null,               null)
         );
 
-        // Method available
+        // Phương thức có sẵn
         $this->METHOD        = array(CODE128_A => 'A', CODE128_B => 'B', CODE128_C => 'C');
     }
 
     /**
-     * Specifies the start code. Can be 'A', 'B', 'C', or null
-     *  - Table A: Capitals + ASCII 0-31 + punct
-     *  - Table B: Capitals + LowerCase + punct
-     *  - Table C: Numbers
+     * Chỉ định mã bắt đầu. Có thể là 'A', 'B', 'C' hoặc null
+     * - Bảng A: Chữ hoa + ASCII 0-31 + dấu chấm câu
+     * - Bảng B: Chữ hoa + Chữ thường + dấu chấm câu
+     * - Bảng C: Các con số
      *
-     * If null is specified, the table selection is automatically made.
-     * The default is null.
+     * Nếu null được chỉ định, việc chọn bảng sẽ tự động được thực hiện.
+     * Mặc định là null.
      *
      * @param string $table
      */
@@ -231,7 +231,7 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Gets the tilde.
+     * Lấy dấu ngã.
      *
      * @return bool
      */
@@ -240,10 +240,10 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Accepts tilde to be process as a special character.
-     * If true, you can do this:
-     *  - ~~     : to make ONE tilde
-     *  - ~Fx    : to insert FCNx. x is equal from 1 to 4.
+     * Chấp nhận dấu ngã được xử lý như một ký tự đặc biệt.
+     * Nếu đúng thì có thể làm như sau:
+     * - ~~ : để tạo MỘT dấu ngã
+     * - ~Fx : để chèn FCNx. x bằng từ 1 đến 4.
      *
      * @param boolean $accept
      */
@@ -252,7 +252,7 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Parses the text before displaying it.
+     * Phân tích văn bản trước khi hiển thị nó.
      *
      * @param mixed $text
      */
@@ -264,29 +264,29 @@ class BCGcode128 extends BCGBarcode1D {
 
         $currentMode = $this->starting_text;
 
-        // Here, we format correctly what the user gives.
+        // Định dạng chính xác những gì người dùng cung cấp.
         if (!is_array($text)) {
             $seq = $this->getSequence($text, $currentMode);
             $this->text = $text;
         } else {
-            // This loop checks for UnknownText AND raises an exception if a character is not allowed in a table
+            // Vòng lặp này kiểm tra UnknownText AND có tạo ngoại lệ không nếu ký tự không được chấp nhận trong bảng
             reset($text);
-            while (list($key1, $val1) = each($text)) {     // We take each value
-                if (!is_array($val1)) {                    // This is not a table
-                    if (is_string($val1)) {                // If it's a string, parse as unknown
+            while (list($key1, $val1) = each($text)) {     // Lấy từng giá trị
+                if (!is_array($val1)) {                    // Đây không phải một bảng
+                    if (is_string($val1)) {                // Nếu đó là một chuỗi(string), hãy phân tích dưới dạng không xác định
                         $seq .= $this->getSequence($val1, $currentMode);
                         $this->text .= $val1;
                     } else {
-                        // it's the case of "array(ENCODING, 'text')"
-                        // We got ENCODING in $val1, calling 'each' again will get 'text' in $val2
+                        // Trường hợp của "array(ENCODING, 'text')"
+                        // Chúng ta đã nhận được ENCODING trong $val1, gọi lại 'each' sẽ nhận được 'text' trong $val2
                         list($key2, $val2) = each($text);
                         $seq .= $this->{'setParse' . $this->METHOD[$val1]}($val2, $currentMode);
                         $this->text .= $val2;
                     }
-                } else {                        // The method is specified
+                } else {                        // Phương pháp được chỉ định
                     // $val1[0] = ENCODING
                     // $val1[1] = 'text'
-                    $value = isset($val1[1]) ? $val1[1] : '';    // If data available
+                    $value = isset($val1[1]) ? $val1[1] : '';    // Nếu dữ liệu có sẵn
                     $seq .= $this->{'setParse' . $this->METHOD[$val1[0]]}($value, $currentMode);
                     $this->text .= $value;
                 }
@@ -302,7 +302,7 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
@@ -317,16 +317,16 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
      * @return int[]
      */
     public function getDimension($w, $h) {
-        // Contains start + text + checksum + stop
+        // Bao gồm bắt đâu + văn bản + checksum + kết thúc
         $textlength = count($this->data) * 11;
-        $endlength = 2; // + final bar
+        $endlength = 2; // + bar cuối
 
         $w += $textlength + $endlength;
         $h += $this->thickness;
@@ -334,7 +334,7 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = count($this->data);
@@ -346,14 +346,14 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to calculate checksum.
+     * Nạp chồng phương thức tính checksum.
      */
     protected function calculateChecksum() {
         // Checksum
-        // First Char (START)
-        // + Starting with the first data character following the start character,
-        // take the value of the character (between 0 and 102, inclusive) multiply
-        // it by its character position (1) and add that to the running checksum.
+        // Ký tự đầu tiên (START)
+        // + Bắt đầu với ký tự dữ liệu đầu tiên theo sau ký tự bắt đầu,
+        // lấy giá trị của ký tự (từ 0 đến 102) nhân lên
+        // theo vị trí ký tự của nó (1) và thêm vào checksum đang chạy.
         // Modulated 103
         $this->checksumValue = $this->indcheck[0];
         $c = count($this->indcheck);
@@ -365,10 +365,10 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to display the checksum.
+     * Nạp chồng phương thức hiển thị checksum.
      */
     protected function processChecksum() {
-        if ($this->checksumValue === false) { // Calculate the checksum only once
+        if ($this->checksumValue === false) { // Tính checksum một lần duy nhất
             $this->calculateChecksum();
         }
 
@@ -384,32 +384,32 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Specifies the starting_text table if none has been specified earlier.
+     * Chỉ định bảng starting_text nếu chưa có bảng nào được chỉ định trước đó.
      *
      * @param string $text
      */
     private function setStartFromText($text) {
         if ($this->starting_text === null) {
-            // If we have a forced table at the start, we get that one...
+            // Nếu chúng ta có một bảng bắt buộc ngay từ đầu, chúng ta sẽ có được bảng đó...
             if (is_array($text)) {
                 if (is_array($text[0])) {
-                    // Code like array(array(ENCODING, ''))
+                    // Mã như mảng(array(ENCODING, ''))
                     $this->starting_text = $this->METHOD[$text[0][0]];
                     return;
                 } else {
                     if (is_string($text[0])) {
-                        // Code like array('test') (Automatic text)
+                        // Mã như mảng('test') (Automatic text)
                         $text = $text[0];
                     } else {
-                        // Code like array(ENCODING, '')
+                        // Mã như mảng(ENCODING, '')
                         $this->starting_text = $this->METHOD[$text[0]];
                         return;
                     }
                 }
             }
 
-            // At this point, we had an "automatic" table selection...
-            // If we can get at least 4 numbers, go in C; otherwise go in B.
+            // Tại thời điểm này, đã có lựa chọn bảng "tự động"...
+            // Nếu có thể nhận được ít nhất 4 số, hãy chuyển sang C; nếu không thì vào B.
             $tmp = preg_quote($this->keysC, '/');
             $length = strlen($text);
             if ($length >= 4 && preg_match('/[' . $tmp . ']/', substr($text, 0, 4))) {
@@ -425,8 +425,8 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Extracts the ~ value from the $text at the $pos.
-     * If the tilde is not ~~, ~F1, ~F2, ~F3, ~F4; an error is raised.
+     * Trích xuất giá trị ~ từ $text tại vị trí $pos.
+     * Nếu dấu ngã không phải là ~~, ~F1, ~F2, ~F3, ~F4; một lỗi được nêu ra.
      *
      * @param string $text
      * @param int $pos
@@ -435,11 +435,11 @@ class BCGcode128 extends BCGBarcode1D {
     private static function extractTilde($text, $pos) {
         if ($text[$pos] === '~') {
             if (isset($text[$pos + 1])) {
-                // Do we have a tilde?
+                // Chúng ta có dấu ngã không?
                 if ($text[$pos + 1] === '~') {
                     return '~~';
                 } elseif ($text[$pos + 1] === 'F') {
-                    // Do we have a number after?
+                    // Chúng ta có số sau không?
                     if (isset($text[$pos + 2])) {
                         $v = intval($text[$pos + 2]);
                         if ($v >= 1 && $v <= 4) {
@@ -462,8 +462,8 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Gets the "dotted" sequence for the $text based on the $currentMode.
-     * There is also a check if we use the special tilde ~
+     * Lấy chuỗi "chấm" cho $text dựa trên $currentMode.
+     * Ngoài ra còn có một kiểm tra xem chúng tôi có sử dụng dấu ngã đặc biệt hay không ~
      *
      * @param string $text
      * @param string $currentMode
@@ -481,9 +481,9 @@ class BCGcode128 extends BCGBarcode1D {
                     throw new BCGParseException('code128', 'The Table ' . $currentMode . ' doesn\'t contain the character ~.');
                 }
 
-                // At this point, we know we have ~Fx
+                // Tại thời điểm này, chúng tôi biết mình có ~Fx
                 if ($tildeData !== '~F1' && $currentMode === 'C') {
-                    // The mode C doesn't support ~F2, ~F3, ~F4
+                    // Chế độ C không hỗ trợ ~F2, ~F3, ~F4
                     throw new BCGParseException('code128', 'The Table C doesn\'t contain the function ' . $tildeData . '.');
                 }
 
@@ -500,7 +500,7 @@ class BCGcode128 extends BCGBarcode1D {
                 $previousPos = $pos + strlen($tildeData);
             }
 
-            // Flushing
+            // Xả ra
             $length = strlen($text) - $previousPos;
             if ($currentMode === 'C') {
                 if ($length % 2 === 1) {
@@ -517,7 +517,7 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Parses the text and returns the appropriate sequence for the Table A.
+     * Phân tích văn bản và trả về trình tự thích hợp cho Bảng A.
      *
      * @param string $text
      * @param string $currentMode
@@ -526,14 +526,14 @@ class BCGcode128 extends BCGBarcode1D {
     private function setParseA($text, &$currentMode) {
         $tmp = preg_quote($this->keysA, '/');
 
-        // If we accept the ~ for special character, we must allow it.
+        // Nếu chấp nhận ~ cho ký tự đặc biệt, phải cho phép nó.
         if ($this->tilde) {
             $tmp .= '~';
         }
 
         $match = array();
         if (preg_match('/[^' . $tmp . ']/', $text, $match) === 1) {
-            // We found something not allowed
+            // Tìm thấy thứ gì đó không được phép
             throw new BCGParseException('code128', 'The text "' . $text . '" can\'t be parsed with the Table A. The character "' . $match[0] . '" is not allowed.');
         } else {
             $latch = ($currentMode === 'A') ? '' : '0';
@@ -544,7 +544,7 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Parses the text and returns the appropriate sequence for the Table B.
+     * Phân tích văn bản và trả về trình tự thích hợp cho Bảng B.
      *
      * @param string $text
      * @param string $currentMode
@@ -555,7 +555,7 @@ class BCGcode128 extends BCGBarcode1D {
 
         $match = array();
         if (preg_match('/[^' . $tmp . ']/', $text, $match) === 1) {
-            // We found something not allowed
+            // Tìm thấy thứ gì đó không được phép
             throw new BCGParseException('code128', 'The text "' . $text . '" can\'t be parsed with the Table B. The character "' . $match[0] . '" is not allowed.');
         } else {
             $latch = ($currentMode === 'B') ? '' : '1';
@@ -566,7 +566,7 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Parses the text and returns the appropriate sequence for the Table C.
+     * Phân tích văn bản và trả về trình tự thích hợp cho Bảng C.
      *
      * @param string $text
      * @param string $currentMode
@@ -575,14 +575,14 @@ class BCGcode128 extends BCGBarcode1D {
     private function setParseC($text, &$currentMode) {
         $tmp = preg_quote($this->keysC, '/');
 
-        // If we accept the ~ for special character, we must allow it.
+        // Nếu chấp nhận ~ cho ký tự đặc biệt, phải cho phép nó.
         if ($this->tilde) {
             $tmp .= '~F';
         }
 
         $match = array();
         if (preg_match('/[^' . $tmp . ']/', $text, $match) === 1) {
-            // We found something not allowed
+            // Tìm thấy thứ gì đó không được phép
             throw new BCGParseException('code128', 'The text "' . $text . '" can\'t be parsed with the Table C. The character "' . $match[0] . '" is not allowed.');
         } else {
             $latch = ($currentMode === 'C') ? '' : '2';
@@ -593,8 +593,8 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Depending on the $text, it will return the correct
-     * sequence to encode the text.
+     * Tùy thuộc vào $text, nó sẽ trả về đúng
+     * trình tự để mã hóa văn bản.
      *
      * @param string $text
      * @param string $starting_text
@@ -649,12 +649,12 @@ class BCGcode128 extends BCGBarcode1D {
             $flag = false;
             $posArray = array();
 
-            // Special case, we do have a tilde and we process them
+            // Trường hợp đặc biệt, có một đấu ngã và xử lý
             if ($this->tilde && $input === '~') {
                 $tildeData = self::extractTilde($text, $x);
 
                 if ($tildeData === '~~') {
-                    // We simply skip a tilde
+                    // Chỉ cần bỏ qua dấu ngã
                     $posArray[] = 1;
                     $x++;
                 } elseif (substr($tildeData, 0, 2) === '~F') {
@@ -679,7 +679,7 @@ class BCGcode128 extends BCGBarcode1D {
                     $posArray[] = 1;
                 }
 
-                // Do we have the next char a number?? OR a ~F1
+                // Có số ký tự tiếp theo không?? Hoặc a ~F1
                 $pos = strpos($this->keysC, $input);
                 if ($nextNumber || ($pos !== false && isset($text[$x + 1]) && strpos($this->keysC, $text[$x + 1]) !== false)) {
                     $nextNumber = !$nextNumber;
@@ -704,7 +704,7 @@ class BCGcode128 extends BCGBarcode1D {
             }
 
             if ($c === 0) {
-                // We found an unsuported character
+                // Tìm thấy một ký tự không được hỗ trợ
                 throw new BCGParseException('code128', 'Character ' .  $input . ' not supported.');
             }
 
@@ -725,7 +725,7 @@ class BCGcode128 extends BCGBarcode1D {
             }
         }
 
-        // Every curLen under $e is possible but we take the smallest
+        // Mọi curLen dưới $e đều có thể thực hiện được nhưng lấy giá trị nhỏ nhất
         $m = $e;
         $k = -1;
         for ($i = 0; $i < 3; $i++) {
@@ -743,15 +743,15 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Depending on the sequence $seq given (returned from getSequence()),
-     * this method will return the code stream in an array. Each char will be a
-     * string of bit based on the Code 128.
+     * Tùy thuộc vào chuỗi $seq đã cho (trả về từ getSequence()),
+     * phương thức này sẽ trả về dòng mã trong một mảng. Mỗi ký tự sẽ là một
+     * chuỗi bit dựa trên Mã 128.
      *
-     * Each letter from the sequence represents bits.
+     * Mỗi chữ cái trong chuỗi đại diện cho các bit.
      *
-     * 0 to 2 are latches
-     * A to B are Shift + Letter
-     * . is a char in the current encoding
+     * 0 đến 2 là chốt
+     * A đến B là Shift + Letter
+     * . là một char trong bảng mã hiện tại
      *
      * @param string $text
      * @param string $seq
@@ -760,8 +760,8 @@ class BCGcode128 extends BCGBarcode1D {
     private function createBinaryStream($text, $seq) {
         $c = strlen($seq);
 
-        $data = array(); // code stream
-        $indcheck = array(); // index for checksum
+        $data = array(); // dòng mã
+        $indcheck = array(); // chỉ mục cho checksum
 
         $currentEncoding = 0;
         if ($this->starting_text === 'A') {
@@ -791,7 +791,7 @@ class BCGcode128 extends BCGBarcode1D {
                     $temporaryEncoding = -1;
                 }
             } elseif ($input >= 'A' && $input <= 'B') {
-                // We shift
+                // Thay đổi
                 $encoding = ord($input) - 65;
                 $shift = $this->shift[$currentEncoding][$encoding];
                 $indcheck[] = $shift;
@@ -804,7 +804,7 @@ class BCGcode128 extends BCGBarcode1D {
             } elseif ($inputI >= 0 && $inputI < 3) {
                 $temporaryEncoding = -1;
 
-                // We latch
+                // Chốt
                 $latch = $this->latch[$currentEncoding][$inputI];
                 if ($latch !== null) {
                     $indcheck[] = $latch;
@@ -819,7 +819,7 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Encodes characters, base on its encoding and sequence
+     * Mã hóa các ký tự, dựa trên mã hóa và trình tự của nó
      *
      * @param int[] $data
      * @param int $encoding
@@ -831,14 +831,14 @@ class BCGcode128 extends BCGBarcode1D {
      */
     private function encodeChar(&$data, $encoding, $seq, $text, &$i, &$counter, &$indcheck) {
         if (isset($seq[$i + 1]) && $seq[$i + 1] === 'F') {
-            // We have a flag !!
+            // Có một flag
             if ($text[$counter + 1] === 'F') {
                 $number = $text[$counter + 2];
                 $fnc = $this->fnc[$encoding][$number - 1];
                 $indcheck[] = $fnc;
                 $data[] = $this->code[$fnc];
 
-                // Skip F + number
+                // Bỏ qua F + number
                 $counter += 2;
             } else {
                 // Not supposed
@@ -847,7 +847,7 @@ class BCGcode128 extends BCGBarcode1D {
             $i++;
         } else {
             if ($encoding === 2) {
-                // We take 2 numbers in the same time
+                // Lấy 2 số cùng một lúc
                 $code = (int)substr($text, $counter, 2);
                 $indcheck[] = $code;
                 $data[] = $this->code[$code];
@@ -865,12 +865,12 @@ class BCGcode128 extends BCGBarcode1D {
     }
 
     /**
-     * Saves data into the classes.
+     * Lưu dữ liệu vào các lớp.
      *
-     * This method will save data, calculate real column number
-     * (if -1 was selected), the real error level (if -1 was
-     * selected)... It will add Padding to the end and generate
-     * the error codes.
+     * Phương pháp này sẽ lưu dữ liệu, tính số cột thực
+     * (nếu -1 được chọn), mức lỗi thực tế (nếu -1 được chọn)
+     * đã chọn)... Nó sẽ thêm Padding vào cuối và tạo
+     * mã lỗi.
      *
      * @param array $data
      */

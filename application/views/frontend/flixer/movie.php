@@ -56,7 +56,7 @@
 	</div>
 </div>
 
-<!-- MOVIE LIST, GENRE WISE LISTING -->
+<!-- DANH SÁCH PHIM, THỂ LOẠI DANH SÁCH KHÁC -->
 <div class="row" style="margin:20px 60px;">
 	<h4 style="text-transform: capitalize;">
 		<?php echo $this->db->get_where('genre', array('genre_id' => $genre_id))->row()->name;?>

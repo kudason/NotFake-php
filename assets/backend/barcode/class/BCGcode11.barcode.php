@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - Code 11
+ * Lớp con - Code 11
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -13,13 +13,13 @@ include_once('BCGBarcode1D.php');
 
 class BCGcode11 extends BCGBarcode1D {
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
 
         $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-');
-        $this->code = array(    // 0 added to add an extra space
+        $this->code = array(    // 0 được thêm vào để thêm một không gian bổ sung
             '000010',   /* 0 */
             '100010',   /* 1 */
             '010010',   /* 2 */
@@ -35,15 +35,15 @@ class BCGcode11 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
     public function draw($im) {
-        // Starting Code
+        // Bắt đầu Code
         $this->drawChar($im, '001100', true);
 
-        // Chars
+        // Ký tự
         $c = strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
             $this->drawChar($im, $this->findCode($this->text[$i]), true);
@@ -56,13 +56,13 @@ class BCGcode11 extends BCGBarcode1D {
             $this->drawChar($im, $this->code[$this->checksumValue[$i]], true);
         }
 
-        // Ending Code
+        // Kết thúc Code
         $this->drawChar($im, '00110', true);
         $this->drawText($im, 0, 0, $this->positionX, $this->thickness);
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -93,7 +93,7 @@ class BCGcode11 extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -101,7 +101,7 @@ class BCGcode11 extends BCGBarcode1D {
             throw new BCGParseException('code11', 'No data has been entered.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
                 throw new BCGParseException('code11', 'The character \'' . $this->text[$i] . '\' is not allowed.');
@@ -112,26 +112,25 @@ class BCGcode11 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to calculate checksum.
+     * Nạp chồng phương thức để tính checksum.
      */
     protected function calculateChecksum() {
         // Checksum
-        // First CheckSUM "C"
-        // The "C" checksum character is the modulo 11 remainder of the sum of the weighted
-        // value of the data characters. The weighting value starts at "1" for the right-most
-        // data character, 2 for the second to last, 3 for the third-to-last, and so on up to 20.
-        // After 10, the sequence wraps around back to 1.
+        // Đầu tiên CheckSUM "C"
+        // Ký tự checksum "C" là phần còn lại theo modulo 11 của tổng giá trị trọng số của các ký tự dữ liệu. 
+        // Giá trị trọng số bắt đầu từ "1" cho ký tự dữ liệu ngoài cùng bên phải, 2 cho ký tự thứ hai đến cuối cùng, 3 cho ký tự thứ ba đến cuối cùng, v.v. cho đến 20.
+        // Sau 10, chuỗi sẽ quay về 1.
 
-        // Second CheckSUM "K"
-        // Same as CheckSUM "C" but we count the CheckSum "C" at the end
-        // After 9, the sequence wraps around back to 1.
+        // Thứ hai CheckSUM "K"
+        // Tương tự như CheckSUM "C" nhưng chúng tôi tính CheckSum "C" ở cuối
+        // Sau 9, chuỗi sẽ quay về 1.
         $sequence_multiplier = array(10, 9);
         $temp_text = $this->text;
         $this->checksumValue = array();
         for ($z = 0; $z < 2; $z++) {
             $c = strlen($temp_text);
 
-            // We don't display the K CheckSum if the original text had a length less than 10
+            // Chúng tôi không hiển thị CheckSum K nếu văn bản gốc có độ dài nhỏ hơn 10
             if ($c <= 10 && $z === 1) {
                 break;
             }
@@ -152,10 +151,10 @@ class BCGcode11 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to display the checksum.
+     * Nạp chồng phương thức để hiển thị checksum.
      */
     protected function processChecksum() {
-        if ($this->checksumValue === false) { // Calculate the checksum only once
+        if ($this->checksumValue === false) { // Tính checksum một lần duy nhất
             $this->calculateChecksum();
         }
 

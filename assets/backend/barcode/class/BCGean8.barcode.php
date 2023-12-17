@@ -2,14 +2,14 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - EAN-8
+ * Lớp con - EAN-8
  *
- * EAN-8 contains
- *    - 4 digits
- *    - 3 digits
- *    - 1 checksum
+ * EAN-8 bao gồm
+ * - 4 chữ số
+ * - 3 chữ số
+ * - 1 checksum
  *
- * The checksum is always displayed.
+ * checksum luôn được hiển thị.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -32,8 +32,8 @@ class BCGean8 extends BCGBarcode1D {
 
         $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
-        // Left-Hand Odd Parity starting with a space
-        // Right-Hand is the same of Left-Hand starting with a bar
+        // Tính chẵn lẻ bên trái bắt đầu bằng khoảng trắng
+        // Bên phải giống với Bên trái bắt đầu bằng một ô nhịp
         $this->code = array(
             '2100',     /* 0 */
             '1110',     /* 1 */
@@ -49,7 +49,7 @@ class BCGean8 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
@@ -58,23 +58,23 @@ class BCGean8 extends BCGBarcode1D {
         $this->calculateChecksum();
         $temp_text = $this->text . $this->keys[$this->checksumValue];
 
-        // Starting Code
+        // Bắt đầu Code
         $this->drawChar($im, '000', true);
 
-        // Draw First 4 Chars (Left-Hand)
+        // Vẽ 4 ký tự đầu tiên (bên trái)
         for ($i = 0; $i < 4; $i++) {
             $this->drawChar($im, $this->findCode($temp_text[$i]), false);
         }
 
-        // Draw Center Guard Bar
+        // Vẽ Center Guard Bar
         $this->drawChar($im, '00000', false);
 
-        // Draw Last 4 Chars (Right-Hand)
+        // Vẽ 4 ký tự cuối cùng (bên phải)
         for ($i = 4; $i < 8; $i++) {
             $this->drawChar($im, $this->findCode($temp_text[$i]), true);
         }
 
-        // Draw Right Guard Bar
+        // Vẽ Right Guard Bar
         $this->drawChar($im, '000', true);
         $this->drawText($im, 0, 0, $this->positionX, $this->thickness);
 
@@ -85,7 +85,7 @@ class BCGean8 extends BCGBarcode1D {
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -103,7 +103,7 @@ class BCGean8 extends BCGBarcode1D {
     }
 
     /**
-     * Adds the default label.
+     * Thêm nhãn mặc định.
      */
     protected function addDefaultLabel() {
         if ($this->isDefaultEanLabelEnabled()) {
@@ -125,7 +125,7 @@ class BCGean8 extends BCGBarcode1D {
     }
 
     /**
-     * Checks if the default ean label is enabled.
+     * Kiểm tra xem nhãn ean mặc định có được bật hay không.
      *
      * @return bool
      */
@@ -136,7 +136,7 @@ class BCGean8 extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -144,14 +144,14 @@ class BCGean8 extends BCGBarcode1D {
             throw new BCGParseException('ean8', 'No data has been entered.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
                 throw new BCGParseException('ean8', 'The character \'' . $this->text[$i] . '\' is not allowed.');
             }
         }
 
-        // If we have 8 chars just flush the last one
+        // Nếu có 8 ký tự, chỉ cần xóa ký tự cuối cùng
         if ($c === 8) {
             $this->text = substr($this->text, 0, 7);
         } elseif ($c !== 7) {
@@ -162,15 +162,15 @@ class BCGean8 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to calculate checksum.
+     * Nạp chồng phương thức tính checksum.
      */
     protected function calculateChecksum() {
-        // Calculating Checksum
-        // Consider the right-most digit of the message to be in an "odd" position,
-        // and assign odd/even to each character moving from right to left
-        // Odd Position = 3, Even Position = 1
-        // Multiply it by the number
-        // Add all of that and do 10-(?mod10)
+        // Tính checksum
+        // Coi chữ số ngoài cùng bên phải của tin nhắn ở vị trí "lẻ",
+        // và gán số lẻ/chẵn cho từng ký tự di chuyển từ phải sang trái
+        // Vị trí lẻ = 3, Vị trí chẵn = 1
+        // Nhân nó với số
+        // Thêm tất cả những thứ đó và thực hiện 10-(?mod10)
         $odd = true;
         $this->checksumValue = 0;
         $c = strlen($this->text);
@@ -194,10 +194,10 @@ class BCGean8 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to display the checksum.
+     * Nạp chồng phương thức hiển thị checksum.
      */
     protected function processChecksum() {
-        if ($this->checksumValue === false) { // Calculate the checksum only once
+        if ($this->checksumValue === false) { // Tính check sum một lần duy nhất
             $this->calculateChecksum();
         }
 
@@ -209,7 +209,7 @@ class BCGean8 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the extended bars on the image.
+     * Vẽ các thanh mở rộng trên hình ảnh.
      *
      * @param resource $im
      * @param int $plus
@@ -218,7 +218,7 @@ class BCGean8 extends BCGBarcode1D {
         $rememberX = $this->positionX;
         $rememberH = $this->thickness;
 
-        // We increase the bars
+        // Tăng bar
         $this->thickness = $this->thickness + intval($plus / $this->scale);
         $this->positionX = 0;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
@@ -231,7 +231,7 @@ class BCGean8 extends BCGBarcode1D {
         $this->positionX += 2;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
 
-        // Last Bars
+        // Bars cuối
         $this->positionX += 30;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
         $this->positionX += 2;

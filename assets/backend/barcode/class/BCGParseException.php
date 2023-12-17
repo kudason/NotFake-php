@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Parse Exception
+ * Ngoại lệ phân tích
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -12,7 +12,7 @@ class BCGParseException extends Exception {
     protected $barcode;
 
     /**
-     * Constructor with specific message for a parameter.
+     * Hàm khởi tạo với thông báo cụ thể cho một tham số.
      *
      * @param string $barcode
      * @param string $message

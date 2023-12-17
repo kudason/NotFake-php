@@ -2,11 +2,11 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - Code 93
+ * Lớp con - Code 93
  *
- * !! Warning !!
- * If you display the checksum on the barcode, you may obtain
- * some garbage since some characters are not displayable.
+ * !! Cảnh báo !!
+ * Nếu bạn hiển thị checksum trên mã vạch, bạn có thể nhận được
+ * một số rác vì một số ký tự không thể hiển thị được.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -25,7 +25,7 @@ class BCGcode93 extends BCGBarcode1D {
     private $indcheck, $data;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
@@ -85,7 +85,7 @@ class BCGcode93 extends BCGBarcode1D {
     }
 
     /**
-     * Parses the text before displaying it.
+     * Phân tích văn bản trước khi hiển thị.
      *
      * @param mixed $text
      */
@@ -99,7 +99,7 @@ class BCGcode93 extends BCGBarcode1D {
         for ($i = 0; $i < $c; $i++) {
             $pos = array_search($this->text[$i], $this->keys);
             if ($pos === false) {
-                // Search in extended?
+                // Tìm kiềm trong phần mở rộng?
                 $extended = self::getExtendedVersion($this->text[$i]);
                 if ($extended === false) {
                     throw new BCGParseException('code93', 'The character \'' . $this->text[$i] . '\' is not allowed.');
@@ -137,12 +137,12 @@ class BCGcode93 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
     public function draw($im) {
-        // Starting *
+        // Bắt đầu *
         $this->drawChar($im, $this->code[$this->starting], true);
         $c = count($this->data);
         for ($i = 0; $i < $c; $i++) {
@@ -155,16 +155,16 @@ class BCGcode93 extends BCGBarcode1D {
             $this->drawChar($im, $this->code[$this->checksumValue[$i]], true);
         }
 
-        // Ending *
+        // Kết thúc *
         $this->drawChar($im, $this->code[$this->ending], true);
 
-        // Draw a Final Bar
+        // Vẽ Bar cuối
         $this->drawChar($im, '0', true);
         $this->drawText($im, 0, 0, $this->positionX, $this->thickness);
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -174,7 +174,7 @@ class BCGcode93 extends BCGBarcode1D {
         $startlength = 9;
         $textlength = 9 * count($this->data);
         $checksumlength = 2 * 9;
-        $endlength = 9 + 1; // + final bar
+        $endlength = 9 + 1; // + bar cuối
 
         $w += $startlength + $textlength + $checksumlength + $endlength;
         $h += $this->thickness;
@@ -182,7 +182,7 @@ class BCGcode93 extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = count($this->data);
@@ -194,19 +194,18 @@ class BCGcode93 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to calculate checksum.
+     * Nạp chồng phương thức tính checksum.
      */
     protected function calculateChecksum() {
         // Checksum
-        // First CheckSUM "C"
-        // The "C" checksum character is the modulo 47 remainder of the sum of the weighted
-        // value of the data characters. The weighting value starts at "1" for the right-most
-        // data character, 2 for the second to last, 3 for the third-to-last, and so on up to 20.
-        // After 20, the sequence wraps around back to 1.
+        // Đầu tiên CheckSUM "C"
+        // Ký tự checksum "C" là phần còn lại theo modulo 47 của tổng giá trị trọng số của các ký tự dữ liệu. 
+        // Giá trị trọng số bắt đầu từ "1" cho ký tự dữ liệu ngoài cùng bên phải, 2 cho ký tự thứ hai đến cuối cùng, 3 cho ký tự thứ ba đến cuối cùng, v.v. cho đến 20.
+        // Sau 20, chuỗi sẽ quay về 1.
 
-        // Second CheckSUM "K"
-        // Same as CheckSUM "C" but we count the CheckSum "C" at the end
-        // After 15, the sequence wraps around back to 1.
+        // Thứ hai CheckSUM "K"
+        // Tương tự như CheckSUM "C" nhưng chúng tôi tính CheckSum "C" ở cuối
+        // Sau 15, chuỗi sẽ quay về 1.
         $sequence_multiplier = array(20, 15);
         $this->checksumValue = array();
         $indcheck = $this->indcheck;
@@ -227,10 +226,10 @@ class BCGcode93 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to display the checksum.
+     * Nạp chồng phương thức hiển thị checksum.
      */
     protected function processChecksum() {
-        if ($this->checksumValue === false) { // Calculate the checksum only once
+        if ($this->checksumValue === false) { // Tính checksum một lần duy nhất
             $this->calculateChecksum();
         }
 
@@ -248,12 +247,10 @@ class BCGcode93 extends BCGBarcode1D {
     }
 
     /**
-     * Saves data into the classes.
+     * * Lưu dữ liệu vào các lớp.
      *
-     * This method will save data, calculate real column number
-     * (if -1 was selected), the real error level (if -1 was
-     * selected)... It will add Padding to the end and generate
-     * the error codes.
+     * Phương pháp này sẽ lưu dữ liệu, tính toán số cột thực (nếu chọn -1), mức lỗi thực (nếu chọn -1)... 
+     * Nó sẽ thêm Padding vào cuối và tạo mã lỗi.
      *
      * @param array $data
      */
@@ -264,7 +261,7 @@ class BCGcode93 extends BCGBarcode1D {
     }
 
     /**
-     * Returns the extended reprensentation of the character.
+     * Trả về sự thể hiện mở rộng của ký tự.
      *
      * @param string $char
      * @return string

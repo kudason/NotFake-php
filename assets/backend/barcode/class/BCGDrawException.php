@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Draw Exception
+ * Ngoại lệ khi vẽ
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -10,7 +10,7 @@
  */
 class BCGDrawException extends Exception {
     /**
-     * Constructor with specific message.
+     * Hàm khởi tạo với thông điệp cụ thể.
      *
      * @param string $message
      */

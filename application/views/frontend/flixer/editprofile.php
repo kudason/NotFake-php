@@ -5,7 +5,7 @@
 	.btn_block:hover{font-size: 25px;padding: 5px 30px;text-decoration: none;background-color: #c00; color:#fff;}
 	.input_black{width: 18em;height: 2em;background: #666;border: 1px solid transparent;margin: 0 .8em 0 0;padding: .2em .6em;  color: #fff;font-size: 1.3vw;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
 	.select_black{background-color: #000;height: 45px;padding: 12px;font-weight: bold;color: #fff;}
-	/* CUSTOM FILE UPLOAD CSS STARTS */
+	/* BẮT ĐẦU TẢI TỆP TÙY CHỈNH CSS */
 	#file-upload {
 	    position: absolute;
 	    left: -9999px;
@@ -30,10 +30,10 @@
 	  width: 18em;
 	  color: #fff;
 	}
-	/* CUSTOM FILE UPLOAD CSS ENDS */
+	/* KẾT THÚC TẢI TỆP TÙY CHỈNH CSS */
 </style>
 
-<!-- TOP LANDING SECTION -->
+<!-- Phần đầu -->
 <div style="height:100vh;width:100%; background-color: #141414;">
 	<?php
 	if ($user == 'user1')

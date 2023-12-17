@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - MSI Plessey
+ * Lớp con - MSI Plessey
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -16,7 +16,7 @@ class BCGmsi extends BCGBarcode1D {
     private $checksum;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
@@ -39,7 +39,7 @@ class BCGmsi extends BCGBarcode1D {
     }
 
     /**
-     * Sets how many checksums we display. 0 to 2.
+     * Đặt số lượng tổng kiểm tra chúng tôi hiển thị. 0 đến 2.
      *
      * @param int $checksum
      */
@@ -53,7 +53,7 @@ class BCGmsi extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
@@ -61,10 +61,10 @@ class BCGmsi extends BCGBarcode1D {
         // Checksum
         $this->calculateChecksum();
 
-        // Starting Code
+        // Bắt đầu Code
         $this->drawChar($im, '10', true);
 
-        // Chars
+        // Các ký tự
         $c = strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
             $this->drawChar($im, $this->findCode($this->text[$i]), true);
@@ -75,13 +75,13 @@ class BCGmsi extends BCGBarcode1D {
             $this->drawChar($im, $this->findCode($this->checksumValue[$i]), true);
         }
 
-        // Ending Code
+        // Kết thúc Code
         $this->drawChar($im, '010', true);
         $this->drawText($im, 0, 0, $this->positionX, $this->thickness);
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -99,7 +99,7 @@ class BCGmsi extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -107,7 +107,7 @@ class BCGmsi extends BCGBarcode1D {
             throw new BCGParseException('msi', 'No data has been entered.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
                 throw new BCGParseException('msi', 'The character \'' . $this->text[$i] . '\' is not allowed.');
@@ -116,25 +116,25 @@ class BCGmsi extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to calculate checksum.
+     * Nạp chồng phương thức tính checksum.
      */
     protected function calculateChecksum() {
-        // Forming a new number
-        // If the original number is even, we take all even position
-        // If the original number is odd, we take all odd position
+        // Tạo thành một số mới
+        // Nếu số ban đầu là số chẵn thì ta lấy toàn bộ vị trí chẵn
+        // Nếu số ban đầu là số lẻ thì ta lấy toàn bộ vị trí lẻ
         // 123456 = 246
         // 12345 = 135
-        // Multiply by 2
-        // Add up all the digit in the result (270 : 2+7+0)
-        // Add up other digit not used.
-        // 10 - (? Modulo 10). If result = 10, change to 0
+        // Nhân với 2
+        // Cộng tất cả các chữ số trong kết quả (270 : 2+7+0)
+        // Cộng các chữ số khác chưa được sử dụng.
+        // 10 - (? Modulo 10). Nếu kết quả = 10, đổi thành 0
         $last_text = $this->text;
         $this->checksumValue = array();
         for ($i = 0; $i < $this->checksum; $i++) {
             $new_text = '';
             $new_number = 0;
             $c = strlen($last_text);
-            if ($c % 2 === 0) { // Even
+            if ($c % 2 === 0) { // Chẵn
                 $starting = 1;
             } else {
                 $starting = 0;
@@ -161,10 +161,10 @@ class BCGmsi extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to display the checksum.
+     * Nạp chồng phương thức hiển thị checksum.
      */
     protected function processChecksum() {
-        if ($this->checksumValue === false) { // Calculate the checksum only once
+        if ($this->checksumValue === false) { // Tính checksum một lần duy nhất
             $this->calculateChecksum();
         }
 

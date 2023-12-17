@@ -4,7 +4,7 @@
 		<?php
 		if ($this->session->flashdata('status') == 'email_change_failed'):
 		?>
-			<!-- ERROR MESSAGE --> 
+			<!-- THÔNG BÁO LỖI --> 
 			<div class="alert alert-dismissible alert-danger">
 			  <button type="button" class="close" data-dismiss="alert">&times;</button>
 			  <?php echo get_phrase('Email_already_exists_or_password_wrong_given. Please_try_again');?>

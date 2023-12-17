@@ -2,9 +2,9 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - Intelligent Mail
+ * Lớp con - Mail thông minh
  *
- * A postnet is composed of either 5, 9 or 11 digits used by US postal service.
+ * Một mạng bưu điện bao gồm 5, 9 hoặc 11 chữ số được sử dụng bởi dịch vụ bưu chính Hoa Kỳ.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -235,7 +235,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     );
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
@@ -245,7 +245,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Gets the Quiet zone.
+     * Lấy vùng lặng.
      *
      * @return bool
      */
@@ -254,7 +254,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Sets the Quiet zone.
+     * Đặt vùng lặng.
      *
      * @param bool $quietZone
      */
@@ -263,7 +263,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Sets the tracking code.
+     * Đặt mã theo dõi.
      *
      * @param int $barcodeIdentifier 2-digit number. 2nd digit must be 0-4
      * @param int $serviceTypeIdentifier 3 digits
@@ -313,7 +313,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Parses the text before displaying it.
+     * Phân tích văn bản trước khi hiển thị nó.
      *
      * @param mixed $text
      */
@@ -329,7 +329,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
@@ -347,7 +347,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -357,7 +357,7 @@ class BCGintelligentmail extends BCGBarcode1D {
         $w += 65 * 3;
         $h += $this->thickness;
 
-        // We remove the white on the right
+        // Loại bỏ màu trắng bên phải
         $w -= 1.56;
 
         if ($this->quietZone) {
@@ -369,21 +369,21 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
-        // Tracking must have been entered
+        // Theo dõi phải được nhập vào
         if ($this->barcodeIdentifier === null || $this->serviceTypeIdentifier === null || $this->mailerIdentifier === null || $this->serialNumber === null) {
             throw new BCGParseException('intelligentmail', 'The tracking code must be set before calling the parse method.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         $match = array();
         if (preg_match('/[^0-9]/', $this->text, $match)) {
                 throw new BCGParseException('intelligentmail', 'The character \'' . $match[0] . '\' is not allowed.');
         }
 
-        // Must contain 0, 5, 9 or 11 chars
+        // Phải chứa 0, 5, 9 hoặc 11 ký tự
         $c = strlen($this->text);
         if ($c !== 0 && $c !== 5 && $c !== 9 && $c !== 11) {
             throw new BCGParseException('intelligentmail', 'Must contain 0, 5, 9, or 11 characters.');
@@ -393,7 +393,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method for drawing special barcode.
+     * Phương pháp quá tải để vẽ mã vạch đặc biệt.
      *
      * @param resource $im
      * @param string $code
@@ -431,7 +431,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Executes Step 1: Conversion of Data Fields into Binary Data
+     * Thực hiện Bước 1: Chuyển đổi trường dữ liệu thành dữ liệu nhị phân
      *
      * @param string $text
      * @param string $barcodeIdentifier
@@ -448,7 +448,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Executes Step 2: Generation of 11-Bit CRC on Binary Data
+     * Thực hiện Bước 2: Tạo CRC 11 bit trên dữ liệu nhị phân
      *
      * @param $number BCNumber
      * @return int
@@ -494,7 +494,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Executes Step 3: Conversion from Binary Data to Codewords
+     * Thực hiện Bước 3: Chuyển đổi từ dữ liệu nhị phân sang từ mã
      *
      * @param string $number BCNumber
      * @return int[]
@@ -513,7 +513,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Executes Step 4: Inserting Additional Information into Codewords
+     * Thực hiện Bước 4: Chèn thông tin bổ sung vào từ mã
      *
      * @param int[] $codewords
      * @param int $crc
@@ -529,7 +529,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Executes Step 5: Conversion from Codewords to Characters
+     * Thực hiện Bước 5: Chuyển đổi từ mã sang ký tự
      *
      * @param int[] $codewords
      * @param int $crc
@@ -556,7 +556,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Executes Step 6: Conversion from Characters to the Intelligent Mail Barcode
+     * Thực hiện Bước 6: Chuyển đổi từ ký tự sang mã vạch thư thông minh
      *
      * @param int[] $characters
      * @return string
@@ -585,7 +585,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Converts the routing code zipcode.
+     * Chuyển đổi mã zip mã định tuyến.
      *
      * @param string $zipcode
      * @return string BCNumber
@@ -605,7 +605,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Converts the tracking code number.
+     * Chuyển đổi số mã theo dõi.
      *
      * @param string $number BCNumber
      * @param string $barcodeIdentifier
@@ -630,7 +630,7 @@ class BCGintelligentmail extends BCGBarcode1D {
     }
 
     /**
-     * Transforms a BCNumber into unsigned char*.
+     * Chuyển đổi BCNumber thành ký tự không dấu*.
      *
      * @param string $dec BCNumber
      * @param string

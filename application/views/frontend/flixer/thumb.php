@@ -29,7 +29,7 @@
 	</figcaption>
 
 
-	<!-- progress section, showed if only progress found -->
+	<!-- phần tiến trình, hiển thị nếu chỉ tìm thấy tiến trình -->
 	<?php
 	if(isset($check_movie)):
 		$progress = $this->db->get_where('progress', array('user_id' => $this->session->userdata('user_id') , 'movie_id' => $row['movie_id'], 'active_user' => $this->session->userdata('active_user')));
@@ -40,7 +40,7 @@
 			$already_seeing_time = $duration * $progress_value;
 		?>
 
-			<!--Convert secoend -> H, M, S  -->
+			<!--Chuyển đổi giây -> H, M, S  -->
 			<?php
 				$seconds = $progress_value % 60;
 				$minutes = (($progress_value - $seconds)/60)%60;

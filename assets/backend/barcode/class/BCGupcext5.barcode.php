@@ -2,17 +2,17 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - UPC Supplemental Barcode 2 digits
+ * Lớp con - Mã vạch bổ sung UPC 2 chữ số
  *
- * Working with UPC-A, UPC-E, EAN-13, EAN-8
- * This includes 5 digits (normaly for suggested retail price)
- * Must be placed next to UPC or EAN Code
- * If 90000 -> No suggested Retail Price
- * If 99991 -> Book Complimentary (normally free)
- * If 90001 to 98999 -> Internal Purpose of Publisher
- * If 99990 -> Used by the National Association of College Stores to mark used books
- * If 0xxxx -> Price Expressed in British Pounds (xx.xx)
- * If 5xxxx -> Price Expressed in U.S. dollars (US$xx.xx)
+ * Làm việc với UPC-A, UPC-E, EAN-13, EAN-8
+ * Điều này bao gồm 5 chữ số (thông thường cho giá bán lẻ đề xuất)
+ * Phải đặt cạnh Mã UPC hoặc EAN
+ * Nếu 90000 -> Không có giá bán lẻ đề xuất
+ * Nếu là 99991 -> Đặt phòng miễn phí (thông thường miễn phí)
+ * Nếu 90001 đến 98999 -> Mục đích nội bộ của Nhà xuất bản
+ * Nếu 99990 -> Được Hiệp hội các cửa hàng đại học quốc gia sử dụng để đánh dấu sách đã qua sử dụng
+ * Nếu 0xxxx -> Giá được biểu thị bằng Bảng Anh (xx.xx)
+ * Nếu 5xxxx -> Giá được biểu thị bằng đô la Mỹ (US$xx.xx)
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -26,7 +26,7 @@ class BCGupcext5 extends BCGBarcode1D {
     protected $codeParity = array();
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
@@ -45,7 +45,7 @@ class BCGupcext5 extends BCGBarcode1D {
             '2001'      /* 9 */
         );
 
-        // Parity, 0=Odd, 1=Even. Depending Checksum
+        // Chẵn lẻ, 0=Lẻ, 1=Chẵn. Tổng kiểm tra tùy thuộc
         $this->codeParity = array(
             array(1, 1, 0, 0, 0),   /* 0 */
             array(1, 0, 1, 0, 0),   /* 1 */
@@ -61,7 +61,7 @@ class BCGupcext5 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
@@ -69,7 +69,7 @@ class BCGupcext5 extends BCGBarcode1D {
         // Checksum
         $this->calculateChecksum();
 
-        // Starting Code
+        // Bắt đầu Code
         $this->drawChar($im, '001', true);
 
         // Code
@@ -84,7 +84,7 @@ class BCGupcext5 extends BCGBarcode1D {
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -101,7 +101,7 @@ class BCGupcext5 extends BCGBarcode1D {
     }
 
     /**
-     * Adds the default label.
+     * Thêm nhãn mặc định.
      */
     protected function addDefaultLabel() {
         parent::addDefaultLabel();
@@ -112,7 +112,7 @@ class BCGupcext5 extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -120,14 +120,14 @@ class BCGupcext5 extends BCGBarcode1D {
             throw new BCGParseException('upcext5', 'No data has been entered.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
                 throw new BCGParseException('upcext5', 'The character \'' . $this->text[$i] . '\' is not allowed.');
             }
         }
 
-        // Must contain 5 digits
+        // Phải chứa 5 chữ số
         if ($c !== 5) {
             throw new BCGParseException('upcext5', 'Must contain 5 digits.');
         }
@@ -136,15 +136,15 @@ class BCGupcext5 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to calculate checksum.
+     * Nạp chồng phương thức tính checksum.
      */
     protected function calculateChecksum() {
-        // Calculating Checksum
-        // Consider the right-most digit of the message to be in an "odd" position,
-        // and assign odd/even to each character moving from right to left
-        // Odd Position = 3, Even Position = 9
-        // Multiply it by the number
-        // Add all of that and do ?mod10
+        // Tính tổng kiểm tra
+        // Coi chữ số ngoài cùng bên phải của tin nhắn ở vị trí "lẻ",
+        // và gán số lẻ/chẵn cho từng ký tự di chuyển từ phải sang trái
+        // Vị trí lẻ = 3, Vị trí chẵn = 9
+        // Nhân nó với số
+        // Thêm tất cả những thứ đó và làm ?mod10
         $odd = true;
         $this->checksumValue = 0;
         $c = strlen($this->text);
@@ -168,10 +168,10 @@ class BCGupcext5 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to display the checksum.
+     * Nạp chồng phương thức hiển thị checksum.
      */
     protected function processChecksum() {
-        if ($this->checksumValue === false) { // Calculate the checksum only once
+        if ($this->checksumValue === false) { // Tính checksum một lần duy nhất
             $this->calculateChecksum();
         }
 
@@ -183,7 +183,7 @@ class BCGupcext5 extends BCGBarcode1D {
     }
 
     /**
-     * Inverses the string when the $inverse parameter is equal to 1.
+     * Đảo ngược chuỗi khi tham số $inverse bằng 1.
      *
      * @param string $text
      * @param int $inverse

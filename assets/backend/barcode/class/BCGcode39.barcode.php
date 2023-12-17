@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - Code 39
+ * Lớp con - Code 39
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -23,7 +23,7 @@ class BCGcode39 extends BCGBarcode1D {
 
         $this->starting = $this->ending = 43;
         $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '-', '.', ' ', '$', '/', '+', '%', '*');
-        $this->code = array(    // 0 added to add an extra space
+        $this->code = array(    // 0 được thêm vào để thêm một không gian bổ sung
             '0001101000',   /* 0 */
             '1001000010',   /* 1 */
             '0011000010',   /* 2 */
@@ -74,7 +74,7 @@ class BCGcode39 extends BCGBarcode1D {
     }
 
     /**
-     * Sets if we display the checksum.
+     * Thiết lập nếu hiển thị checksum.
      *
      * @param bool $checksum
      */
@@ -83,42 +83,42 @@ class BCGcode39 extends BCGBarcode1D {
     }
 
     /**
-     * Parses the text before displaying it.
+     * Phân tích văn bản trước khi hiển thị nó.
      *
      * @param mixed $text
      */
     public function parse($text) {
-        parent::parse(strtoupper($text));    // Only Capital Letters are Allowed
+        parent::parse(strtoupper($text));    // Chỉ cho phép chữ in hoa
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
     public function draw($im) {
-        // Starting *
+        // Bắt đầu *
         $this->drawChar($im, $this->code[$this->starting], true);
 
-        // Chars
+        // Ký tự
         $c =  strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
             $this->drawChar($im, $this->findCode($this->text[$i]), true);
         }
 
-        // Checksum (rarely used)
+        // Checksum (ít khi được sử dụng)
         if ($this->checksum === true) {
             $this->calculateChecksum();
             $this->drawChar($im, $this->code[$this->checksumValue % 43], true);
         }
 
-        // Ending *
+        // Kết thúc *
         $this->drawChar($im, $this->code[$this->ending], true);
         $this->drawText($im, 0, 0, $this->positionX, $this->thickness);
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -140,7 +140,7 @@ class BCGcode39 extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -148,7 +148,7 @@ class BCGcode39 extends BCGBarcode1D {
             throw new BCGParseException('code39', 'No data has been entered.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
                 throw new BCGParseException('code39', 'The character \'' . $this->text[$i] . '\' is not allowed.');
@@ -163,7 +163,7 @@ class BCGcode39 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to calculate checksum.
+     * Nạp chồng phương thức tính checksum.
      */
     protected function calculateChecksum() {
         $this->checksumValue = 0;
@@ -176,10 +176,10 @@ class BCGcode39 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to display the checksum.
+     * Nạp chồng phương thức hiển thị checksum.
      */
     protected function processChecksum() {
-        if ($this->checksumValue === false) { // Calculate the checksum only once
+        if ($this->checksumValue === false) { // Tính checksum một lần duy nhất
             $this->calculateChecksum();
         }
 

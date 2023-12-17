@@ -7,7 +7,7 @@
 	.profile_manage{font-size: 25px;border: 1px solid #ccc;padding: 5px 30px;text-decoration: none;}
 	.profile_manage:hover{font-size: 25px;border: 1px solid #fff;padding: 5px 30px;text-decoration: none;color:#fff;}
 </style>
-<!-- TOP LANDING SECTION -->
+<!-- Phần đầu -->
 <div style="height:100vh;width:100%; background-color: #141414;">
 	<!-- logo -->
 	<div style="float: left;">

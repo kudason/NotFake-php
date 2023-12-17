@@ -2,11 +2,11 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - othercode
+ * Lớp con - othercode
  *
- * Other Codes
- * Starting with a bar and altern to space, bar, ...
- * 0 is the smallest
+ * Ohtercode
+ * Bắt đầu bằng một thanh và thay thế bằng dấu cách, thanh, ...
+ * 0 là nhỏ nhất
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -17,7 +17,7 @@ include_once('BCGBarcode1D.php');
 
 class BCGothercode extends BCGBarcode1D {
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
@@ -26,7 +26,7 @@ class BCGothercode extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
@@ -36,8 +36,8 @@ class BCGothercode extends BCGBarcode1D {
     }
 
     /**
-     * Gets the label.
-     * If the label was set to BCGBarcode1D::AUTO_LABEL, the label will display the value from the text parsed.
+     * Nhận được nhãn.
+     * Nếu nhãn được đặt thành BCGBarcode1D::AUTO_LABEL, nhãn sẽ hiển thị giá trị từ văn bản được phân tích cú pháp.
      *
      * @return string
      */
@@ -51,7 +51,7 @@ class BCGothercode extends BCGBarcode1D {
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -67,7 +67,7 @@ class BCGothercode extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -75,7 +75,7 @@ class BCGothercode extends BCGBarcode1D {
             throw new BCGParseException('othercode', 'No data has been entered.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
                 throw new BCGParseException('othercode', 'The character \'' . $this->text[$i] . '\' is not allowed.');

@@ -2,13 +2,13 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - ISBN-10 and ISBN-13
+ * Lớp con - ISBN-10 và ISBN-13
  *
- * You can provide an ISBN with 10 digits with or without the checksum.
- * You can provide an ISBN with 13 digits with or without the checksum.
- * Calculate the ISBN based on the EAN-13 encoding.
+ * Bạn có thể cung cấp ISBN gồm 10 chữ số có hoặc không có checksum.
+ * Bạn có thể cung cấp ISBN có 13 chữ số có hoặc không có checksum.
+ * Tính toán ISBN dựa trên mã hóa EAN-13.
  *
- * The checksum is always displayed.
+ * checksum luôn được hiển thị.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -26,7 +26,7 @@ class BCGisbn extends BCGean13 {
     private $gs1;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      *
      * @param int $gs1
      */
@@ -36,7 +36,7 @@ class BCGisbn extends BCGean13 {
     }
 
     /**
-     * Adds the default label.
+     * Thêm nhãn mặc định.
      */
     protected function addDefaultLabel() {
         if ($this->isDefaultEanLabelEnabled()) {
@@ -52,10 +52,10 @@ class BCGisbn extends BCGean13 {
     }
 
     /**
-     * Sets the first numbers of the barcode.
-     *  - GS1_AUTO: Adds 978 before the code
-     *  - GS1_PREFIX978: Adds 978 before the code
-     *  - GS1_PREFIX979: Adds 979 before the code
+     * Đặt số đầu tiên của mã vạch.
+     * - GS1_AUTO: Thêm 978 vào trước mã
+     * - GS1_PREFIX978: Thêm 978 vào trước mã
+     * - GS1_PREFIX979: Thêm 979 vào trước mã
      *
      * @param int $gs1
      */
@@ -69,12 +69,12 @@ class BCGisbn extends BCGean13 {
     }
 
     /**
-     * Check chars allowed.
+     * Kiểm tra ký tự được phép.
      */
     protected function checkCharsAllowed() {
         $c = strlen($this->text);
 
-        // Special case, if we have 10 digits, the last one can be X
+        // Trường hợp đặc biệt, nếu có 10 chữ số thì chữ số cuối cùng có thể là X
         if ($c === 10) {
             if (array_search($this->text[9], $this->keys) === false && $this->text[9] !== 'X') {
                 throw new BCGParseException('isbn', 'The character \'' . $this->text[9] . '\' is not allowed.');
@@ -88,17 +88,17 @@ class BCGisbn extends BCGean13 {
     }
 
     /**
-     * Check correct length.
+     * Kiểm tra độ dài chính xác.
      */
     protected function checkCorrectLength() {
         $c = strlen($this->text);
 
-        // If we have 13 chars just flush the last one
+        // Nếu có 13 ký tự, chỉ cần xóa ký tự cuối cùng
         if ($c === 13) {
             $this->text = substr($this->text, 0, 12);
         } elseif ($c === 9 || $c === 10) {
             if ($c === 10) {
-                // Before dropping it, we check if it's legal
+                // Trước khi bỏ nó, kiểm tra xem nó có hợp pháp không
                 if (array_search($this->text[9], $this->keys) === false && $this->text[9] !== 'X') {
                     throw new BCGParseException('isbn', 'The character \'' . $this->text[9] . '\' is not allowed.');
                 }
@@ -117,19 +117,19 @@ class BCGisbn extends BCGean13 {
     }
 
     /**
-     * Creates the ISBN text.
+     * Tạo văn bản ISBN.
      *
      * @return string
      */
     private function createISBNText() {
         $isbn = '';
         if (!empty($this->text)) {
-            // We try to create the ISBN Text... the hyphen really depends the ISBN agency.
-            // We just put one before the checksum and one after the GS1 if present.
+            // Cố gắng tạo Văn bản ISBN... dấu gạch nối thực sự phụ thuộc vào cơ quan ISBN.
+            // Chỉ đặt một cái trước tổng kiểm tra và một cái sau GS1 nếu có.
             $c = strlen($this->text);
             if ($c === 12 || $c === 13) {
-                // If we have 13 characters now, just transform it temporarily to find the checksum...
-                // Further in the code we take care of that anyway.
+                // Nếu bây giờ có 13 ký tự, chỉ cần chuyển đổi tạm thời để tìm tổng kiểm tra...
+                // Hơn nữa trong mã, vẫn xử lý vấn đề đó.
                 $lastCharacter = '';
                 if ($c === 13) {
                     $lastCharacter = $this->text[12];
@@ -139,7 +139,7 @@ class BCGisbn extends BCGean13 {
                 $checksum = $this->processChecksum();
                 $isbn = 'ISBN ' . substr($this->text, 0, 3) . '-' . substr($this->text, 3, 9) . '-' . $checksum;
 
-                // Put the last character back
+                // Đưa ký tự cuối cùng trở lại
                 if ($c === 13) {
                     $this->text .= $lastCharacter;
                 }
@@ -151,7 +151,7 @@ class BCGisbn extends BCGean13 {
 
                 $checksum = 11 - $checksum % 11;
                 if ($checksum === 10) {
-                    $checksum = 'X'; // Changing type
+                    $checksum = 'X'; // Thay đổi kiểu
                 }
 
                 $isbn = 'ISBN ' . substr($this->text, 0, 9) . '-' . $checksum;

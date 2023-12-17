@@ -2,15 +2,15 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - UPC-A
+ * Lớp con - UPC-A
  *
- * UPC-A contains
- *    - 2 system digits (1 not provided, a 0 is added automatically)
- *    - 5 manufacturer code digits
- *    - 5 product digits
- *    - 1 checksum digit
+ * UPC-A bao gồm
+ *    - 2 chữ số hệ thống (1 không được cung cấp, số 0 được tự động thêm vào)
+ *    - 5 chữ số mã nhà sản xuất
+ *    - 5 chữ số sản phẩm
+ *    - 1 chữ số tổng kiểm tra
  *
- * The checksum is always displayed.
+ * checksum luôn hiển thị.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -25,29 +25,29 @@ class BCGupca extends BCGean13 {
     protected $labelRight = null;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
     public function draw($im) {
-        // The following code is exactly the same as EAN13. We just add a 0 in front of the code !
-        $this->text = '0' . $this->text; // We will remove it at the end... don't worry
+        // Đoạn mã sau hoàn toàn giống với EAN13. Chỉ cần thêm số 0 vào trước mã!
+        $this->text = '0' . $this->text; // Xóa ở dưới
 
         parent::draw($im);
 
-        // We remove the 0 in front, as we said :)
+        // Xóa
         $this->text = substr($this->text, 1);
     }
 
     /**
-     * Draws the extended bars on the image.
+     * Vẽ các thanh mở rộng trên hình ảnh.
      *
      * @param resource $im
      * @param int $plus
@@ -57,15 +57,15 @@ class BCGupca extends BCGean13 {
         $rememberX = $this->positionX;
         $rememberH = $this->thickness;
 
-        // We increase the bars
-        // First 2 Bars
+        // Tăng bars
+        // 2 bars đầu tiên
         $this->thickness = $this->thickness + intval($plus / $this->scale);
         $this->positionX = 0;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
         $this->positionX += 2;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
 
-        // Attemping to increase the 2 following bars
+        // Đang cố gắng tăng 2 bars sau
         $this->positionX += 1;
         $temp_value = $this->findCode($temp_text[1]);
         $this->drawChar($im, $temp_value, false);
@@ -76,12 +76,12 @@ class BCGupca extends BCGean13 {
         $this->positionX += 2;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
 
-        // Attemping to increase the 2 last bars
+        // Đang cố gắng tăng 2 bars cuối cùng
         $this->positionX += 37;
         $temp_value = $this->findCode($temp_text[12]);
         $this->drawChar($im, $temp_value, true);
 
-        // Completly last bars
+        // Bars cuối cùng 
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
         $this->positionX += 2;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
@@ -91,7 +91,7 @@ class BCGupca extends BCGean13 {
     }
 
     /**
-     * Adds the default label.
+     *Thêm nhãn mặc định.
      */
     protected function addDefaultLabel() {
         if ($this->isDefaultEanLabelEnabled()) {
@@ -131,10 +131,10 @@ class BCGupca extends BCGean13 {
     }
 
     /**
-     * Check correct length.
+     * Kiểm tra độ dài chính xác.
      */
     protected function checkCorrectLength() {
-        // If we have 12 chars, just flush the last one without throwing anything
+        // Nếu có 12 ký tự, chỉ cần xóa ký tự cuối cùng mà không ném bất cứ thứ gì
         $c = strlen($this->text);
         if ($c === 12) {
             $this->text = substr($this->text, 0, 11);

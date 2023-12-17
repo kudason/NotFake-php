@@ -1,7 +1,7 @@
 <?php include 'header_browse.php';?>
 <div class="container" style="margin-top: 90px;">
 	<div class="row">
-		<!-- NOTIFICATION MESSAGES HERE -->
+		<!-- TIN NHẮN THÔNG BÁO TẠI ĐÂY -->
 		<?php
 			if ($this->session->flashdata('payment_status') == 'cancelled'):
 			?>
@@ -37,14 +37,14 @@
 		<?php
 			if ($this->session->flashdata('status') == 'subscription_cancelled'):
 			?>
-		<!-- ERROR MESSAGE --> 
+		<!-- THÔNG BÁO LỖI --> 
 		<div class="alert alert-dismissible alert-success">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<?php echo get_phrase('Membership_cancelled_successfully.');?> 
 				<?php echo get_phrase('You_can_purchase_or_renew_it_anytime.');?>
 		</div>
 		<?php endif;?>
-		<!-- NOTIFICATION MESSAGES ENDS -->
+		<!-- TIN NHẮN THÔNG BÁO KẾT THÚC -->
 		<div class="col-lg-12">
 			<h3 class="black_text"><?php echo get_phrase('Account');?></h3>
 			<hr>
@@ -99,7 +99,7 @@
 				<div class="col-lg-7">
 					<div class="row" style="margin: 5px;">
 						<div class="pull-left">
-							<!-- IF ANY ACTIVE SUBSCRIPTION IS FOUND -->
+							<!-- NẾU TÌM THẤY BẤT KỲ ĐĂNG KÝ NÀO HOẠT ĐỘNG -->
 							<?php
 								if ( $this->crud_model->validate_subscription() != false):
 									$current_plan_id			=	$this->crud_model->get_current_plan_id();
@@ -117,7 +117,7 @@
 							<br>
 							<i style="font-size: 12px;">for changing plan, cancel the currently running plan first</i>
 							<?php endif;?>
-							<!-- IF ANY ACTIVE SUBSCRIPTION IS NOT FOUND -->
+							<!-- NẾU KHÔNG TÌM THẤY ĐĂNG KÝ HOẠT ĐỘNG NÀO -->
 							<?php
 								if ( $this->crud_model->validate_subscription() == false):
 								?>

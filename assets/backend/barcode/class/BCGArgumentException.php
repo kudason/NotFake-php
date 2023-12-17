@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Argument Exception
+ * Ngoại lệ đối số
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -12,7 +12,7 @@ class BCGArgumentException extends Exception {
     protected $param;
 
     /**
-     * Constructor with specific message for a parameter.
+     * Hàm khởi tạo với thông báo cụ thể cho một tham số.
      *
      * @param string $message
      * @param string $param

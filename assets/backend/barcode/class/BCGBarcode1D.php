@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Holds all type of barcodes for 1D generation
+ * Giữ tất cả các loại mã vạch cho kiểu 1D
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -30,7 +30,7 @@ abstract class BCGBarcode1D extends BCGBarcode {
     protected $defaultLabel;    // BCGLabel
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     protected function __construct() {
         parent::__construct();
@@ -48,7 +48,7 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Gets the thickness.
+     * Lấy độ dày.
      *
      * @return int
      */
@@ -57,7 +57,7 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Sets the thickness.
+     * Đặt độ dày.
      *
      * @param int $thickness
      */
@@ -71,8 +71,8 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Gets the label.
-     * If the label was set to BCGBarcode1D::AUTO_LABEL, the label will display the value from the text parsed.
+     * Lấy nhãn.
+     * Nếu nhãn được đặt thành BCGBarcode1D::AUTO_LABEL, nhãn sẽ hiển thị giá trị từ văn bản được phân tích cú pháp.
      *
      * @return string
      */
@@ -89,8 +89,8 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Sets the label.
-     * You can use BCGBarcode::AUTO_LABEL to have the label automatically written based on the parsed text.
+     * Gán nhãn.
+     * Có thể sử dụng BCGBarcode::AUTO_LABEL để nhãn được ghi tự động dựa trên văn bản được phân tích cú pháp.
      *
      * @param string $label
      */
@@ -99,7 +99,7 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Gets the font.
+     * Lấy font.
      *
      * @return BCGFont
      */
@@ -108,7 +108,7 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Sets the font.
+     * Đặt font.
      *
      * @param mixed $font BCGFont or int
      */
@@ -125,13 +125,13 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Parses the text before displaying it.
+     * Phân tích văn bản trước khi hiển thị nó.
      *
      * @param mixed $text
      */
     public function parse($text) {
         $this->text = $text;
-        $this->checksumValue = false; // Reset checksumValue
+        $this->checksumValue = false; // Đặt lại checksumValue
         $this->validate();
 
         parent::parse($text);
@@ -140,8 +140,8 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Gets the checksum of a Barcode.
-     * If no checksum is available, return FALSE.
+     * Lấy checksum của Mã vạch.
+     * Nếu ko có checksum hoạt động, trả về FALSE.
      *
      * @return string
      */
@@ -150,8 +150,8 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Sets if the checksum is displayed with the label or not.
-     * The checksum must be activated in some case to make this variable effective.
+     * Đặt xem checksum có được hiển thị cùng với nhãn hay không.
+     * checksum phải được kích hoạt trong một số trường hợp để biến này có hiệu lực.
      *
      * @param boolean $displayChecksum
      */
@@ -160,7 +160,7 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Adds the default label.
+     * Thêm nhãn mặc định.
      */
     protected function addDefaultLabel() {
         $label = $this->getLabel();
@@ -173,14 +173,14 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Validates the input
+     * Xác thực đầu vào
      */
     protected function validate() {
-        // No validation in the abstract class.
+        // Không có xác nhận trong lớp trừu tượng.
     }
 
     /**
-     * Returns the index in $keys (useful for checksum).
+     * Trả về chỉ mục trong $keys (cần cho checksum).
      *
      * @param mixed $var
      * @return mixed
@@ -190,7 +190,7 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Returns the code of the char (useful for drawing bars).
+     * Trả về mã của ký tự (cần cho việc vẽ bars).
      *
      * @param mixed $var
      * @return string
@@ -200,8 +200,8 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Draws all chars thanks to $code. If $startBar is true, the line begins by a space.
-     * If $startBar is false, the line begins by a bar.
+     * Vẽ tất cả các ký tự nhờ $code. Nếu $startBar là TRUE, dòng bắt đầu bằng khoảng trắng.
+     * Nếu $startBar FALSE, dòng bắt đầu bằng một thanh.
      *
      * @param resource $im
      * @param string $code
@@ -222,7 +222,7 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Draws a Bar of $color depending of the resolution.
+     * Vẽ một bar $color tùy thuộc vào độ phân giải.
      *
      * @param resource $img
      * @param int $color
@@ -232,23 +232,21 @@ abstract class BCGBarcode1D extends BCGBarcode {
     }
 
     /**
-     * Moving the pointer right to write a bar.
+     * Di chuyển con trỏ sang phải để viết một bar.
      */
     protected function nextX() {
         $this->positionX++;
     }
 
     /**
-     * Method that saves FALSE into the checksumValue. This means no checksum
-     * but this method should be overriden when needed.
+     * Phương thức lưu FALSE vào checksumValue. Điều này có nghĩa là không có checksumValue nhưng phương pháp này nên được ghi đè khi cần thiết.
      */
     protected function calculateChecksum() {
         $this->checksumValue = false;
     }
 
     /**
-     * Returns FALSE because there is no checksum. This method should be
-     * overriden to return correctly the checksum in string with checksumValue.
+     * Trả về FALSE vì không có checksum. Phương thức này phải được ghi đè để trả về chính xác checksum trong chuỗi có checksumValue
      *
      * @return string
      */

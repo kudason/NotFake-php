@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Holds font for PHP.
+ * Giữ phông chữ cho PHP.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -19,7 +19,7 @@ class BCGFontPhp implements BCGFont {
     private $foregroundColor;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      *
      * @param int $font
      */
@@ -31,7 +31,7 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Gets the text associated to the font.
+     * Lấy văn bản liên quan đến phông chữ.
      *
      * @return string
      */
@@ -40,7 +40,7 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Sets the text associated to the font.
+     * Đặt văn bản liên quan đến phông chữ.
      *
      * @param string text
      */
@@ -49,7 +49,7 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Gets the rotation in degree.
+     * Nhận được vòng quay theo mức độ.
      *
      * @return int
      */
@@ -58,7 +58,7 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Sets the rotation in degree.
+     * Đặt mức độ xoay.
      *
      * @param int
      */
@@ -72,7 +72,7 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Gets the background color.
+     * Lấy màu nền.
      *
      * @return BCGColor
      */
@@ -81,7 +81,7 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Sets the background color.
+     * Đặt màu nền.
      *
      * @param BCGColor $backgroundColor
      */
@@ -90,7 +90,7 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Gets the foreground color.
+     * Lấy màu nền trước.
      *
      * @return BCGColor
      */
@@ -99,7 +99,7 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Sets the foreground color.
+     * Đặt màu nền trước.
      *
      * @param BCGColor $foregroundColor
      */
@@ -108,7 +108,7 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Returns the width and height that the text takes to be written.
+     * Trả về chiều rộng và chiều cao mà văn bản cần được viết.
      *
      * @return int[]
      */
@@ -125,8 +125,8 @@ class BCGFontPhp implements BCGFont {
     }
 
     /**
-     * Draws the text on the image at a specific position.
-     * $x and $y represent the left bottom corner.
+     * Vẽ văn bản trên hình ảnh ở một vị trí cụ thể.
+     * $x và $y đại diện cho góc dưới bên trái.
      *
      * @param resource $im
      * @param int $x

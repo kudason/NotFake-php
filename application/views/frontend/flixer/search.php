@@ -1,5 +1,5 @@
 <?php include 'header_browse.php';?>
-<!-- MOVIE LIST, GENRE WISE LISTING -->
+<!-- DANH SÁCH PHIM, THỂ LOẠI DANH SÁCH KHÁC-->
 <?php
 	$search_key = str_replace('%20', ' ', $search_key);
 	$movies		=	$this->crud_model->get_search_result('movie' , $search_key);

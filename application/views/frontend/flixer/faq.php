@@ -1,4 +1,4 @@
-<!-- TOP LANDING SECTION -->
+<!-- Phần đầu -->
 <div style="width:100%; height:90px; background-color:#fafafa; border-bottom:solid 1px #dcdde0;">
     <!-- logo -->
     <div style="float: left;">

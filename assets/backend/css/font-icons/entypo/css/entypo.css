@@ -8,8 +8,8 @@
   font-weight: normal;
   font-style: normal;
 }
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/* Chrome hack: SVG được hiển thị mượt mà hơn trong Windozze. 100% ma thuật, bỏ ghi chú nếu bạn cần. */
+/* Lưu ý, điều đó sẽ phá vỡ gợi ý! Trong các hệ điều hành khác, phông chữ sẽ không sắc nét như có thể */
 /*
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
@@ -32,22 +32,22 @@
   text-align: center;
   /* opacity: .8; */
  
-  /* For safety - reset parent styles, that can break glyph codes*/
+  /* Để an toàn - đặt lại kiểu gốc, có thể phá vỡ mã glyph*/
   font-variant: normal;
   text-transform: none;
      
-  /* fix buttons height, for twitter bootstrap */
+  /* sửa chiều cao nút, cho Twitter bootstrap */
   line-height: 1em;
  
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
+  /* Bù trung tâm hoạt ảnh - lề phải đối xứng */
+  /* xóa nếu không cần thiết */
   margin-left: .2em;
  
-  /* you can be more comfortable with increased icons size */
-  /* font-size: 120%; */
+  /* bạn có thể thoải mái hơn với kích thước biểu tượng tăng lên */
+  /* cỡ chữ: 120%; */
  
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+  /* Bỏ ghi chú cho hiệu ứng 3D */
+  /* bóng văn bản: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
  
 .entypo-note:before { content: '\e800'; } /* '' */

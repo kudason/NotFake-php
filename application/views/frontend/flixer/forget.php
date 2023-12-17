@@ -1,4 +1,4 @@
-<!-- TOP LANDING SECTION -->
+<!-- Phần đầu -->
 <div style="height:93vh;width:100%;background-image: url(<?php echo base_url().'assets/frontend/'.$selected_theme;?>/images/login_bg.jpg)">
 	
 	<!-- logo -->
@@ -18,7 +18,7 @@
 					<?php 
 					if ($this->session->flashdata('password_reset') == 'failed'):
 					?>
-						<!-- ERROR MESSAGE -->
+						<!-- Thông báo lỗi -->
 						<div class="alert alert-dismissible alert-danger">
 						  <button type="button" class="close" data-dismiss="alert">&times;</button>
 						  	<?php echo get_phrase('Email_not_found');?>
@@ -28,7 +28,7 @@
 					<?php 
 					if ($this->session->flashdata('password_reset') == 'success'):
 					?>
-						<!-- SUCCESS MESSAGE -->
+						<!-- Thông báo thành công -->
 						<div class="alert alert-dismissible alert-success">
 						  <button type="button" class="close" data-dismiss="alert">&times;</button>
 						  	<?php echo get_phrase('Password_sent_to_your_email');?>
@@ -51,7 +51,7 @@
 	</form>
 </div>
 
-<!-- MIDDLE TAB SECTION -->
+<!-- Phần giữa -->
 <div class="container">
 	<?php include 'footer.php';?>
 </div>

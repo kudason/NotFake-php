@@ -2,9 +2,9 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - PostNet
+ * Lớp con - PostNet
  *
- * A postnet is composed of either 5, 9 or 11 digits used by US postal service.
+ * A postnet bao gồm 5, 9 hoặc 11 chữ số được dịch vụ bưu chính Hoa Kỳ sử dụng.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -15,7 +15,7 @@ include_once('BCGBarcode1D.php');
 
 class BCGpostnet extends BCGBarcode1D {
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
@@ -38,7 +38,7 @@ class BCGpostnet extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
@@ -52,7 +52,7 @@ class BCGpostnet extends BCGBarcode1D {
 
         $checksum = 10 - ($checksum % 10);
 
-        // Starting Code
+        // Bắt đầu Code
         $this->drawChar($im, '1');
 
         // Code
@@ -63,13 +63,13 @@ class BCGpostnet extends BCGBarcode1D {
         // Checksum
         $this->drawChar($im, $this->findCode($checksum));
 
-        // Ending Code
+        // Kết thúc Code
         $this->drawChar($im, '1');
         $this->drawText($im, 0, 0, $this->positionX, $this->thickness);
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -82,7 +82,7 @@ class BCGpostnet extends BCGBarcode1D {
         $checksumlength = 5 * 3;
         $endlength = 3;
 
-        // We remove the white on the right
+        // Loại bỏ màu trắng bên phải
         $removelength = -1.56;
 
         $w += $startlength + $textlength + $checksumlength + $endlength + $removelength;
@@ -91,7 +91,7 @@ class BCGpostnet extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -99,14 +99,14 @@ class BCGpostnet extends BCGBarcode1D {
             throw new BCGParseException('postnet', 'No data has been entered.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
                 throw new BCGParseException('postnet', 'The character \'' . $this->text[$i] . '\' is not allowed.');
             }
         }
 
-        // Must contain 5, 9 or 11 chars
+        // Phải chứa 5, 9 hoặc 11 ký tự
         if ($c !== 5 && $c !== 9 && $c !== 11) {
             throw new BCGParseException('postnet', 'Must contain 5, 9, or 11 characters.');
         }
@@ -115,7 +115,7 @@ class BCGpostnet extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method for drawing special barcode.
+     * Nạp chồng phương thức để vẽ mã vạch đặc biệt.
      *
      * @param resource $im
      * @param string $code

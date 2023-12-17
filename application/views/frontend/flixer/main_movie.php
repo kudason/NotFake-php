@@ -1,5 +1,5 @@
 <div class="col-lg-12" id="movie_div">
-<!-- Video player generator starts -->
+<!-- Trình tạo trình phát video bắt đầu -->
 	<?php
 	 if (video_type($row['url']) == 'youtube'): ?>
 		<!------------- PLYR.IO ------------>
@@ -26,7 +26,7 @@
 
 		<link rel="stylesheet" href="<?php echo base_url();?>assets/global/plyr/plyr.css">
 		<?php
-		//video id generate
+		//tạo id video
 		$url_array_1 = explode("/",$row['url'].'/');
 		$url_array_2 = explode("=",$row['url']);
 		$video_id = null;
@@ -63,7 +63,7 @@
 			foreach($captions as $caption){
 		?>
 
-			<!--vedio subtitle-->
+			<!--phụ đề video-->
 			<track kind="captions" label="<?php echo $caption['language'] ?>" src="<?php echo base_url('assets/global/movie_caption/'.$caption['file']); ?>" default>
 		<?php
 			}
@@ -72,7 +72,7 @@
 		<script src="<?php echo base_url();?>assets/global/plyr/plyr.js"></script>
 		<script>const player = new Plyr('#player');</script>
 
-		<!--Start Progress Bar-->
+		<!--Thanh tiến trình bắt đầu-->
 		<?php
 			$progreses = $this->db->get_where('progress', array('user_id' => $user_id, 'movie_id' => $row['movie_id'], 'active_user' => $active_user));
 			$progress_value = 0;
@@ -108,17 +108,17 @@
 			 	}
 			};
 		</script>
-		<!--End Progress Bar-->
+		<!--Thanh tiến trình kết thúc-->
 
 
 	<?php endif; ?>
-	<!-- Video player generator ends -->
+	<!-- Trình tạo trình phát video kết thúc -->
 
 	<?php
 	if(video_type($row['url']) == 'vimeo' || video_type($row['url']) == 'youtube'):
 		$iframe_embed = $this->crud_model->is_iframe($row['url']);
 		if ($iframe_embed == true): ?>
-		<!-- loads iframe embed option as video player -->
+		<!-- tải tùy chọn nhúng iframe làm trình phát video -->
 		<style>
 		.intrinsic-container {
 		  position: relative;
@@ -126,12 +126,12 @@
 		  overflow: hidden;
 		}
 
-		/* 16x9 Aspect Ratio */
+		/* 16x9 Tỷ lệ khung hình */
 		.intrinsic-container-16x9 {
 		  padding-bottom: 56.25%;
 		}
 
-		/* 4x3 Aspect Ratio */
+		/* 4x3 Tỷ lệ khung hình */
 		.intrinsic-container-4x3 {
 		  padding-bottom: 75%;
 		}

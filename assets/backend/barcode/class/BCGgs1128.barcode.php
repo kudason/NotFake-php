@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Calculate the GS1-128 based on the Code-128 encoding.
+ * Tính toán GS1-128 dựa trên mã hóa Code-128.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -33,7 +33,7 @@ class BCGgs1128 extends BCGcode128 {
     private $identifiersAi = array();
 
     /**
-     * Constructors
+     * Hàm khởi tạo
      *
      * @param char $start
      */
@@ -44,7 +44,7 @@ class BCGgs1128 extends BCGcode128 {
 
         parent::__construct($start);
 
-        /* Application Identifiers (AIs) */
+        /* Số nhận dạng ứng dụng(Application Identifiers-AIs) */
         /*
         array ( KIND_OF_DATA , MINLENGTH , MAXLENGTH , CHECKSUM )
         KIND_OF_DATA:        NUMERIC , ALPHA_NUMERIC or DATE_YYMMDD
@@ -170,8 +170,8 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Gets the content checksum for an identifier.
-     * Do not pass the identifier code.
+     * Lấy tổng kiểm tra nội dung cho một mã định danh.
+     * Không chuyển mã định danh.
      *
      * @param string $content
      * @return int
@@ -181,7 +181,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Enables or disables the strict mode.
+     * Kích hoạt hoặc vô hiệu hóa chế độ nghiêm ngặt.
      *
      * @param bool $strictMode
      */
@@ -190,7 +190,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Gets if the strict mode is activated.
+     * Nhận được nếu chế độ nghiêm ngặt được kích hoạt.
      *
      * @return bool
      */
@@ -199,7 +199,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Allows unknown identifiers.
+     * Cho phép nhận dạng không xác định.
      *
      * @param bool $allow
      */
@@ -208,7 +208,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Gets if unkmown identifiers are allowed.
+    * Nhận được nếu cho phép số nhận dạng không tên.
      *
      * @return bool
      */
@@ -217,7 +217,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Removes the limit of 48 characters.
+     * Loại bỏ giới hạn 48 ký tự.
      *
      * @param bool $noLengthLimit
      */
@@ -226,7 +226,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Gets if the limit of 48 characters is removed.
+     * Nhận được nếu loại bỏ giới hạn 48 ký tự.
      *
      * @return bool
      */
@@ -235,7 +235,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Parses Text.
+     * Phân tích văn bản.
      *
      * @param string $text
      */
@@ -244,7 +244,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Formats data for gs1-128.
+     * Định dạng dữ liệu cho gs1-128.
      *
      * @return string
      */
@@ -276,14 +276,14 @@ class BCGgs1128 extends BCGcode128 {
                 $ai_data = null;
             }
 
-            /* We'll check if we need to add a ~F1 (<GS>) char */
-            /* If we use the legacy mode, we always add a ~F1 (<GS>) char between AIs */
+            /* Kiểm tra xem có cần thêm ký tự ~F1 (<GS>) không */
+            /* Nếu sử dụng chế độ cũ, luôn thêm ký tự ~F1 (<GS>) giữa các AI */
             if ($ai_data !== null) {
                 if ((strlen($this->identifiersContent[$i]) < $ai_data[self::MAXLENGTH] && ($i + 1) !== $c) || (!$this->strictMode && ($i + 1) !== $c)) {
                     $formatedText .= '~F1';
                 }
             } elseif ($this->allowsUnknownIdentifier && $this->identifiersId[$i] === null && ($i + 1) !== $c) {
-                /* If this id is unknown, we add a ~F1 (<GS>) char */
+                /* Nếu id này không xác định, thêm ký tự ~F1 (<GS>) */
                 $formatedText .= '~F1';
             }
         }
@@ -297,17 +297,17 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Parses the text to gs1-128.
+     * Phân tích văn bản thành gs1-128.
      *
      * @param mixed $text
      * @return mixed
      */
     private function parseGs1128($text) {
-        /* We format correctly what the user gives */
+        /* Chúng tôi định dạng chính xác những gì người dùng cung cấp */
         if (is_array($text)) {
             $formatArray = array();
             foreach ($text as $content) {
-                if (is_array($content)) { /* double array */
+                if (is_array($content)) { /* mảng kép */
                     if (count($content) === 2) {
                         if (is_array($content[self::ID]) || is_array($content[self::CONTENT])) {
                             throw new BCGParseException('gs1128', 'Double arrays can\'t contain arrays.');
@@ -317,7 +317,7 @@ class BCGgs1128 extends BCGcode128 {
                     } else {
                         throw new BCGParseException('gs1128', 'Double arrays must contain 2 values.');
                     }
-                } else { /* simple array */
+                } else { /* mảng đơn giản */
                     $formatArray[] = $content;
                 }
             }
@@ -330,7 +330,7 @@ class BCGgs1128 extends BCGcode128 {
 
         $textCount = count($text);
         for ($cmpt = 0; $cmpt < $textCount; $cmpt++) {
-            /* We parse the content of the array */
+            /* Phân tích nội dung của mảng */
             if (!$this->parseContent($text[$cmpt])) {
                 return;
             }
@@ -340,15 +340,15 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Splits the id and the content for each application identifiers (AIs).
+     * Chia id và nội dung cho từng số nhận dạng ứng dụng (AI).
      *
      * @param string $text
      * @param int $cmpt
      * @return bool
      */
     private function parseContent($text) {
-        /* $yAlreadySet has 3 states: */
-        /* null: There is no variable in the ID; true: the variable is already set; false: the variable is not set yet; */
+        /* $yAlreadySet có 3 trạng thái: */
+        /* null: Không có biến nào trong ID; đúng: biến đã được đặt; sai: biến chưa được đặt; */
         $content = null;
         $yAlreadySet = null;
         $realNameId = null;
@@ -378,20 +378,20 @@ class BCGgs1128 extends BCGcode128 {
         }
 
         if ($id !== null) {
-            /* If we have an AI with an "y" var, we check if there is a decimal point in the next *MAXLENGTH* characters */
-            /* if there is one, we take an extra character */
+            /* Nếu có AI có var "y", kiểm tra xem có dấu thập phân trong các ký tự *MAXLENGTH* tiếp theo không */
+            /* nếu có, chúng ta lấy thêm một ký tự */
             if ($yAlreadySet !== null) {
                 if (strpos($content, '.') !== false || strpos($content, ',') !== false) {
                     $n++;
                     if ($n <= $nbCharToParse) {
-                        /* We take an extra char */
+                        /*Lấy thêm một ký tự */
                         $content = substr($toParse, $nbCharId, $n);
                     }
                 }
             }
         }
 
-        /* We check for separator */
+       /*Kiểm tra dấu phân cách */
         $separator = strpos($content, chr(29));
         if ($separator !== false) {
             $content = substr($content, 0, $separator);
@@ -399,17 +399,17 @@ class BCGgs1128 extends BCGcode128 {
         }
 
         if ($id !== null) {
-            /* We check the conformity */
+            /* Kiểm tra sự phù hợp */
             if (!$this->checkConformity($content, $id, $realNameId)) {
                 return false;
             }
 
-            /* We check the checksum */
+            /* Kiểm tra tổng kiểm tra */
             if (!$this->checkChecksum($content, $id, $realNameId, $checksumAdded)) {
                 return false;
             }
 
-            /* We check the vars */
+            /* Kiểm tra các vars */
             if (!$this->checkVars($content, $id, $yAlreadySet, $decimalPointRemoved)) {
                 return false;
             }
@@ -420,7 +420,7 @@ class BCGgs1128 extends BCGcode128 {
 
         $nbCharLastContent = (((strlen($content) + $nbCharId) - $checksumAdded) + $decimalPointRemoved) + $separatorsFound;
         if ($nbCharToParse - $nbCharLastContent > 0) {
-            /* If there is more than one content in this array, we parse again */
+            /* Nếu có nhiều hơn một nội dung trong mảng này, phân tích lại */
             $otherContent = substr($toParse, $nbCharLastContent, $nbCharToParse);
             $nbCharOtherContent = strlen($otherContent);
 
@@ -439,7 +439,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Checks if an id exists.
+     *Kiểm tra xem id có tồn tại không
      *
      * @param string $id
      * @param bool $yAlreadySet
@@ -458,7 +458,7 @@ class BCGgs1128 extends BCGcode128 {
             $realNameId = $id;
             return true;
         } elseif (!$yFound && isset($this->identifiersAi[$idVarAdded])) {
-            /* if the id don't exist, we try to find this id with "y" at the last char */
+            /* nếu id không tồn tại, thử tìm id này với "y" ở ký tự cuối cùng */
             $yAlreadySet = true;
             $realNameId = $idVarAdded;
             return true;
@@ -468,7 +468,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Finds ID with formated content.
+     * Tìm ID với nội dung được định dạng.
      *
      * @param string $id
      * @param bool $yAlreadySet
@@ -498,7 +498,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Finds ID with non-formated content.
+     * Tìm ID có nội dung không được định dạng.
      *
      * @param string $id
      * @param bool $yAlreadySet
@@ -524,7 +524,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Checks confirmity of the content.
+    * Kiểm tra xác nhận của nội dung.
      *
      * @param string $content
      * @param string $id
@@ -547,7 +547,7 @@ class BCGgs1128 extends BCGcode128 {
                     $month = substr($content, 2, 2);
                     $day = substr($content, 4, 2);
 
-                    /* day can be 00 if we only need month and year */
+                    /* ngày có thể là 00 nếu chúng ta chỉ cần tháng và năm */
                     if (intval($month) < 1 || intval($month) > 12 || intval($day) < 0 || intval($day) > 31) {
                         $valid_date = false;
                     }
@@ -562,7 +562,7 @@ class BCGgs1128 extends BCGcode128 {
                 break;
         }
 
-        // We check the length of the content
+        // Kiểm tra độ dài của nội dung
         $nbCharContent = strlen($content);
         $checksumChar = 0;
         $minlengthContent = $this->identifiersAi[$realNameId][self::MINLENGTH];
@@ -584,7 +584,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Verifies the checksum.
+     * Xác minh checksum.
      *
      * @param string $content
      * @param string $id
@@ -597,11 +597,11 @@ class BCGgs1128 extends BCGcode128 {
             $nbCharContent = strlen($content);
             $minlengthContent = $this->identifiersAi[$realNameId][self::MINLENGTH];
             if ($nbCharContent === ($minlengthContent - 1)) {
-                /* we need to calculate the checksum */
+                /* Tính checksum*/
                 $content .= self::getAiContentChecksum($content);
                 $checksumAdded++;
             } elseif ($nbCharContent === $minlengthContent) {
-                /* we need to check the checksum */
+                /* Kiểm tra checksum */
                 $checksum = self::getAiContentChecksum(substr($content, 0, -1));
                 if (intval($content[$nbCharContent - 1]) !== $checksum) {
                     throw new BCGParseException('gs1128', 'The checksum of "(' . $id . ') ' . $content . '" must be: ' . $checksum);
@@ -613,7 +613,7 @@ class BCGgs1128 extends BCGcode128 {
     }
 
     /**
-     * Checks vars "y".
+     * Kiểm tra biến "y".
      *
      * @param string $content
      * @param string $id
@@ -623,14 +623,14 @@ class BCGgs1128 extends BCGcode128 {
      */
     private function checkVars(&$content, &$id, $yAlreadySet, &$decimalPointRemoved) {
         $nbCharContent = strlen($content);
-        /* We check for "y" var in AI */
+        /* Kiểm tra biến "y" trong AI */
         if ($yAlreadySet) {
-            /* We'll check if we have a decimal point */
+            /* Kiểm tra xem chúng tôi có dấu thập phân không */
             if (strpos($content, '.') !== false) {
                 throw new BCGParseException('gs1128', 'If you do not use any "y" variable, you have to insert a whole number.');
             }
         } elseif ($yAlreadySet !== null) {
-            /* We need to replace the "y" var with the position of the decimal point */
+            /* Thay thế var "y" bằng vị trí của dấu thập phân */
             $pos = strpos($content, '.');
             if ($pos === false) {
                 $pos = $nbCharContent - 1;
@@ -651,12 +651,12 @@ class BCGgs1128 extends BCGcode128 {
      * @return int
      */
     private static function calculateChecksumMod10($content) {
-        // Calculating Checksum
-        // Consider the right-most digit of the message to be in an "odd" position,
-        // and assign odd/even to each character moving from right to left
-        // Odd Position = 3, Even Position = 1
-        // Multiply it by the number
-        // Add all of that and do 10-(?mod10)
+        // Tính checksum
+        // Coi chữ số ngoài cùng bên phải của tin nhắn ở vị trí "lẻ",
+        // và gán số lẻ/chẵn cho từng ký tự di chuyển từ phải sang trái
+        // Vị trí lẻ = 3, Vị trí chẵn = 1
+        // Nhân nó với số
+        // Thêm tất cả những thứ đó và thực hiện 10-(?mod10)
         $odd = true;
         $checksumValue = 0;
         $c = strlen($content);

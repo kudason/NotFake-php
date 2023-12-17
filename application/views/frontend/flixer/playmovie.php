@@ -54,22 +54,22 @@
 	.profile_manage{font-size: 25px;border: 1px solid #ccc;padding: 5px 30px;text-decoration: none;}
 	.profile_manage:hover{font-size: 25px;border: 1px solid #fff;padding: 5px 30px;text-decoration: none;color:#fff;}
 </style>
-<!-- VIDEO PLAYER -->
+<!-- MÁY PHÁT VIDEO -->
 
 <div class="video_cover">
 	<div class="container" style="padding-top:100px; text-align: center;">
 		<div class="row">
 
-			<!--Main movie-->
+			<!--Phim chính-->
 			<?php include 'main_movie.php'; ?>
 
 
-			<!--Trailer-->
+			<!--Đoạn phim giới thiệu-->
 			<?php include 'trailer.php'; ?>
 		</div>
 	</div>
 </div>
-<!-- VIDEO DETAILS HERE -->
+<!-- CHI TIẾT VIDEO TẠI ĐÂY -->
 <div class="container" style="margin-top: 30px;">
 	<div class="row">
 		<div class="col-lg-8">
@@ -78,11 +78,11 @@
 					<img src="<?php echo $this->crud_model->get_thumb_url('movie' , $row['movie_id']);?>" style="height: 60px; margin:20px;" />
 				</div>
 				<div class="col-lg-9">
-					<!-- VIDEO TITLE -->
+					<!-- TIÊU ĐỀ VIDEO -->
 					<h3>
 						<?php echo $row['title'];?>
 					</h3>
-					<!-- RATING CALCULATION -->
+					<!-- TÍNH TOÁN ĐÁNH GIÁ -->
 					<div>
 						<?php
 							for($i = 1 ; $i <= $row['rating'] ; $i++):
@@ -99,7 +99,7 @@
 			</div>
 		</div>
 		<script>
-			// submit the add/delete request for mylist
+			// gửi yêu cầu thêm/xóa cho mylist
 			// type = movie/series, task = add/delete, id = movie_id/series_id
 			function process_list(type, task, id)
 			{
@@ -118,10 +118,10 @@
 			    }});
 			}
 
-			// Show the add/delete wishlist button on page load
+			// Hiển thị nút thêm/xóa danh sách yêu thích khi tải trang
 			   $( document ).ready(function() {
 
-			   	// Checking if this movie_id exist in the active user's wishlist
+			   	// Kiểm tra xem movie_id này có tồn tại trong danh sách yêu thích của người dùng đang hoạt động không
 			    mylist_exist_status = "<?php echo $this->crud_model->get_mylist_exist_status('movie' , $row['movie_id']);?>";
 
 			    if (mylist_exist_status == 'true')
@@ -135,7 +135,7 @@
 			});
 		</script>
 		<div class="col-lg-4">
-			<!-- ADD OR DELETE FROM PLAYLIST -->
+			<!-- THÊM HOẶC XÓA KHỎI DANH SÁCH PHÁT -->
 			<span id="mylist_button_holder">
 			</span>
 			<span id="mylist_add_button" style="display:none;">
@@ -153,14 +153,14 @@
 			<i class="fa fa-check"></i> <?php echo get_phrase('Added_to_My_list');?>
 			</a>
 			</span>
-			<!-- MOVIE GENRE -->
+			<!-- THỂ LOẠI PHIM -->
 			<div style="margin-top: 10px;">
 				<strong><?php echo get_phrase('Genre');?></strong> :
 				<a href="<?php echo base_url();?>index.php?browse/movie/<?php echo $row['genre_id'];?>">
 				<?php echo $this->db->get_where('genre',array('genre_id'=>$row['genre_id']))->row()->name;?>
 				</a>
 			</div>
-			<!-- MOVIE YEAR -->
+			<!-- NĂM CỦA PHIM -->
 			<div>
 				<strong><?php echo get_phrase('Year');?></strong> : <?php echo $row['year'];?>
 			</div>
@@ -192,13 +192,13 @@
 					</li>
 				</ul>
 				<div id="myTabContent" class="tab-content">
-					<!-- TAB FOR TITLE -->
+					<!-- TIÊU ĐỀ -->
 					<div class="tab-pane active in" id="about">
 						<p>
 							<?php echo $row['description_long'];?>
 						</p>
 					</div>
-					<!-- TAB FOR ACTORS -->
+					<!-- DIỄN VIÊN -->
 					<div class="tab-pane " id="cast">
 						<p>
 							<?php
@@ -228,7 +228,7 @@
 							</div>
 						</p>
 					</div>
-					<!-- TAB FOR SAME CATEGORY MOVIES -->
+					<!-- CÙNG THỂ LOẠI PHIM -->
 					<div class="tab-pane  " id="more">
 						<p>
 						<div class="content">

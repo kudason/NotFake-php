@@ -1,6 +1,6 @@
 <div class="col-lg-12 hidden" id="trailer_div">
 
-<!-- Video player generator starts -->
+<!-- Trình tạo trình phát video bắt đầu -->
 <?php if (video_type($row['trailer_url']) == 'youtube'): ?>
 	<!------------- PLYR.IO ------------>
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/global/plyr/plyr.css">
@@ -27,7 +27,7 @@
 <?php elseif (video_type($row['trailer_url']) == 'drive'): ?>
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/global/plyr/plyr.css">
 	<?php
-	//video id generate
+	//tạo id video
 	$url_array_1 = explode("/",$row['trailer_url'].'/');
 	$url_array_2 = explode("=",$row['trailer_url']);
 	$video_id = null;
@@ -61,12 +61,12 @@
 	<script src="<?php echo base_url();?>assets/global/plyr/plyr.js"></script>
 	<script>const trailer_url = new Plyr('#trailer_url');</script>
 <?php endif; ?>
-<!-- Video player generator ends -->
+<!-- Trình tạo trình phát video kết thúc -->
 <?php
 	if(video_type($row['trailer_url']) == 'vimeo' || video_type($row['trailer_url']) == 'youtube'):
 		$iframe_embed = $this->crud_model->is_iframe($row['trailer_url']);
 		if ($iframe_embed == true): ?>
-		<!-- loads iframe embed option as video player -->
+		<!-- tải tùy chọn nhúng iframe làm trình phát video -->
 		<style>
 		.intrinsic-container {
 		  position: relative;
@@ -74,12 +74,12 @@
 		  overflow: hidden;
 		}
 
-		/* 16x9 Aspect Ratio */
+		/* 16x9 Tỷ lệ khung hình */
 		.intrinsic-container-16x9 {
 		  padding-bottom: 56.25%;
 		}
 
-		/* 4x3 Aspect Ratio */
+		/* 4x3 Tỷ lệ khung hình */
 		.intrinsic-container-4x3 {
 		  padding-bottom: 75%;
 		}

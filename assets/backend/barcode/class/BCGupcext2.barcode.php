@@ -2,11 +2,11 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - UPC Supplemental Barcode 2 digits
+ * Lớp con - Mã vạch bổ sung UPC 2 chữ số
  *
- * Working with UPC-A, UPC-E, EAN-13, EAN-8
- * This includes 2 digits (normaly for publications)
- * Must be placed next to UPC or EAN Code
+ * Làm việc với UPC-A, UPC-E, EAN-13, EAN-8
+ * Điều này bao gồm 2 chữ số (thông thường cho các ấn phẩm)
+ * Phải đặt cạnh Mã UPC hoặc EAN
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -20,7 +20,7 @@ class BCGupcext2 extends BCGBarcode1D {
     protected $codeParity = array();
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
@@ -39,7 +39,7 @@ class BCGupcext2 extends BCGBarcode1D {
             '2001'      /* 9 */
         );
 
-        // Parity, 0=Odd, 1=Even. Depending on ?%4
+        // Chẵn lẻ, 0=Lẻ, 1=Chẵn. Tùy thuộc vào ?%4
         $this->codeParity = array(
             array(0, 0),    /* 0 */
             array(0, 1),    /* 1 */
@@ -49,12 +49,12 @@ class BCGupcext2 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
     public function draw($im) {
-        // Starting Code
+        // Bắt đầu Code
         $this->drawChar($im, '001', true);
 
         // Code
@@ -69,7 +69,7 @@ class BCGupcext2 extends BCGBarcode1D {
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -86,7 +86,7 @@ class BCGupcext2 extends BCGBarcode1D {
     }
 
     /**
-     * Adds the default label.
+     * Thêm nhãn mặc định.
      */
     protected function addDefaultLabel() {
         parent::addDefaultLabel();
@@ -97,7 +97,7 @@ class BCGupcext2 extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -105,14 +105,14 @@ class BCGupcext2 extends BCGBarcode1D {
             throw new BCGParseException('upcext2', 'No data has been entered.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
                 throw new BCGParseException('upcext2', 'The character \'' . $this->text[$i] . '\' is not allowed.');
             }
         }
 
-        // Must contain 2 digits
+        // Phải chứa 2 chữ số
         if ($c !== 2) {
             throw new BCGParseException('upcext2', 'Must contain 2 digits.');
         }
@@ -121,7 +121,7 @@ class BCGupcext2 extends BCGBarcode1D {
     }
 
     /**
-     * Inverses the string when the $inverse parameter is equal to 1.
+     * Đảo ngược chuỗi khi tham số $inverse bằng 1.
      *
      * @param string $text
      * @param int $inverse

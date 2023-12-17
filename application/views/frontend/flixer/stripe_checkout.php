@@ -9,7 +9,7 @@
         <link name="favicon" type="image/x-icon" href="<?php echo base_url('assets/global/favicon.png');?>" rel="shortcut icon" />
     </head>
     <body>
-<!--required for getting the stripe token-->
+<!--cần thiết để nhận được mã thông báo sọc-->
         <?php
             $stripe_keys = get_settings('stripe_keys');
             $values = json_decode($stripe_keys);
@@ -26,7 +26,7 @@
             var stripe_key = '<?php echo $public_key;?>';
         </script>
 
-<!--required for getting the stripe token-->
+<!--cần thiết để nhận được mã thông báo sọc-->
 
           <img src="<?php echo base_url('assets/global/logo.png'); ?>" width="25%;"
              style="opacity: 0.05;">

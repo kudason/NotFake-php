@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Base class for Barcode 1D and 2D
+ * Lớp cơ sở cho Mã vạch 1D và 2D
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -17,14 +17,14 @@ abstract class BCGBarcode {
     const COLOR_BG = 0;
     const COLOR_FG = 1;
 
-    protected $colorFg, $colorBg;       // Color Foreground, Barckground
-    protected $scale;                   // Scale of the graphic, default: 1
-    protected $offsetX, $offsetY;       // Position where to start the drawing
-    protected $labels = array();        // Array of BCGLabel
-    protected $pushLabel = array(0, 0); // Push for the label, left and top
+    protected $colorFg, $colorBg;       // Màu nền trước, nền sau
+    protected $scale;                   // Tỷ lệ đồ họa, mặc định: 1
+    protected $offsetX, $offsetY;       // Vị trí bắt đầu vẽ
+    protected $labels = array();        // Mảng nhãn BCG
+    protected $pushLabel = array(0, 0); // Đẩy nhãn, bên trái và trên cùng
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     protected function __construct() {
         $this->setOffsetX(0);
@@ -35,7 +35,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Parses the text before displaying it.
+     * Phân tích văn bản trước khi hiển thị nó.
      *
      * @param mixed $text
      */
@@ -52,8 +52,8 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Sets the foreground color of the barcode. It could be a BCGColor
-     * value or simply a language code (white, black, yellow...) or hex value.
+     * Lấy màu nền trước của mã vạch. Nó có thể là màu BCG
+     * Giá trị hoặc đơn giản là mã ngôn ngữ (trắng, đen, vàng...) hoặc giá trị hex.
      *
      * @param mixed $code
      */
@@ -66,7 +66,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Gets the background color of the barcode.
+     * Lấy màu nền sau của mã vạch.
      *
      * @return BCGColor
      */
@@ -75,8 +75,8 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Sets the background color of the barcode. It could be a BCGColor
-     * value or simply a language code (white, black, yellow...) or hex value.
+     * Đặt màu nền sau của mã vạch. Nó có thể là màu BCG
+     * Giá trị hoặc đơn giản là mã ngôn ngữ (trắng, đen, vàng...) hoặc giá trị hex.
      *
      * @param mixed $code
      */
@@ -93,7 +93,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Sets the color.
+     * Đặt màu.
      *
      * @param mixed $fg
      * @param mixed $bg
@@ -104,7 +104,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Gets the scale of the barcode.
+     * Lấy tỷ lệ của mã vạch.
      *
      * @return int
      */
@@ -113,8 +113,8 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Sets the scale of the barcode in pixel.
-     * If the scale is lower than 1, an exception is raised.
+     * Đặt tỷ lệ của mã vạch theo pixel.
+     * Nếu tỷ lệ thấp hơn 1, một ngoại lệ sẽ xuất hiện.
      *
      * @param int $scale
      */
@@ -128,16 +128,16 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Abstract method that draws the barcode on the resource.
+     * Phương pháp trừu tượng vẽ mã vạch trên tài nguyên.
      *
      * @param resource $im
      */
     public abstract function draw($im);
 
     /**
-     * Returns the maximal size of a barcode.
-     * [0]->width
-     * [1]->height
+     * Trả về kích thước tối đa của mã vạch.
+     * [0]->chiều rộng
+     * [1]->chiều cao
      *
      * @param int $w
      * @param int $h
@@ -169,7 +169,7 @@ abstract class BCGBarcode {
         $finalW = ($w + $this->offsetX) * $this->scale;
         $finalH = ($h + $this->offsetY) * $this->scale;
 
-        // This section will check if a top/bottom label is too big for its width and left/right too big for its height
+        // Phần này sẽ kiểm tra xem nhãn trên/dưới có quá lớn so với chiều rộng và trái/phải quá lớn so với chiều cao của nó hay không
         $reversedLabels = $this->getBiggestLabels(true);
         foreach ($reversedLabels as $label) {
             $dimension = $label->getDimension();
@@ -207,7 +207,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Gets the X offset.
+     * Lấy độ lệch X.
      *
      * @return int
      */
@@ -216,7 +216,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Sets the X offset.
+     * Đặt độ lệch X.
      *
      * @param int $offsetX
      */
@@ -230,7 +230,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Gets the Y offset.
+     * Lấy độ lệch Y.
      *
      * @return int
      */
@@ -239,7 +239,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Sets the Y offset.
+     * Đặt độ lệch Y.
      *
      * @param int $offsetY
      */
@@ -253,7 +253,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Adds the label to the drawing.
+     * Thêm nhãn vào bản vẽ.
      *
      * @param BCGLabel $label
      */
@@ -263,7 +263,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Removes the label from the drawing.
+     * Loại bỏ nhãn khỏi bản vẽ.
      *
      * @param BCGLabel $label
      */
@@ -283,17 +283,17 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Clears the labels.
+     * Xóa nhãn.
      */
     public function clearLabels() {
         $this->labels = array();
     }
 
     /**
-     * Draws the text.
-     * The coordinate passed are the positions of the barcode.
-     * $x1 and $y1 represent the top left corner.
-     * $x2 and $y2 represent the bottom right corner.
+     * Vẽ văn bản.
+     * Tọa độ được truyền là vị trí của mã vạch.
+     * $x1 và $y1 đại diện cho góc trên cùng bên trái.
+     * $x2 và $y2 đại diện cho góc dưới cùng bên phải.
      *
      * @param resource $im
      * @param int $x1
@@ -312,7 +312,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Draws 1 pixel on the resource at a specific position with a determined color.
+     * Vẽ 1 pixel trên tài nguyên ở một vị trí cụ thể với màu xác định.
      *
      * @param resource $im
      * @param int $x
@@ -323,7 +323,7 @@ abstract class BCGBarcode {
         $xR = ($x + $this->offsetX) * $this->scale + $this->pushLabel[0];
         $yR = ($y + $this->offsetY) * $this->scale + $this->pushLabel[1];
 
-        // We always draw a rectangle
+        // Luôn vẽ hình chữ nhật
         imagefilledrectangle($im,
             $xR,
             $yR,
@@ -333,7 +333,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Draws an empty rectangle on the resource at a specific position with a determined color.
+     * Vẽ một hình chữ nhật trống trên tài nguyên ở một vị trí cụ thể với màu xác định.
      *
      * @param resource $im
      * @param int $x1
@@ -359,7 +359,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Draws a filled rectangle on the resource at a specific position with a determined color.
+     * Vẽ một hình chữ nhật đầy trên tài nguyên ở một vị trí cụ thể với màu xác định.
      *
      * @param resource $im
      * @param int $x1
@@ -369,11 +369,11 @@ abstract class BCGBarcode {
      * @param int $color
      */
     protected function drawFilledRectangle($im, $x1, $y1, $x2, $y2, $color = self::COLOR_FG) {
-        if ($x1 > $x2) { // Swap
+        if ($x1 > $x2) { // Tráo đổi
             $x1 ^= $x2 ^= $x1 ^= $x2;
         }
 
-        if ($y1 > $y2) { // Swap
+        if ($y1 > $y2) { // Tráo đổi
             $y1 ^= $y2 ^= $y1 ^= $y2;
         }
 
@@ -386,7 +386,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Allocates the color based on the integer.
+     * Phân bổ màu dựa trên số nguyên.
      *
      * @param resource $im
      * @param int $color
@@ -401,7 +401,7 @@ abstract class BCGBarcode {
     }
 
     /**
-     * Returning the biggest label widths for LEFT/RIGHT and heights for TOP/BOTTOM.
+     * Trả về chiều rộng nhãn lớn nhất cho TRÁI/PHẢI và chiều cao cho TOP/DƯỚI.
      *
      * @param bool $reversed
      * @return BCGLabel[]

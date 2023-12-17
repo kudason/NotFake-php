@@ -1,4 +1,4 @@
-<!-- TOP HEADING SECTION -->
+<!-- Phần heading -->
 <style>
 	.nav_transparent {
 	padding: 10px 0px 10px; border: 1px;
@@ -42,7 +42,7 @@
 						<li><a href="<?php echo base_url();?>index.php?browse/movie/<?php echo $row['genre_id'];?>">
 							<?php
 								echo $row['name'];
-								// shows number of movies available
+								// hiển thị số lượng phim có sẵn
 								$this->db->where('genre_id', $row['genre_id']);
 								$num_rows = $this->db->count_all_results('movie');
 								if ($num_rows > 0)
@@ -66,7 +66,7 @@
 						<li><a href="<?php echo base_url();?>index.php?browse/series/<?php echo $row['genre_id'];?>">
 							<?php
 								echo $row['name'];
-								// shows number of movies available
+								// hiển thị số lượng phim có sẵn
 								$this->db->where('genre_id', $row['genre_id']);
 								$num_rows = $this->db->count_all_results('series');
 								if ($num_rows > 0)
@@ -77,7 +77,7 @@
 						<?php endforeach;?>
 					</ul>
 				</li>
-				<!-- MY LIST -->
+				<!-- DANH SÁCH CỦA TÔI -->
 				<?php if($this->session->userdata('active_user') != 'admin'): ?>
 					<li>
 						<a href="<?php echo base_url();?>index.php?browse/mylist"><?php echo get_phrase('My_List');?></a>
@@ -90,17 +90,17 @@
 					</li>
 				<?php endif; ?>
 			</ul>
-			<!-- PROFILE, ACCOUNT SECTION -->
+			<!-- HỒ SƠ, MỤC TÀI KHOẢN -->
 			<?php
-				// by deault, email & general thumb shown at top
+				// theo mặc định, email và phần tổng quan được hiển thị ở trên cùng
 				$bar_text	=	$this->db->get_where('user', array('user_id'=>$this->session->userdata('user_id')))->row('email');
 				$bar_thumb	=	base_url('assets/global/thumb1.png');
 
-				// check if there is active subscription
+				// kiểm tra xem có đăng ký đang hoạt động không
 				$subscription_validation	=	$this->crud_model->validate_subscription();
 				if ($subscription_validation != false)
 				{
-					// if there is active subscription, check the selected/active user of current user account
+					// nếu có đăng ký đang hoạt động, hãy kiểm tra người dùng đã chọn/đang hoạt động của tài khoản người dùng hiện tại
 
 					$active_user	=	$this->session->userdata('active_user');
 					if ($active_user == 'user1')
@@ -134,7 +134,7 @@
 					<span class="caret"></span></a>
 					<ul class="dropdown-menu" aria-labelledby="themes">
 						<?php
-							// user list shown only if there is active subscription
+							// danh sách người dùng chỉ được hiển thị nếu có đăng ký đang hoạt động
 							if ($subscription_validation != false):
 							  $current_plan_id	=	$this->crud_model->get_current_plan_id();
 							  ?>
@@ -182,7 +182,7 @@
 						<li class="divider"></li>
 						<li><a href="<?php echo base_url();?>index.php?browse/manageprofile"><?php echo get_phrase('Manage_Profiles');?></a></li>
 						<li class="divider"></li>
-						<!-- SHOW ADMIN LINK IF ADMIN LOGGED IN -->
+						<!-- HIỂN THỊ LIÊN KẾT ADMIN NẾU ĐANG DÙNG TÀI KHOẢN ADMIN -->
 						<?php
 							if($this->session->userdata('login_type') == 1):
 								?>

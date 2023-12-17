@@ -2,7 +2,7 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <?php endif; ?>
 
-<!-- TOP LANDING SECTION -->
+<!-- Phần đầu -->
 <div style="width:100%; height:90px; background-color:#fafafa; border-bottom:solid 1px #dcdde0;">
 	<!-- logo -->
 	<div style="float: left;">
@@ -19,13 +19,13 @@
 		</div>
 	<?php endif; ?>
 </div>
-<!-- ERROR MESSAGE -->
+<!-- Thông báo lỗi -->
 <style>
 	td{padding: 12px 15px; border-bottom: 1px solid #ccc;}
 </style>
 <div class="container">
 	<div class="row">
-		<!-- ERROR MESSAGE SHOWING IF DUPLICATE EMAIL FOUND -->
+		<!-- THÔNG BÁO LỖI HIỂN THỊ NẾU TÌM THẤY EMAIL SAO CHÉP -->
 		<?php 
 			if ($this->session->flashdata('signup_result') == 'failed'):
 			?>

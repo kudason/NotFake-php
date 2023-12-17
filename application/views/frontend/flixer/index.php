@@ -37,7 +37,7 @@ $bg_color = "#f3f3f3";
     <?php endif; ?>
 
 
-<!-- SHOW TOASTR NOTIFIVATION -->
+<!-- HIỂN THỊ THÔNG BÁO TOASTR -->
 <?php if ($this->session->flashdata('flash_message') != ""):?>
     <script type="text/javascript">
         toastr.success('<?php echo $this->session->flashdata("flash_message");?>');

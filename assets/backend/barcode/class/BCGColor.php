@@ -2,24 +2,24 @@
 /**
  *--------------------------------------------------------------------
  *
- * Holds Color in RGB Format.
+ * Giữ màu ở định dạng RGB.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
  * http://www.barcodephp.com
  */
 class BCGColor {
-    protected $r, $g, $b;    // int Hexadecimal Value
+    protected $r, $g, $b;    // Giá trị thập lục phân
     protected $transparent;
 
     /**
-     * Save RGB value into the classes.
+     * Lưu giá trị RGB vào các lớp.
      *
-     * There are 4 way to associate color with this classes :
-     *  1. Gives 3 parameters int (R, G, B)
-     *  2. Gives 1 parameter string hex value (#ff0000) (preceding with #)
-     *  3. Gives 1 parameter int hex value (0xff0000)
-     *  4. Gives 1 parameter string color code (white, black, orange...)
+     * Có 4 cách để liên kết màu sắc với lớp này:
+     * 1. Cho 3 tham số int (R, G, B)
+     * 2. Cung cấp 1 giá trị hex chuỗi tham số (#ff0000) (trước #)
+     * 3. Cung cấp 1 tham số giá trị int hex (0xff0000)
+     * 4. Cung cấp 1 mã màu chuỗi tham số (trắng, đen, cam...)
      *
      * @param mixed ...
      */
@@ -31,7 +31,7 @@ class BCGColor {
             $this->g = intval($args[1]);
             $this->b = intval($args[2]);
         } elseif ($c === 1) {
-            if (is_string($args[0]) && strlen($args[0]) === 7 && $args[0][0] === '#') {        // Hex Value in String
+            if (is_string($args[0]) && strlen($args[0]) === 7 && $args[0][0] === '#') {        // Giá trị Hex trong chuỗi
                 $this->r = intval(substr($args[0], 1, 2), 16);
                 $this->g = intval(substr($args[0], 3, 2), 16);
                 $this->b = intval(substr($args[0], 5, 2), 16);
@@ -51,7 +51,7 @@ class BCGColor {
     }
 
     /**
-     * Sets the color transparent.
+     * Đặt màu trong suốt(transparent).
      *
      * @param bool $transparent
      */
@@ -60,7 +60,7 @@ class BCGColor {
     }
 
     /**
-     * Returns Red Color.
+     * Trả về màu đỏ.
      *
      * @return int
      */
@@ -69,7 +69,7 @@ class BCGColor {
     }
 
     /**
-     * Returns Green Color.
+     * Trả về màu xanh lục.
      *
      * @return int
      */
@@ -78,7 +78,7 @@ class BCGColor {
     }
 
     /**
-     * Returns Blue Color.
+     * Trả về màu xanh dương.
      *
      * @return int
      */
@@ -87,7 +87,7 @@ class BCGColor {
     }
 
     /**
-     * Returns the int value for PHP color.
+     * Trả về giá trị int cho màu PHP.
      *
      * @param resource $im
      * @return int
@@ -102,9 +102,9 @@ class BCGColor {
     }
 
     /**
-     * Returns class of BCGColor depending of the string color.
+     * Trả về lớp màu BCG tùy thuộc vào màu chuỗi.
      *
-     * If the color doens't exist, it takes the default one.
+     * Nếu màu không tồn tại, nó sẽ lấy màu mặc định.
      *
      * @param string $code
      * @param string $default

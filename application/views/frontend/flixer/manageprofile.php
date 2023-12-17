@@ -8,7 +8,7 @@
 	.profile_switcher_img{height:180px; border: 6px solid #3a3a3a; opacity: 0.5;}
 	.profile_switcher_edit{position: absolute; top:0px; left:66px; color:#fff;}
 </style>
-<!-- TOP LANDING SECTION -->
+<!-- Phần đầu -->
 <div style="height:100vh;width:100%; background-color: #141414;">
 	<!-- logo -->
 	<div style="float: left;">

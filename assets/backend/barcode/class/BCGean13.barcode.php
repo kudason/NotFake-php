@@ -2,15 +2,15 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - EAN-13
+ * Lớp con - EAN-13
  *
- * EAN-13 contains
- *    - 2 system digits (1 not displayed but coded with parity)
- *    - 5 manufacturer code digits
- *    - 5 product digits
- *    - 1 checksum digit
+ * EAN-13 bao gồm
+ *    - 2 chữ số hệ thống (1 không được hiển thị nhưng được mã hóa chẵn lẻ)
+ *    - 5 chữ số mã nhà sản xuất
+ *    - 5 chữ số sản phẩm
+ *    - 1 chữ số checksum
  *
- * The checksum is always displayed.
+ * checksum luôn được hiển thị.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -29,16 +29,16 @@ class BCGean13 extends BCGBarcode1D {
     protected $alignLabel;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
 
         $this->keys = array('0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
 
-        // Left-Hand Odd Parity starting with a space
-        // Left-Hand Even Parity is the inverse (0=0012) starting with a space
-        // Right-Hand is the same of Left-Hand starting with a bar
+        // Tính chẵn lẻ bên trái bắt đầu bằng khoảng trắng
+        // Tính chẵn lẻ bên trái là nghịch đảo (0=0012) bắt đầu bằng khoảng trắng
+        // Bêm phải giống với bên trái bắt đầu bằng một bar
         $this->code = array(
             '2100',     /* 0 */
             '1110',     /* 1 */
@@ -52,7 +52,7 @@ class BCGean13 extends BCGBarcode1D {
             '2001'      /* 9 */
         );
 
-        // Parity, 0=Odd, 1=Even for manufacturer code. Depending on 1st System Digit
+        // Chẵn lẻ, 0=Lẻ, 1=Chẵn đối với mã nhà sản xuất. Tùy thuộc vào chữ số hệ thống thứ 1
         $this->codeParity = array(
             array(0, 0, 0, 0, 0),   /* 0 */
             array(0, 1, 0, 1, 1),   /* 1 */
@@ -74,7 +74,7 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
@@ -89,7 +89,7 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -107,7 +107,7 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Adds the default label.
+     * Thêm nhãn mặc định.
      */
     protected function addDefaultLabel() {
         if ($this->isDefaultEanLabelEnabled()) {
@@ -140,7 +140,7 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Checks if the default ean label is enabled.
+     * Kiểm tra xem nhãn ean mặc định có được bật hay không.
      *
      * @return bool
      */
@@ -151,7 +151,7 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -166,10 +166,10 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Check chars allowed.
+     * Kiểm tra ký tự được phép.
      */
     protected function checkCharsAllowed() {
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         $c = strlen($this->text);
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
@@ -179,10 +179,10 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Check correct length.
+     * Kiểm tra độ dài chính xác.
      */
     protected function checkCorrectLength() {
-        // If we have 13 chars, just flush the last one without throwing anything
+        // Nếu có 13 ký tự, chỉ cần xóa ký tự cuối cùng mà không ném bất cứ thứ gì
         $c = strlen($this->text);
         if ($c === 13) {
             $this->text = substr($this->text, 0, 12);
@@ -192,15 +192,15 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to calculate checksum.
+     * Nạp chồng phương thức tính checksum.
      */
     protected function calculateChecksum() {
-        // Calculating Checksum
-        // Consider the right-most digit of the message to be in an "odd" position,
-        // and assign odd/even to each character moving from right to left
-        // Odd Position = 3, Even Position = 1
-        // Multiply it by the number
-        // Add all of that and do 10-(?mod10)
+        // Tính checksum
+        // Coi chữ số ngoài cùng bên phải của tin nhắn ở vị trí "lẻ",
+        // và gán số lẻ/chẵn cho từng ký tự di chuyển từ phải sang trái
+        // Vị trí lẻ = 3, Vị trí chẵn = 1
+        // Nhân nó với số
+        // Thêm tất cả những thứ đó và thực hiện 10-(?mod10)
         $odd = true;
         $this->checksumValue = 0;
         $c = strlen($this->text);
@@ -224,10 +224,10 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to display the checksum.
+     * Nạp chồng phương thức hiển thị checksum.
      */
     protected function processChecksum() {
-        if ($this->checksumValue === false) { // Calculate the checksum only once
+        if ($this->checksumValue === false) { // Tính checksum một lần duy nhất
             $this->calculateChecksum();
         }
 
@@ -239,7 +239,7 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the bars
+     * Vẽ bars
      *
      * @param resource $im
      */
@@ -248,10 +248,10 @@ class BCGean13 extends BCGBarcode1D {
         $this->calculateChecksum();
         $temp_text = $this->text . $this->keys[$this->checksumValue];
 
-        // Starting Code
+        // Bắt đầu Code
         $this->drawChar($im, '000', true);
 
-        // Draw Second Code
+        // Vẽ mã thứ hai
         $this->drawChar($im, $this->findCode($temp_text[1]), false);
 
         // Draw Manufacturer Code
@@ -259,20 +259,20 @@ class BCGean13 extends BCGBarcode1D {
             $this->drawChar($im, self::inverse($this->findCode($temp_text[$i + 2]), $this->codeParity[(int)$temp_text[0]][$i]), false);
         }
 
-        // Draw Center Guard Bar
+        // Vẽ Center Guard Bar
         $this->drawChar($im, '00000', false);
 
-        // Draw Product Code
+        // Vẽ mã sản phẩm
         for ($i = 7; $i < 13; $i++) {
             $this->drawChar($im, $this->findCode($temp_text[$i]), true);
         }
 
-        // Draw Right Guard Bar
+        // Vẽ Right Guard Bar
         $this->drawChar($im, '000', true);
     }
 
     /**
-     * Draws the extended bars on the image.
+     * Vẽ các bar mở rộng trên hình ảnh.
      *
      * @param resource $im
      * @param int $plus
@@ -281,7 +281,7 @@ class BCGean13 extends BCGBarcode1D {
         $rememberX = $this->positionX;
         $rememberH = $this->thickness;
 
-        // We increase the bars
+        // Tăng bars
         $this->thickness = $this->thickness + intval($plus / $this->scale);
         $this->positionX = 0;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
@@ -294,7 +294,7 @@ class BCGean13 extends BCGBarcode1D {
         $this->positionX += 2;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
 
-        // Last Bars
+        // Bars cuối
         $this->positionX += 44;
         $this->drawSingleBar($im, BCGBarcode::COLOR_FG);
         $this->positionX += 2;
@@ -305,7 +305,7 @@ class BCGean13 extends BCGBarcode1D {
     }
 
     /**
-     * Inverses the string when the $inverse parameter is equal to 1.
+     * Đảo ngược chuỗi khi tham số $inverse bằng 1.
      *
      * @param string $text
      * @param int $inverse

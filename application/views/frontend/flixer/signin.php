@@ -2,7 +2,7 @@
   <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <?php endif; ?>
 
-<!-- TOP LANDING SECTION -->
+<!-- Phần đầu -->
 <div style="height:93vh;width:100%; clear: both; background-image: url(<?php echo base_url().'assets/frontend/'.$selected_theme;?>/images/login_bg.jpg)">
 	<!-- logo -->
 	<div style="float: left;">
@@ -16,7 +16,7 @@
 				<?php 
 					if ($this->session->flashdata('signin_result') == 'failed'):
 					?>
-				<!-- ERROR MESSAGE -->
+				<!-- Thông báo lỗi -->
 				<div class="alert alert-dismissible alert-danger">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
 					<?php echo get_phrase('Login_failed! Please_try_again.');?>
@@ -51,7 +51,7 @@
 		</div>
 	</div>
 </div>
-<!-- MIDDLE TAB SECTION -->
+<!-- Phần giữa -->
 <div class="container">
 	<?php include 'footer.php';?>
 </div>

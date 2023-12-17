@@ -2,9 +2,9 @@
 /**
  *--------------------------------------------------------------------
  *
- * Sub-Class - Standard 2 of 5
+ * Lớp con - Standard 2 of 5
  *
- * TODO I25 and S25 -> 1/3 or 1/2 for the big bar
+ * TODO I25 và S25 -> 1/3 hoặc 1/2 cho thanh lớn
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -17,7 +17,7 @@ class BCGs25 extends BCGBarcode1D {
     private $checksum;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      */
     public function __construct() {
         parent::__construct();
@@ -40,7 +40,7 @@ class BCGs25 extends BCGBarcode1D {
     }
 
     /**
-     * Sets if we display the checksum.
+     * Đặt nếu chúng tôi hiển thị tổng kiểm tra.
      *
      * @param bool $checksum
      */
@@ -49,7 +49,7 @@ class BCGs25 extends BCGBarcode1D {
     }
 
     /**
-     * Draws the barcode.
+     * Vẽ mã vạch.
      *
      * @param resource $im
      */
@@ -62,22 +62,22 @@ class BCGs25 extends BCGBarcode1D {
             $temp_text .= $this->keys[$this->checksumValue];
         }
 
-        // Starting Code
+        // Bắt đầu Code
         $this->drawChar($im, '101000', true);
 
-        // Chars
+        // Các ký tự
         $c = strlen($temp_text);
         for ($i = 0; $i < $c; $i++) {
             $this->drawChar($im, $this->findCode($temp_text[$i]), true);
         }
 
-        // Ending Code
+        // Kết thúc Code
         $this->drawChar($im, '10001', true);
         $this->drawText($im, 0, 0, $this->positionX, $this->thickness);
     }
 
     /**
-     * Returns the maximal size of a barcode.
+     * Trả về kích thước tối đa của mã vạch.
      *
      * @param int $w
      * @param int $h
@@ -100,7 +100,7 @@ class BCGs25 extends BCGBarcode1D {
     }
 
     /**
-     * Validates the input.
+     * Xác thực đầu vào.
      */
     protected function validate() {
         $c = strlen($this->text);
@@ -108,14 +108,14 @@ class BCGs25 extends BCGBarcode1D {
             throw new BCGParseException('s25', 'No data has been entered.');
         }
 
-        // Checking if all chars are allowed
+        // Kiểm tra xem tất cả các ký tự có được phép không
         for ($i = 0; $i < $c; $i++) {
             if (array_search($this->text[$i], $this->keys) === false) {
                 throw new BCGParseException('s25', 'The character \'' . $this->text[$i] . '\' is not allowed.');
             }
         }
 
-        // Must be even
+        // Phải bằng nhau
         if ($c % 2 !== 0 && $this->checksum === false) {
             throw new BCGParseException('s25', 's25 must contain an even amount of digits if checksum is false.');
         } elseif ($c % 2 === 0 && $this->checksum === true) {
@@ -126,15 +126,15 @@ class BCGs25 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to calculate checksum.
+     * Nạp chồng phương thức tính checksum.
      */
     protected function calculateChecksum() {
-        // Calculating Checksum
-        // Consider the right-most digit of the message to be in an "even" position,
-        // and assign odd/even to each character moving from right to left
-        // Even Position = 3, Odd Position = 1
-        // Multiply it by the number
-        // Add all of that and do 10-(?mod10)
+        // Tính checksum
+        // Coi chữ số ngoài cùng bên phải của tin nhắn ở vị trí "chẵn",
+        // và gán số lẻ/chẵn cho từng ký tự di chuyển từ phải sang trái
+        // Vị trí chẵn = 3, Vị trí lẻ = 1
+        // Nhân nó với số
+        // Thêm tất cả những thứ đó và thực hiện 10-(?mod10)
         $even = true;
         $this->checksumValue = 0;
         $c = strlen($this->text);
@@ -153,10 +153,10 @@ class BCGs25 extends BCGBarcode1D {
     }
 
     /**
-     * Overloaded method to display the checksum.
+     * Nạp chồng phương thức hiển thị checksum.
      */
     protected function processChecksum() {
-        if ($this->checksumValue === false) { // Calculate the checksum only once
+        if ($this->checksumValue === false) { // Tính checksum một lần duy nhất
             $this->calculateChecksum();
         }
 

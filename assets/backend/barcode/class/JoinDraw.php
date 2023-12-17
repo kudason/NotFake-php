@@ -2,8 +2,8 @@
 /**
  *--------------------------------------------------------------------
  *
- * Enable to join 2 BCGDrawing or 2 image object to make only one image.
- * There are some options for alignment.
+ * Cho phép nối 2 đối tượng BCGdraw hoặc 2 hình ảnh để chỉ tạo một hình ảnh.
+ * Có một số tùy chọn để căn chỉnh.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -29,12 +29,12 @@ class JoinDraw {
     private $im;
 
     /**
-     * Construct the JoinDrawing Object.
-     *  - $image1 and $image2 have to be BCGDrawing object or image object.
-     *  - $space is the space between the two graphics in pixel.
-     *  - $position is the position of the $image2 depending the $image1.
-     *  - $alignment is the alignment of the $image2 if this one is smaller than $image1;
-     *    if $image2 is bigger than $image1, the $image1 will be positionned on the opposite side specified.
+     * Hàm khởi tạo Joindraw.
+     * - $image1 và $image2 phải là đối tượng BCGdraw hoặc đối tượng hình ảnh.
+     * - $space là khoảng cách giữa hai đồ họa tính bằng pixel.
+     * - $position là vị trí của $image2 tùy thuộc vào $image1.
+     * - $alignment là căn chỉnh của $image2 nếu cái này nhỏ hơn $image1;
+     * nếu $image2 lớn hơn $image1, thì $image1 sẽ được đặt ở phía đối diện được chỉ định.
      *
      * @param mixed $image1
      * @param mixed $image2
@@ -64,14 +64,14 @@ class JoinDraw {
     }
 
     /**
-     * Destroys the image.
+     * Hủy hình ảnh.
      */
     public function __destruct() {
         imagedestroy($this->im);
     }
 
     /**
-     * Finds the position where the barcode should be aligned.
+     * Tìm vị trí mà mã vạch cần được căn chỉnh.
      *
      * @param int $size1
      * @param int $size2
@@ -92,7 +92,7 @@ class JoinDraw {
     }
 
     /**
-     * Change the alignments.
+     * Thay đổi sự sắp xếp.
      *
      * @param int $alignment
      * @return int
@@ -108,7 +108,7 @@ class JoinDraw {
     }
 
     /**
-     * Creates the image.
+     * Tạo hình ảnh.
      */
     private function createIm() {
         $w1 = imagesx($this->image1);
@@ -127,7 +127,7 @@ class JoinDraw {
         $this->im = imagecreatetruecolor($w, $h);
         imagefill($this->im, 0, 0, $this->background->allocate($this->im));
 
-        // We start defining position of images
+        // Chúng ta bắt đầu xác định vị trí của hình ảnh
         if ($this->position === self::POSITION_TOP) {
             if ($w1 > $w2) {
                 $posX1 = 0;
@@ -183,7 +183,7 @@ class JoinDraw {
     }
 
     /**
-     * Returns the new $im created.
+     *Trả về $im mới được tạo.
      *
      * @return resource
      */

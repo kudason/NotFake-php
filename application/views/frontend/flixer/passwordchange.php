@@ -4,7 +4,7 @@
 		<?php
 			if ($this->session->flashdata('status') == 'password_change_failed'):
 			?>
-		<!-- ERROR MESSAGE --> 
+		<!-- Thông báo lỗi --> 
 		<div class="alert alert-dismissible alert-danger">
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
 			<?php echo get_phrase('Current_password_given_wrong_or_New_password_must_be_at_least_6_character_long. Please_try_again.');?>

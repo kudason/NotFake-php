@@ -1,4 +1,4 @@
-<!-- TOP LANDING SECTION -->
+<!-- Phần đầu -->
 <div style="height:93vh;width:100%;background-image: url(<?php echo base_url().'assets/frontend/flixer/images/home_top_banner.jpg';?>)">
 	<!-- logo -->
 	<div style="float: left;">
@@ -15,7 +15,7 @@
 		</div>
 	<?php endif; ?>
 	
-	<!-- promo text visible for large devices -->
+	<!-- văn bản quảng cáo hiển thị cho các thiết bị lớn -->
 	<div style="font-size: 85px;font-weight: bold;clear: both;padding: 100px 0px 0px 0px; text-align:center; color: #fff;" class="hidden-xs">
 		<?php echo get_phrase('See_what_is_next.');?>
 		<div style="font-size: 30px; letter-spacing: .2px; color: #fff; font-weight: 400;">
@@ -28,7 +28,7 @@
 		</a>
 	</div>
 	
-	<!-- promo text visible for small devices -->
+	<!-- văn bản quảng cáo hiển thị cho các thiết bị nhỏ -->
 	<div style="font-size: 45px;font-weight: bold;clear: both;padding: 80px 0px 0px 0px; text-align:center; color: #fff;" class="hidden-lg hidden-sm hidden-md">
 		<?php echo get_phrase('See_what_is_next.');?>
 		<div style="font-size: 25px; letter-spacing: .2px; color: #fff; font-weight: 400;">
@@ -39,7 +39,7 @@
 		<a href="<?php echo base_url();?>index.php?home/signin" class="btn btn-danger btn-lg" ><?php echo get_phrase('SIGN_IN');?></a>
 	</div>
 </div>
-<!-- MIDDLE TAB SECTION -->
+<!-- Phần giữa -->
 <div class="container">
 	<div class="row">
 		<div class="col-lg-12">
@@ -129,7 +129,7 @@
 									<?php echo get_phrase('JOIN_TODAY');?></a>
 							</div>
 						</div>
-						<!-- price table -->
+						<!-- bảng giá -->
 						<table class="table table-striped table-hover" style="color: #999;">
 							<tbody>
 								<tr>

@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Class for Label
+ * Lớp cho nhãn(Label)
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -35,7 +35,7 @@ class BCGLabel {
     private $foregroundColor;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      *
      * @param string $text
      * @param BCGFont $font
@@ -56,7 +56,7 @@ class BCGLabel {
     }
 
     /**
-     * Gets the text.
+     * Nhận được văn bản.
      *
      * @return string
      */
@@ -65,7 +65,7 @@ class BCGLabel {
     }
 
     /**
-     * Sets the text.
+     * Đặt văn bản.
      *
      * @param string $text
      */
@@ -75,7 +75,7 @@ class BCGLabel {
     }
 
     /**
-     * Gets the font.
+     * Nhận được phông chữ.
      *
      * @return BCGFont
      */
@@ -84,7 +84,7 @@ class BCGLabel {
     }
 
     /**
-     * Sets the font.
+     * Đặt phông chữ.
      *
      * @param BCGFont $font
      */
@@ -101,7 +101,7 @@ class BCGLabel {
     }
 
     /**
-     * Gets the text position for drawing.
+     * Lấy vị trí văn bản để vẽ.
      *
      * @return int
      */
@@ -110,7 +110,7 @@ class BCGLabel {
     }
 
     /**
-     * Sets the text position for drawing.
+     * Đặt vị trí văn bản để vẽ.
      *
      * @param int $position
      */
@@ -124,7 +124,7 @@ class BCGLabel {
     }
 
     /**
-     * Gets the text alignment for drawing.
+     * Lấy căn chỉnh văn bản để vẽ.
      *
      * @return int
      */
@@ -133,7 +133,7 @@ class BCGLabel {
     }
 
     /**
-     * Sets the text alignment for drawing.
+     * Đặt căn chỉnh văn bản cho bản vẽ.
      *
      * @param int $alignment
      */
@@ -147,7 +147,7 @@ class BCGLabel {
     }
 
     /**
-     * Gets the offset.
+     * Nhận phần bù.
      *
      * @return int
      */
@@ -156,7 +156,7 @@ class BCGLabel {
     }
 
     /**
-     * Sets the offset.
+     * Đặt phần bù.
      *
      * @param int $offset
      */
@@ -165,7 +165,7 @@ class BCGLabel {
     }
 
     /**
-     * Gets the spacing.
+     * Nhận khoảng cách.
      *
      * @return int
      */
@@ -174,7 +174,7 @@ class BCGLabel {
     }
 
     /**
-     * Sets the spacing.
+     * Đặt khoảng cách.
      *
      * @param int $spacing
      */
@@ -183,7 +183,7 @@ class BCGLabel {
     }
 
     /**
-     * Gets the rotation angle in degree.
+     * Lấy góc quay theo độ.
      *
      * @return int
      */
@@ -192,7 +192,7 @@ class BCGLabel {
     }
 
     /**
-     * Sets the rotation angle in degree.
+     * Đặt góc quay theo độ.
      *
      * @param int $rotationAngle
      */
@@ -202,7 +202,7 @@ class BCGLabel {
     }
 
     /**
-     * Gets the background color in case of rotation.
+     * Lấy màu nền trong trường hợp xoay.
      *
      * @return BCGColor
      */
@@ -211,7 +211,7 @@ class BCGLabel {
     }
 
     /**
-     * Sets the background color in case of rotation.
+     * Đặt màu nền trong trường hợp xoay.
      *
      * @param BCGColor $backgroundColor
      */
@@ -221,7 +221,7 @@ class BCGLabel {
     }
 
     /**
-     * Gets the foreground color.
+     * Lấy màu nền trước.
      *
      * @return BCGColor
      */
@@ -230,7 +230,7 @@ class BCGLabel {
     }
 
     /**
-     * Sets the foreground color.
+     * Đặt màu nền trước.
      *
      * @param BCGColor $foregroundColor
      */
@@ -240,9 +240,9 @@ class BCGLabel {
     }
 
     /**
-     * Gets the dimension taken by the label, including the spacing and offset.
-     * [0]: width
-     * [1]: height
+     * Lấy kích thước được lấy bởi nhãn, bao gồm khoảng cách và khoảng cách.
+     * [0]: chiều rộng
+     * [1]: chiều cao
      *
      * @return int[]
      */
@@ -266,10 +266,10 @@ class BCGLabel {
     }
 
     /**
-     * Draws the text.
-     * The coordinate passed are the positions of the barcode.
-     * $x1 and $y1 represent the top left corner.
-     * $x2 and $y2 represent the bottom right corner.
+     * Vẽ văn bản.
+     * Tọa độ được truyền là vị trí của mã vạch.
+     * $x1 và $y1 đại diện cho góc trên cùng bên trái.
+     * $x2 và $y2 đại diện cho góc dưới bên phải.
      *
      * @param resource $im
      * @param int $x1

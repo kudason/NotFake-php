@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Base class to draw images
+ * Lớp cơ sở để vẽ hình ảnh
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -13,7 +13,7 @@ abstract class BCGDraw {
     protected $filename;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      *
      * @param resource $im
      */
@@ -22,7 +22,7 @@ abstract class BCGDraw {
     }
 
     /**
-     * Sets the filename.
+     * Đặt tên tệp tin.
      *
      * @param string $filename
      */
@@ -31,7 +31,7 @@ abstract class BCGDraw {
     }
 
     /**
-     * Method needed to draw the image based on its specification (JPG, GIF, etc.).
+     * Phương pháp cần thiết để vẽ hình ảnh dựa trên thông số kỹ thuật của nó (JPG, GIF, etc.).
      */
     abstract public function draw();
 }

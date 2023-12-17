@@ -88,7 +88,7 @@
         p.sub {
           font-size: 13px;
         }
-        /* Utilities ------------------------------ */
+        /* Tiện ích ------------------------------ */
         
         .align-right {
           text-align: right;
@@ -101,7 +101,7 @@
         .align-center {
           text-align: center;
         }
-        /* Buttons ------------------------------ */
+        /* Các nút ------------------------------ */
         
         .button {
           background-color: #3869D4;
@@ -140,7 +140,7 @@
             text-align: center !important;
           }
         }
-        /* Attribute list ------------------------------ */
+        /* Danh sách thuộc tính ------------------------------ */
         
         .attributes {
           margin: 0 0 21px;
@@ -224,7 +224,7 @@
           margin: 0 8px 10px 8px;
           padding: 0;
         }
-        /* Data table ------------------------------ */
+        /* Bảng dữ liệu ------------------------------ */
         
         .purchase {
           width: 100%;
@@ -305,7 +305,7 @@
           -premailer-cellpadding: 0;
           -premailer-cellspacing: 0;
         }
-        /* Masthead ----------------------- */
+        /* Tiêu đề ----------------------- */
         
         .email-masthead {
           padding: 25px 0;

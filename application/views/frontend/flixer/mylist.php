@@ -1,5 +1,5 @@
 <?php include 'header_browse.php';?>
-<!-- MOVIE LIST, GENRE WISE LISTING -->
+<!-- DANH SÁCH PHIM, THỂ LOẠI DANH SÁCH KHÁC -->
 <?php
 	$movies		=	$this->crud_model->get_mylist('movie');
 	$series		=	$this->crud_model->get_mylist('series');

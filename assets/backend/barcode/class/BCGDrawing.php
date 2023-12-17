@@ -2,8 +2,8 @@
 /**
  *--------------------------------------------------------------------
  *
- * Holds the drawing $im
- * You can use get_im() to add other kind of form not held into these classes.
+ * Giữ bản vẽ $im
+ * Có thể sử dụng get_im() để thêm loại biểu mẫu khác không có trong các lớp này.
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -30,7 +30,7 @@ class BCGDrawing {
     private $rotateDegree;  // float
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      *
      * @param int $w
      * @param int $h
@@ -46,14 +46,14 @@ class BCGDrawing {
     }
 
     /**
-     * Destructor.
+     * Hàm hủy.
      */
     public function __destruct() {
         $this->destroy();
     }
 
     /**
-     * Gets the filename.
+     * Lấy tên tệp.
      *
      * @return string
      */
@@ -62,7 +62,7 @@ class BCGDrawing {
     }
 
     /**
-     * Sets the filename.
+     * Đặt tên tệp.
      *
      * @param string $filaneme
      */
@@ -78,7 +78,7 @@ class BCGDrawing {
     }
 
     /**
-     * Sets the image.
+     * Đặt ảnh.
      *
      * @param resource $im
      */
@@ -87,7 +87,7 @@ class BCGDrawing {
     }
 
     /**
-     * Gets barcode for drawing.
+     * Lấy mã vạch để vẽ.
      *
      * @return BCGBarcode
      */
@@ -96,7 +96,7 @@ class BCGDrawing {
     }
 
     /**
-     * Sets barcode for drawing.
+     * Đặt mã vạch để vẽ.
      *
      * @param BCGBarcode $barcode
      */
@@ -105,7 +105,7 @@ class BCGDrawing {
     }
 
     /**
-     * Gets the DPI for supported filetype.
+     * Lấy DPI cho loại tệp được hỗ trợ.
      *
      * @return float
      */
@@ -114,7 +114,7 @@ class BCGDrawing {
     }
 
     /**
-     * Sets the DPI for supported filetype.
+     * Đặt DPI cho loại tệp được hỗ trợ.
      *
      * @param float $dpi
      */
@@ -123,7 +123,7 @@ class BCGDrawing {
     }
 
     /**
-     * Gets the rotation angle in degree clockwise.
+     * Lấy góc quay theo độ theo chiều kim đồng hồ.
      *
      * @return float
      */
@@ -132,7 +132,7 @@ class BCGDrawing {
     }
 
     /**
-     * Sets the rotation angle in degree clockwise.
+     * Đặt góc quay theo độ theo chiều kim đồng hồ.
      *
      * @param float $degree
      */
@@ -141,7 +141,7 @@ class BCGDrawing {
     }
 
     /**
-     * Draws the barcode on the image $im.
+     * Vẽ mã vạch lên hình ảnh $im.
      */
     public function draw() {
         $size = $this->barcode->getDimension(0, 0);
@@ -152,7 +152,7 @@ class BCGDrawing {
     }
 
     /**
-     * Saves $im into the file (many format available).
+     * Lưu $im vào tệp (có sẵn nhiều định dạng).
      *
      * @param int $image_style
      * @param int $quality
@@ -179,7 +179,7 @@ class BCGDrawing {
             $drawer->setDPI($this->dpi);
             $drawer->setQuality($quality);
         } elseif ($image_style === self::IMG_FORMAT_GIF) {
-            // Some PHP versions have a bug if passing 2nd argument as null.
+            // Một số phiên bản PHP có lỗi nếu chuyển đối số thứ 2 thành null.
             if ($this->filename === null || $this->filename === '') {
                 imagegif($im);
             } else {
@@ -195,7 +195,7 @@ class BCGDrawing {
     }
 
     /**
-     * Writes the Error on the picture.
+     * Viết lỗi trên hình ảnh.
      *
      * @param Exception $exception
      */
@@ -204,7 +204,7 @@ class BCGDrawing {
         $this->h = 1;
         $this->init();
 
-        // Is the image big enough?
+        // Hình ảnh có đủ lớn không?
         $w = imagesx($this->im);
         $h = imagesy($this->im);
 
@@ -216,7 +216,7 @@ class BCGDrawing {
             $width = max($w, $width);
             $height = max($h, $height);
 
-            // We change the size of the image
+            // Thay đổi kích thước của hình ảnh
             $newimg = imagecreatetruecolor($width, $height);
             imagefill($newimg, 0, 0, imagecolorat($this->im, 0, 0));
             imagecopy($newimg, $this->im, 0, 0, 0, 0, $w, $h);
@@ -228,14 +228,14 @@ class BCGDrawing {
     }
 
     /**
-     * Free the memory of PHP (called also by destructor).
+     * Giải phóng bộ nhớ của PHP (còn được gọi bằng hàm hủy).
      */
     public function destroy() {
         @imagedestroy($this->im);
     }
 
     /**
-     * Init Image and color background.
+     * Khởi tạo hình ảnh và màu nền.
      */
     private function init() {
         if ($this->im === null) {

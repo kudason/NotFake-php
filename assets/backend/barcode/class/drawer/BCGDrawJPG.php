@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Image Class to draw JPG images with possibility to set DPI
+ * Lớp để vẽ hình ảnh dạng JPG có khả năng đặt DPI
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -28,7 +28,7 @@ class BCGDrawJPG extends BCGDraw {
     private $quality;
 
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      *
      * @param resource $im
      */
@@ -37,7 +37,7 @@ class BCGDrawJPG extends BCGDraw {
     }
 
     /**
-     * Sets the DPI.
+     * Đặt DPI.
      *
      * @param int $dpi
      */
@@ -50,7 +50,7 @@ class BCGDrawJPG extends BCGDraw {
     }
 
     /**
-     * Sets the quality of the JPG.
+     * Đặt chất lượng của JPG.
      *
      * @param int $quality
      */
@@ -59,7 +59,7 @@ class BCGDrawJPG extends BCGDraw {
     }
 
     /**
-     * Draws the JPG on the screen or in a file.
+     * Vẽ JPG trên màn hình hoặc trong một tập tin
      */
     public function draw() {
         ob_start();

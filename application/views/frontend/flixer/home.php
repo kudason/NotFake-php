@@ -6,7 +6,7 @@
 	.btn_opaque{font-size:20px; border: 1px solid #939393;text-decoration: none;margin: 10px;background-color: rgba(0, 0, 0, 0.74); color: #fff;}
 	.btn_opaque:hover{border: 1px solid #939393;text-decoration: none;background-color: rgba(57, 57, 57, 0.74);color:#fff;}
 </style>
-<!-- TOP FEATURED SECTION -->
+<!-- PHẦN NỔI BẬT TRÊM ĐẦU -->
 <?php
 	$featured_movie		=	$this->db->get_where('movie', array('featured'=>1))->row();
 	
@@ -19,7 +19,7 @@
 			class="btn btn-danger btn-lg" style="font-size: 20px;"> 
 		<b><i class="fa fa-play"></i> <?php echo get_phrase('PLAY');?></b>
 		</a>
-		<!-- ADD OR DELETE FROM PLAYLIST -->
+		<!-- THÊM HOẶC XÓA KHỎI DANH SÁCH PHÁT -->
 		<span id="mylist_button_holder">
 		</span>
 		<span id="mylist_add_button" style="display:none;">
@@ -37,7 +37,7 @@
 	</div>
 </div>
 <script>
-	// submit the add/delete request for mylist
+	// gửi yêu cầu thêm/xóa cho mylist
 	// type = movie/series, task = add/delete, id = movie_id/series_id
 	function process_list(type, task, id)
 	{
@@ -56,10 +56,10 @@
 		}});
 	}
 	
-	// Show the add/delete wishlist button on page load
+	// Hiển thị nút thêm/xóa danh sách yêu thích khi tải trang
 	$( document ).ready(function() {
 	
-		// Checking if this movie_id exist in the active user's wishlist
+		// Kiểm tra xem movie_id này có tồn tại trong danh sách yêu thích của người dùng đang hoạt động không
 		mylist_exist_status = "<?php echo $this->crud_model->get_mylist_exist_status('movie' , $featured_movie->movie_id);?>";
 	
 		if (mylist_exist_status == 'true')
@@ -72,11 +72,11 @@
 		}
 	});
 </script>
-<!-- MY LIST, GENRE WISE LISTING & SLIDER -->
+<!-- DANH SÁCH CỦA TÔI, THỂ LOẠI DANH SÁCH WISE & SLIDER -->
 <?php 
 	$genres		=	$this->crud_model->get_genres();
 	foreach ($genres as $row):
-		// count movie number of this genre, if no found then return.
+		// đếm số phim thuộc thể loại này, nếu không tìm thấy thì quay lại.
 		$this->db->where('genre_id' , $row['genre_id']);
         $total_result = $this->db->count_all_results('movie');
         if ($total_result == 0)

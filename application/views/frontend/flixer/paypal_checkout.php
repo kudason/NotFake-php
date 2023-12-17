@@ -14,7 +14,7 @@
     $paypal_keys = get_settings('paypal');
     $paypal = json_decode($paypal_keys);
 ?>
-<!--required for getting the stripe token-->
+<!--cần thiết để nhận được mã thông báo sọc-->
 
 <img src="<?php echo base_url('assets/global/logo.png'); ?>" width="25%;"
              style="opacity: 0.05;">
@@ -45,7 +45,7 @@
             production: '<?php echo $paypal[0]->production_client_id;?>'
         },
 
-        commit: true, // Show a 'Pay Now' button
+        commit: true, // Hiển thị nút 'Pay now'
 
         payment: function(data, actions) {
             return actions.payment.create({
@@ -60,9 +60,9 @@
         },
 
         onAuthorize: function(data, actions) {
-            // executes the payment
+            // thực hiện thanh toán
             return actions.payment.execute().then(function() {
-                //make an ajax call for saving the payment info
+                //thực hiện cuộc gọi ajax để lưu thông tin thanh toán
                 $.ajax({
                    url: '<?php echo base_url('index.php?payment/payment_success/paypal/'.$user_id.'/'.$plan_id);?>'
                 }).done(function () {

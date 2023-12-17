@@ -2,7 +2,7 @@
 /**
  *--------------------------------------------------------------------
  *
- * Image Class to draw PNG images with possibility to set DPI
+ * Lớp để vẽ hình ảnh dạng PNG có khả năng đặt DPI
  *
  *--------------------------------------------------------------------
  * Copyright (C) Jean-Sebastien Goupil
@@ -27,7 +27,7 @@ class BCGDrawPNG extends BCGDraw {
     private $dpi;
     
     /**
-     * Constructor.
+     * Hàm khởi tạo.
      *
      * @param resource $im
      */
@@ -36,7 +36,7 @@ class BCGDrawPNG extends BCGDraw {
     }
 
     /**
-     * Sets the DPI.
+     * Đặt DPI.
      *
      * @param int $dpi
      */
@@ -49,7 +49,7 @@ class BCGDrawPNG extends BCGDraw {
     }
 
     /**
-     * Draws the PNG on the screen or in a file.
+     * Vẽ JPG trên màn hình hoặc trong một tập tin.
      */
     public function draw() {
         ob_start();
@@ -67,7 +67,7 @@ class BCGDrawPNG extends BCGDraw {
     }
 
     private function setInternalProperties(&$bin) {
-        // Scan all the ChunkType
+        // Quét tất cả ChunkType
         if (strcmp(substr($bin, 0, 8), pack('H*', '89504E470D0A1A0A')) === 0) {
             $chunks = $this->detectChunks($bin);
 
@@ -103,7 +103,7 @@ class BCGDrawPNG extends BCGDraw {
             $found = -1;
             $c = count($chunks);
             for($i = 0; $i < $c; $i++) {
-                // We already have a pHYs
+                // Nếu có pHYs
                 if($chunks[$i]['chunk'] === 'pHYs') {
                     $found = $i;
                     break;
@@ -114,13 +114,13 @@ class BCGDrawPNG extends BCGDraw {
             $crc = self::crc($data, 13);
             $cr = pack('Na13N', 9, $data, $crc);
 
-            // We didn't have a pHYs
+            // Nếu không có pHYs
             if($found == -1) {
-                // Don't do anything if we have a bad PNG
+                // Không làm gì nếu PNG không tốt
                 if($c >= 2 && $chunks[0]['chunk'] === 'IHDR') {
                     array_splice($chunks, 1, 0, array(array('offset' => 33, 'size' => 9, 'chunk' => 'pHYs')));
 
-                    // Push the data
+                    // Đẩy dữ liệu
                     for($i = 2; $i < $c; $i++) {
                         $chunks[$i]['offset'] += 21;
                     }
@@ -147,7 +147,7 @@ class BCGDrawPNG extends BCGDraw {
             $bin .= $secondPart;
         }
         
-        // Chunks is dirty!! But we are done.
+        // Đã xong.
     }
 
     private static $crc_table = array();
