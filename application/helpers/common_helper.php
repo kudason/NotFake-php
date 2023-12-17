@@ -1,8 +1,9 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
  * CodeIgniter
  *
- * An open source application development framework for PHP 5.1.6 or newer
+ * Một framework phát triển ứng dụng mã nguồn mở dành cho PHP 5.1.6 trở lên.
  *
  * @package		CodeIgniter
  * @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
@@ -12,10 +13,10 @@
  * @filesource
  */
 
-
+// Kiểm tra xem hàm 'video_type' đã tồn tại chưa
 if ( ! function_exists('video_type'))
 {
-    // Checks if a video is youtube, vimeo or any other
+    // Kiểm tra loại video (YouTube, Vimeo hoặc khác)
     function video_type($url) {
         if (strpos($url, 'youtube') > 0 || strpos($url, 'youtu') > 0) {
             return 'youtube';
@@ -29,17 +30,19 @@ if ( ! function_exists('video_type'))
     }
 }
 
+// Kiểm tra xem hàm 'get_vimeo_video_id' đã tồn tại chưa
 if ( ! function_exists('get_vimeo_video_id'))
 {
-    // Checks if a video is youtube, vimeo or any other
+    // Lấy ID video Vimeo từ URL
     function get_vimeo_video_id($url) {
         return (int) substr(parse_url($url, PHP_URL_PATH), 1);
     }
 }
 
+// Kiểm tra xem hàm 'get_video_extension' đã tồn tại chưa
 if ( ! function_exists('get_video_extension'))
 {
-    // Checks if a video is youtube, vimeo or any other
+    // Lấy phần mở rộng của video từ URL
     function get_video_extension($url) {
         if (strpos($url, '.mp4') > 0) {
             return 'mp4';
@@ -51,6 +54,7 @@ if ( ! function_exists('get_video_extension'))
     }
 }
 
+// Kiểm tra xem hàm 'get_settings' đã tồn tại chưa
 if (! function_exists('get_settings')) {
   function get_settings($type = '') {
     $CI =&  get_instance();
@@ -62,6 +66,7 @@ if (! function_exists('get_settings')) {
   }
 }
 
+// Kiểm tra xem hàm 'currency' đã tồn tại chưa
 if (! function_exists('currency')) {
   function currency($price = "") {
     $CI =&  get_instance();
@@ -88,6 +93,8 @@ if (! function_exists('currency')) {
         }
   }
 }
+
+// Kiểm tra xem hàm 'currency_code_and_symbol' đã tồn tại chưa
 if (! function_exists('currency_code_and_symbol')) {
   function currency_code_and_symbol($type = "") {
     $CI =&  get_instance();
@@ -105,7 +112,8 @@ if (! function_exists('currency_code_and_symbol')) {
 
   }
 }
-// Sanitize input fields
+
+// Hàm 'sanitizer' dùng để làm sạch chuỗi đầu vào
 if (! function_exists('sanitizer')) {
   function sanitizer($string = "") {
     //$sanitized_string = preg_replace("/[^@ -.a-zA-Z0-9]+/", "", html_escape($string));
@@ -114,6 +122,7 @@ if (! function_exists('sanitizer')) {
   }
 }
 
+// Kiểm tra xem hàm 'slugify' đã tồn tại chưa
 if ( ! function_exists('slugify'))
 {
   function slugify($text) {
@@ -126,7 +135,6 @@ if ( ! function_exists('slugify'))
         return $text;
     }
 }
-
 
 // ------------------------------------------------------------------------
 /* End of file common_helper.php */

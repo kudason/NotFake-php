@@ -1,29 +1,30 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-Class Payment extends CI_Controller {
-
-    function __construct(){
-        parent::__construct();
-        $this->load->database();
-        $this->load->model('crud_model');
-        $this->load->library('session');
+ // Định nghĩa lớp Payment kế thừa từ CI_Controller
+ Class Payment extends CI_Controller {
+    // Hàm khởi tạo
+    function __construct() {
+        parent::__construct(); // Gọi hàm khởi tạo của lớp cha
+        $this->load->database(); // Kết nối cơ sở dữ liệu
+        $this->load->model('crud_model'); // Load model 'crud_model'
+        $this->load->library('session'); // Load thư viện session
     }
 
+    // Hàm xử lý thanh toán qua PayPal
     public function paypal_checkout() {
-        
-        $plan_id  = $this->input->post('plan_id');
-        $page_data['user_id']    = $this->session->userdata('user_id');
-        $page_data['plan_id']   = $plan_id;
-        $this->load->view('frontend/flixer/paypal_checkout', $page_data);
+        $plan_id = $this->input->post('plan_id'); // Lấy ID gói cước từ form
+        $page_data['user_id'] = $this->session->userdata('user_id'); // Lấy ID người dùng từ session
+        $page_data['plan_id'] = $plan_id; // Gán ID gói cước vào dữ liệu trang
+        $this->load->view('frontend/flixer/paypal_checkout', $page_data); // Hiển thị trang thanh toán PayPal
     }
 
+    // Hàm xử lý thanh toán qua Stripe
     public function stripe_checkout() {
-        
-        $plan_id  = $this->input->post('plan_id');
-        $page_data['user_id']    = $this->session->userdata('user_id');
-        $page_data['plan_id']   = $plan_id;
-        $this->load->view('frontend/flixer/stripe_checkout', $page_data);
+        $plan_id = $this->input->post('plan_id'); // Lấy ID gói cước từ form
+        $page_data['user_id'] = $this->session->userdata('user_id'); // Lấy ID người dùng từ session
+        $page_data['plan_id'] = $plan_id; // Gán ID gói cước vào dữ liệu trang
+        $this->load->view('frontend/flixer/stripe_checkout', $page_data); // Hiển thị trang thanh toán Stripe
     }
 
     public function payment_success($method = "", $user_id = "", $plan_id = "") {        

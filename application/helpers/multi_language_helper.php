@@ -1,21 +1,20 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  
+if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
-* CodeIgniter
-*
-* An open source application development framework for PHP 5.1.6 or newer
-*
-* @package		CodeIgniter
-* @author		ExpressionEngine Dev Team
-* @copyright	Copyright (c) 2008 - 2011, EllisLab, Inc.
-* @license		http://codeigniter.com/user_guide/license.html
-* @link		http://codeigniter.com
-* @since		Version 1.0
-* @filesource
-*/
+ * CodeIgniter
+ *
+ * Framework phát triển ứng dụng mã nguồn mở dành cho PHP 5.1.6 hoặc mới hơn
+ *
+ * @package        CodeIgniter
+ * @copyright      Bản quyền (c) 2008 - 2011, EllisLab, Inc.
+ * @license        http://codeigniter.com/user_guide/license.html
+ * @link           http://codeigniter.com
+ * @since          Phiên bản 1.0
+ * @filesource
+ */
 
-
-// This function helps us to get the translated phrase from the file. If it does not exist this function will save the phrase and by default it will have the same form as given
-if ( ! function_exists('get_phrase'))
+// Hàm này giúp lấy cụm từ đã được dịch từ tệp ngôn ngữ. Nếu cụm từ chưa tồn tại, hàm này sẽ lưu cụm từ và giá trị mặc định của nó sẽ giống với đầu vào ban đầu.
+ if ( ! function_exists('get_phrase'))
 {
 	function get_phrase($phrase = '') {
 		$CI	=&	get_instance();
@@ -35,7 +34,7 @@ if ( ! function_exists('get_phrase'))
 	}
 }
 
-// This function helps us to decode the language json and return that array to us
+//Hàm này giúp giải mã tệp JSON ngôn ngữ và trả về một mảng từ tệp đó.
 if ( ! function_exists('openJSONFile'))
 {
 	function openJSONFile($code)
@@ -49,7 +48,7 @@ if ( ! function_exists('openJSONFile'))
 	}
 }
 
-// This function helps us to create a new json file for new language
+// Hàm này giúp chúng ta tạo một tệp JSON mới cho ngôn ngữ mới.
 if ( ! function_exists('saveDefaultJSONFile'))
 {
 	function saveDefaultJSONFile($language_code){
@@ -68,7 +67,7 @@ if ( ! function_exists('saveDefaultJSONFile'))
 	}
 }
 
-// This function helps us to update a phrase inside the language file.
+// Hàm này giúp chúng ta cập nhật một cụm từ bên trong tệp ngôn ngữ.
 if ( ! function_exists('saveJSONFile'))
 {
 	function saveJSONFile($language_code, $updating_key, $updating_value){
@@ -84,8 +83,3 @@ if ( ! function_exists('saveJSONFile'))
 		file_put_contents(APPPATH.'language/'.$language_code.'.json', stripslashes($jsonData));
 	}
 }
-
-
-// ------------------------------------------------------------------------
-/* End of file language_helper.php */
-/* Location: ./system/helpers/language_helper.php */

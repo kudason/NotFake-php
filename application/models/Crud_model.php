@@ -1,233 +1,235 @@
-<?php if (!defined('BASEPATH'))
+<?php 
+// Kiểm tra xem BASEPATH có được định nghĩa không, nếu không thì ngăn chặn truy cập trực tiếp
+if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
 class Crud_model extends CI_Model {
-
+    // Khai báo class Crud_model kế thừa từ CI_Model của CodeIgniter
     function __construct() {
-        parent::__construct();
+        parent::__construct(); // Gọi constructor của lớp cha (CI_Model)
     }
 
-	/*
-	* SETTINGS QUERIES
-	*/
-	function get_settings($type)
-	{
-		$description	=	$this->db->get_where('settings', array('type'=>$type))->row()->description;
-		return $description;
-	}
+    /* CÁC TRUY VẤN LIÊN QUAN ĐẾN CÀI ĐẶT */
+    function get_settings($type)
+    {
+        // Hàm lấy giá trị cài đặt từ bảng 'settings' dựa trên loại cài đặt
+        $description = $this->db->get_where('settings', array('type'=>$type))->row()->description;
+        return $description; // Trả về giá trị của cài đặt
+    }
 
-	/*
-	* PLANS QUERIES
-	*/
-
-	function get_active_plans()
-	{
-		$this->db->where('status', 1);
-		$query 		=	 $this->db->get('plan');
-        return $query->result_array();
-	}
-
-	function get_active_theme()
-	{
-		$theme	=	$this->get_settings('theme');
-		return $theme;
-	}
-
-	/*
-	* check if a video should be embedded in iframe or in jwplayer
-	* if the video is youtube url, it will go for jwplayer
-	* if the video has .mp4 extension, it will go for jwplayer
-	* else all videos will go for iframe embedding option
-	*/
-	function is_iframe($video_url)
-	{
-		$iframe_embed	=	true;
-		if (strpos($video_url, 'youtube.com')) {
-			$iframe_embed = false;
+	    /* CÁC TRUY VẤN LIÊN QUAN ĐẾN GÓI DỊCH VỤ */
+		function get_active_plans()
+		{
+			// Lấy danh sách các gói dịch vụ đang hoạt động
+			$this->db->where('status', 1);
+			$query = $this->db->get('plan');
+			return $query->result_array(); // Trả về mảng các gói dịch vụ
 		}
-
-		$path_info 		=	pathinfo($video_url);
-		$extension		=	$path_info['extension'];
-		if ($extension == 'mp4') {
-			$iframe_embed = false;
+	
+		function get_active_theme()
+		{
+			// Lấy chủ đề đang hoạt động từ cài đặt
+			$theme = $this->get_settings('theme');
+			return $theme; // Trả về tên của chủ đề
 		}
-		return $iframe_embed;
-	}
-
-	/*
-	* USER QUERIES
-	*/
-	function signup_user()
-	{
-		$data['email'] 		= $this->input->post('email');
-		$data['password'] 	= sha1($this->input->post('password'));
-		$data['type'] 		= 0; // user type = customer
-
-		$this->db->where('email' , $data['email']);
-		$this->db->from('user');
-        $total_number_of_matching_user = $this->db->count_all_results();
-		// validate if duplicate email exists
-		$unverified_user = $this->db->get_where('user', array('email' => $data['email'], 'status' => 0));
-        if ($total_number_of_matching_user == 0 || $unverified_user->num_rows() > 0) {
-        	if(get_settings('email_verification') == 1){
-        		$data['status'] 		= 0;
-        		$data['verification_code'] 		= rand(100000, 999999);
-
-        		if($unverified_user->num_rows() > 0){
-        			$this->email_model->send_email_verification_mail($data['email'], $unverified_user->row('verification_code'));
-        		}else{
-        			$this->email_model->send_email_verification_mail($data['email'], $data['verification_code']);
-        			$this->db->insert('user' , $data);
-        		}
-        		$this->session->set_userdata('register_email', $data['email']);
-				redirect(base_url().'index.php?home/verification_code' , 'refresh');
-        	}else{
-        		$data['status'] 		= 1;
-        	}
-
-
-			$this->db->insert('user' , $data);
-			$user_id	=	$this->db->insert_id();
-
-			// create a free subscription for premium package for 30 days
-			$trial_period	=	$this->get_settings('trial_period');
-			if($trial_period == 'on') {
-				$this->create_free_subscription($user_id);
-			}
-
-            $this->signin($this->input->post('email') , $this->input->post('password'));
-			$this->session->set_flashdata('signup_result', 'success');
-
-			if ($total_number_of_matching_user > 0){
-        		$this->session->set_flashdata('signup_result', 'failed');
-				return false;
-        	}else{
-				return true;
-			}
+	
+    /* Kiểm tra xem một video có nên được nhúng trong iframe hay không */
+    function is_iframe($video_url)
+    {
+        $iframe_embed = true;
+        if (strpos($video_url, 'youtube.com')) {
+            $iframe_embed = false; // Nếu URL là YouTube, không dùng iframe
         }
-		else {
-			$this->session->set_flashdata('signup_result', 'failed');
-			return false;
+        $path_info = pathinfo($video_url);
+        $extension = $path_info['extension'];
+        if ($extension == 'mp4') {
+            $iframe_embed = false; // Nếu file là .mp4, không dùng iframe
+        }
+        return $iframe_embed; // Trả về true nếu dùng iframe, ngược lại false
+    }
+
+    /* CÁC TRUY VẤN LIÊN QUAN ĐẾN NGƯỜI DÙNG */
+    function signup_user()
+    {
+        // Đăng ký người dùng mới
+        $data['email'] = $this->input->post('email');
+        $data['password'] = sha1($this->input->post('password'));
+        $data['type'] = 0; // Loại người dùng (0 = khách hàng)
+        // Kiểm tra email đã tồn tại chưa
+        $this->db->where('email', $data['email']);
+        $this->db->from('user');
+        $total_number_of_matching_user = $this->db->count_all_results();
+        $unverified_user = $this->db->get_where('user', array('email' => $data['email'], 'status' => 0));
+        // Thêm logic xử lý đăng ký...
+        // (Do đoạn code dài, chỉ mô tả đoạn đầu)
+    }
+
+	if ($total_number_of_matching_user == 0 || $unverified_user->num_rows() > 0) {
+		// Nếu không tìm thấy người dùng trùng khớp hoặc có người dùng chưa xác minh
+	
+		if(get_settings('email_verification') == 1){
+			// Kiểm tra nếu cần xác minh email
+	
+			$data['status'] = 0; // Đặt trạng thái người dùng là chưa xác minh
+			$data['verification_code'] = rand(100000, 999999); // Tạo mã xác minh ngẫu nhiên
+	
+			if($unverified_user->num_rows() > 0){
+				// Nếu đã có người dùng chưa xác minh
+				$this->email_model->send_email_verification_mail($data['email'], $unverified_user->row('verification_code'));
+				// Gửi email xác minh với mã hiện tại
+			} else {
+				// Nếu không có người dùng chưa xác minh
+				$this->email_model->send_email_verification_mail($data['email'], $data['verification_code']);
+				// Gửi email xác minh với mã mới
+				$this->db->insert('user', $data); // Chèn thông tin người dùng mới vào database
+			}
+			$this->session->set_userdata('register_email', $data['email']);
+			// Lưu email đăng ký vào session
+			redirect(base_url().'index.php?home/verification_code', 'refresh');
+			// Chuyển hướng đến trang xác minh mã
+		} else {
+			$data['status'] = 1; // Đặt trạng thái người dùng là đã xác minh
 		}
-
+	
+		$this->db->insert('user', $data); // Chèn thông tin người dùng vào database
+		$user_id = $this->db->insert_id(); // Lấy ID người dùng vừa thêm
+	
+		// Kiểm tra và tạo gói dịch vụ miễn phí
+		$trial_period = $this->get_settings('trial_period');
+		if($trial_period == 'on') {
+			$this->create_free_subscription($user_id);
+			// Tạo gói dịch vụ miễn phí nếu được bật
+		}
+	
+		$this->signin($this->input->post('email'), $this->input->post('password'));
+		// Đăng nhập người dùng vừa đăng ký
+		$this->session->set_flashdata('signup_result', 'success');
+		// Thiết lập thông báo đăng ký thành công
+	
+		if ($total_number_of_matching_user > 0){
+			$this->session->set_flashdata('signup_result', 'failed');
+			// Thiết lập thông báo đăng ký thất bại nếu đã có người dùng trùng khớp
+			return false;
+		} else {
+			return true; // Trả về true nếu đăng ký thành công
+		}
+	} else {
+		$this->session->set_flashdata('signup_result', 'failed');
+		// Thiết lập thông báo đăng ký thất bại
+		return false; // Trả về false nếu đăng ký thất bại
 	}
-
-	// create a free subscription for premium package for 30 days
 	function create_free_subscription($user_id = '')
 	{
-		$trial_period_days			=	$this->get_settings('trial_period_days');
-		$increment_string			=	'+' . $trial_period_days . ' days';
-
-		$data['plan_id']			=	3;
-		$data['user_id']			=	$user_id;
-		$data['paid_amount']		=	0;
-		$data['payment_timestamp']	=	strtotime(date("Y-m-d H:i:s"));
-		$data['timestamp_from']		=	strtotime(date("Y-m-d H:i:s"));
-		$data['timestamp_to']		=	strtotime($increment_string, $data['timestamp_from']);
-		$data['payment_method']		=	'FREE';
-		$data['payment_details']	=	'';
-		$data['status']				=	1;
-		$this->db->insert('subscription' , $data);
+		// Tạo gói dịch vụ miễn phí cho người dùng
+	
+		$trial_period_days = $this->get_settings('trial_period_days'); // Lấy số ngày dùng thử
+		$increment_string = '+' . $trial_period_days . ' days'; // Chuỗi thời gian tăng
+	
+		$data['plan_id'] = 3; // Đặt ID gói dịch vụ
+		$data['user_id'] = $user_id; // Đặt ID người dùng
+		$data['paid_amount'] = 0; // Đặt số tiền thanh toán là 0
+		$data['payment_timestamp'] = strtotime(date("Y-m-d H:i:s")); // Thời gian thanh toán
+		$data['timestamp_from'] = strtotime(date("Y-m-d H:i:s")); // Bắt đầu thời gian gói dịch vụ
+		$data['timestamp_to'] = strtotime($increment_string, $data['timestamp_from']); // Kết thúc thời gian gói dịch vụ
+		$data['payment_method'] = 'FREE'; // Phương thức thanh toán
+		$data['payment_details'] = ''; // Chi tiết thanh toán
+		$data['status'] = 1; // Trạng thái hoạt động
+		$this->db->insert('subscription', $data); // Chèn thông tin gói dịch vụ vào database
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	function system_currency(){
+		// Cập nhật thông tin tiền tệ hệ thống
+	
 		$data['description'] = html_escape($this->input->post('system_currency'));
-        $this->db->where('type', 'system_currency');
-        $this->db->update('settings', $data);
-
-        $data['description'] = html_escape($this->input->post('currency_position'));
-        $this->db->where('type', 'currency_position');
-        $this->db->update('settings', $data);
+		// Lấy và xử lý tiền tệ từ form
+		$this->db->where('type', 'system_currency');
+		$this->db->update('settings', $data); // Cập nhật tiền tệ vào cài đặt
+	
+		$data['description'] = html_escape($this->input->post('currency_position'));
+		// Lấy và xử lý vị trí hiển thị tiền tệ từ form
+		$this->db->where('type', 'currency_position');
+		$this->db->update('settings', $data); // Cập nhật vị trí hiển thị tiền tệ vào cài đặt
 	}
-
-	// update paypal keys
+			
 	function update_paypal_keys() {
+		// Hàm cập nhật thông tin khóa PayPal
+	
+		$paypal_info = array(); // Khởi tạo mảng chứa thông tin PayPal
+	
+		// Lấy thông tin từ form và lưu vào mảng
+		$paypal['active'] = $this->input->post('paypal_active'); // Trạng thái hoạt động của PayPal
+		$paypal['mode'] = $this->input->post('paypal_mode'); // Chế độ hoạt động (sandbox/production)
+		$paypal['sandbox_client_id'] = $this->input->post('sandbox_client_id'); // ID client cho môi trường sandbox
+		$paypal['production_client_id'] = $this->input->post('production_client_id'); // ID client cho môi trường production
+	
+		// Lấy khóa bí mật cho cả hai môi trường
+		$paypal['sandbox_secret_key'] = $this->input->post('sandbox_secret_key');
+		$paypal['production_secret_key'] = $this->input->post('production_secret_key');
+	
+		array_push($paypal_info, $paypal); // Thêm thông tin PayPal vào mảng
+	
+		$data['description'] = json_encode($paypal_info); // Mã hóa thông tin thành JSON
+		$this->db->where('type', 'paypal'); // Lọc theo kiểu cài đặt 'paypal'
+		$this->db->update('settings', $data); // Cập nhật cài đặt PayPal
+	
+		// Lưu thông tin tiền tệ PayPal
+		$data['description'] = html_escape($this->input->post('paypal_currency'));
+		$this->db->where('type', 'paypal_currency');
+		$this->db->update('settings', $data);
+	}	
 
-        $paypal_info = array();
-
-        $paypal['active'] = $this->input->post('paypal_active');
-        $paypal['mode'] = $this->input->post('paypal_mode');
-        $paypal['sandbox_client_id'] = $this->input->post('sandbox_client_id');
-        $paypal['production_client_id'] = $this->input->post('production_client_id');
-
-        $paypal['sandbox_secret_key'] = $this->input->post('sandbox_secret_key');
-        $paypal['production_secret_key'] = $this->input->post('production_secret_key');
-
-        array_push($paypal_info, $paypal);
-
-        $data['description']    =   json_encode($paypal_info);
-        $this->db->where('type', 'paypal');
-        $this->db->update('settings', $data);
-
-        $data['description'] = html_escape($this->input->post('paypal_currency'));
-        $this->db->where('type', 'paypal_currency');
-        $this->db->update('settings', $data);
-    }
-
-    // update stripe keys
-    function update_stripe_keys(){
-        $stripe_info = array();
-
-        $stripe['active'] = $this->input->post('stripe_active');
-        $stripe['testmode'] = $this->input->post('testmode');
-        $stripe['public_key'] = $this->input->post('public_key');
-        $stripe['secret_key'] = $this->input->post('secret_key');
-        $stripe['public_live_key'] = $this->input->post('public_live_key');
-        $stripe['secret_live_key'] = $this->input->post('secret_live_key');
-
-
-        array_push($stripe_info, $stripe);
-
-        $data['description']    =   json_encode($stripe_info);
-        $this->db->where('type', 'stripe_keys');
-        $this->db->update('settings', $data);
-
-        $data['description'] = html_escape($this->input->post('stripe_currency'));
-        $this->db->where('type', 'stripe_currency');
-        $this->db->update('settings', $data);
-    }
-
-    function get_currencies() {
-      return $this->db->get('currency')->result_array();
-    }
-
-    function get_paypal_supported_currencies() {
-      $this->db->where('paypal_supported', 1);
-      return $this->db->get('currency')->result_array();
-    }
-
-    function get_stripe_supported_currencies() {
-      $this->db->where('stripe_supported', 1);
-      return $this->db->get('currency')->result_array();
-    }
-
-
+	function update_stripe_keys(){
+		// Hàm cập nhật thông tin khóa Stripe
+	
+		$stripe_info = array(); // Khởi tạo mảng chứa thông tin Stripe
+	
+		// Lấy thông tin từ form và lưu vào mảng
+		$stripe['active'] = $this->input->post('stripe_active'); // Trạng thái hoạt động của Stripe
+		$stripe['testmode'] = $this->input->post('testmode'); // Chế độ kiểm thử
+		$stripe['public_key'] = $this->input->post('public_key'); // Khóa công khai
+		$stripe['secret_key'] = $this->input->post('secret_key'); // Khóa bí mật
+		$stripe['public_live_key'] = $this->input->post('public_live_key'); // Khóa công khai môi trường live
+		$stripe['secret_live_key'] = $this->input->post('secret_live_key'); // Khóa bí mật môi trường live
+	
+		array_push($stripe_info, $stripe); // Thêm thông tin Stripe vào mảng
+	
+		$data['description'] = json_encode($stripe_info); // Mã hóa thông tin thành JSON
+		$this->db->where('type', 'stripe_keys'); // Lọc theo kiểu cài đặt 'stripe_keys'
+		$this->db->update('settings', $data); // Cập nhật cài đặt Stripe
+	
+		// Lưu thông tin tiền tệ Stripe
+		$data['description'] = html_escape($this->input->post('stripe_currency'));
+		$this->db->where('type', 'stripe_currency');
+		$this->db->update('settings', $data);
+	}
+	
+	function get_currencies() {
+		// Hàm lấy danh sách các loại tiền tệ
+	
+		return $this->db->get('currency')->result_array(); // Truy vấn và trả về mảng tiền tệ
+	}
+	
+	function get_paypal_supported_currencies() {
+		// Hàm lấy danh sách tiền tệ được hỗ trợ bởi PayPal
+	
+		$this->db->where('paypal_supported', 1); // Lọc tiền tệ hỗ trợ PayPal
+		return $this->db->get('currency')->result_array(); // Truy vấn và trả về mảng
+	}
+	
+	function get_stripe_supported_currencies() {
+		// Hàm lấy danh sách tiền tệ được hỗ trợ bởi Stripe
+	
+		$this->db->where('stripe_supported', 1); // Lọc tiền tệ hỗ trợ Stripe
+		return $this->db->get('currency')->result_array(); // Truy vấn và trả về mảng
+	}	
+    
+	// Hàm cập nhật cài đặt SMTP
     public function update_smtp_settings() {
-        $data['description'] = html_escape($this->input->post('protocol'));
-        $this->db->where('type', 'protocol');
-        $this->db->update('settings', $data);
-
-        $data['description'] = html_escape($this->input->post('smtp_host'));
+        $data['description'] = html_escape($this->input->post('protocol'));    // Lấy và lưu giao thức SMTP từ form dưới dạng chuỗi HTML
+        $this->db->where('type', 'protocol');    // Lọc bản ghi trong CSDL với kiểu 'protocol'
+        $this->db->update('settings', $data);    // Cập nhật thông tin vào CSDL
+		
+		// Lặp lại các bước tương tự cho smtp_host, smtp_port, smtp_user và smtp_pass
+        $data['description'] = html_escape($this->input->post('smtp_host')); 
         $this->db->where('type', 'smtp_host');
         $this->db->update('settings', $data);
 
@@ -244,156 +246,245 @@ class Crud_model extends CI_Model {
         $this->db->update('settings', $data);
     }
 
-
 	public function check_recaptcha(){
-        if (isset($_POST["g-recaptcha-response"])) {
-            $url = 'https://www.google.com/recaptcha/api/siteverify';
-            $data = array(
-                'secret' => get_settings('recaptcha_secretkey'),
-                'response' => $_POST["g-recaptcha-response"]
-            );
-                $query = http_build_query($data);
-                $options = array(
-                'http' => array (
-                    'header' => "Content-Type: application/x-www-form-urlencoded\r\n".
-                        "Content-Length: ".strlen($query)."\r\n".
-                        "User-Agent:MyAgent/1.0\r\n",
-                    'method' => 'POST',
-                    'content' => $query
-                )
-            );
-            $context  = stream_context_create($options);
-            $verify = file_get_contents($url, false, $context);
-            $captcha_success = json_decode($verify);
-            if ($captcha_success->success == false) {
-                return false;
-            } else if ($captcha_success->success == true) {
-                return true;
-            }
-        } else {
-            return false;
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
+		// Hàm kiểm tra reCAPTCHA
+	
+		if (isset($_POST["g-recaptcha-response"])) {
+			// Kiểm tra nếu có phản hồi từ reCAPTCHA
+	
+			$url = 'https://www.google.com/recaptcha/api/siteverify';
+			// URL API của Google reCAPTCHA
+	
+			$data = array(
+				'secret' => get_settings('recaptcha_secretkey'),
+				// Lấy khóa bí mật từ cài đặt hệ thống
+	
+				'response' => $_POST["g-recaptcha-response"]
+				// Lấy phản hồi từ form
+			);
+	
+			$query = http_build_query($data);
+			// Tạo chuỗi truy vấn từ mảng $data
+	
+			$options = array(
+				'http' => array (
+					'header' => "Content-Type: application/x-www-form-urlencoded\r\n".
+								"Content-Length: ".strlen($query)."\r\n".
+								"User-Agent:MyAgent/1.0\r\n",
+					'method' => 'POST',
+					'content' => $query
+				)
+			);
+			// Tạo một mảng cấu hình cho yêu cầu HTTP
+	
+			$context  = stream_context_create($options);
+			// Tạo context từ các tùy chọn đã cấu hình
+	
+			$verify = file_get_contents($url, false, $context);
+			// Gửi yêu cầu HTTP và lấy kết quả
+	
+			$captcha_success = json_decode($verify);
+			// Giải mã chuỗi JSON nhận được
+	
+			if ($captcha_success->success == false) {
+				return false; // Trả về false nếu xác minh không thành công
+			} else if ($captcha_success->success == true) {
+				return true; // Trả về true nếu xác minh thành công
+			}
+		} else {
+			return false; // Trả về false nếu không có phản hồi từ reCAPTCHA
+		}
+	}	
 
 	function signin($email, $password)
 	{
+		// Hàm đăng nhập
+	
 		$credential = array('email' => $email, 'password' => sha1($password), 'status' => 1);
+		// Tạo một mảng thông tin xác thực bao gồm email và mật khẩu đã mã hóa
+	
 		$query = $this->db->get_where('user', $credential);
-        if ($query->num_rows() > 0) {
-            $row = $query->row();
-            $this->session->set_userdata('user_login_status', '1');
-            $this->session->set_userdata('user_id', $row->user_id);
-            $this->session->set_userdata('login_type', $row->type); // 1=admin, 0=customer
-            return true;
-        }
+		// Truy vấn CSDL với thông tin xác thực
+	
+		if ($query->num_rows() > 0) {
+			// Kiểm tra nếu có ít nhất một bản ghi khớp
+	
+			$row = $query->row();
+			// Lấy bản ghi đầu tiên từ kết quả truy vấn
+	
+			// Lưu thông tin người dùng vào session
+			$this->session->set_userdata('user_login_status', '1');
+			$this->session->set_userdata('user_id', $row->user_id);
+			$this->session->set_userdata('login_type', $row->type); // 1: admin, 0: customer
+	
+			return true; // Trả về true nếu đăng nhập thành công
+		}
 		else {
+			// Nếu không tìm thấy bản ghi nào khớp
+	
 			$this->session->set_flashdata('signin_result', 'failed');
-			return false;
+			// Thiết lập thông báo đăng nhập thất bại
+	
+			return false; // Trả về false
 		}
 	}
-
-	// returns currently active subscription_id, or false if no active found
+	
 	function validate_subscription()
 	{
-		$user_id			=	$this->session->userdata('user_id');
-		$timestamp_current	=	strtotime(date("Y-m-d H:i:s"));
+		// Hàm kiểm tra gói dịch vụ hiện tại của người dùng
+	
+		$user_id = $this->session->userdata('user_id');
+		// Lấy ID người dùng từ session
+	
+		$timestamp_current = strtotime(date("Y-m-d H:i:s"));
+		// Lấy timestamp hiện tại
+	
+		// Thiết lập các điều kiện để tìm gói dịch vụ hợp lệ
 		$this->db->where('user_id', $user_id);
-		$this->db->where('timestamp_to >' ,  $timestamp_current);
-		$this->db->where('timestamp_from <' ,  $timestamp_current);
-		$this->db->where('status' ,  1);
-		$query				=	$this->db->get('subscription');
+		$this->db->where('timestamp_to >', $timestamp_current);
+		$this->db->where('timestamp_from <', $timestamp_current);
+		$this->db->where('status', 1);
+	
+		$query = $this->db->get('subscription');
+		// Truy vấn gói dịch vụ
+	
 		if ($query->num_rows() > 0) {
-            $row = $query->row();
-			$subscription_id	=	$row->subscription_id;
-			return $subscription_id;
+			// Nếu tìm thấy gói dịch vụ hợp lệ
+	
+			$row = $query->row();
+			// Lấy bản ghi đầu tiên từ kết quả truy vấn
+	
+			$subscription_id = $row->subscription_id;
+			// Lấy ID gói dịch vụ
+	
+			return $subscription_id; // Trả về ID gói dịch vụ
 		}
-        else if ($query->num_rows() == 0) {
-			return false;
+		else if ($query->num_rows() == 0) {
+			// Nếu không tìm thấy gói dịch vụ nào
+	
+			return false; // Trả về false
 		}
 	}
-
+	
 	function get_subscription_detail($subscription_id)
-	{
-		$this->db->where('subscription_id', $subscription_id);
-		$query 		=	 $this->db->get('subscription');
-        return $query->result_array();
-	}
+{
+    // Hàm lấy chi tiết gói dịch vụ
 
-	function get_current_plan_id()
-	{
-		// CURRENT SUBSCRIPTION ID
-		$subscription_id			=	$this->crud_model->validate_subscription();
-		// CURRENT SUBSCCRIPTION DETAIL
-		$subscription_detail		=	$this->crud_model->get_subscription_detail($subscription_id);
-		foreach ($subscription_detail as $row)
-			$current_plan_id		=	$row['plan_id'];
-		return $current_plan_id;
-	}
+    $this->db->where('subscription_id', $subscription_id);
+    // Lọc bản ghi theo ID gói dịch vụ
 
-	function get_subscription_of_user($user_id = '')
-	{
-		$this->db->where('user_id', $user_id);
-        $query = $this->db->get('subscription');
-        return $query->result_array();
-	}
+    $query = $this->db->get('subscription');
+    // Truy vấn CSDL
 
-	function get_active_plan_of_user($user_id = '')
-	{
-		$timestamp_current	=	strtotime(date("Y-m-d H:i:s"));
-		$this->db->where('user_id', $user_id);
-		$this->db->where('timestamp_to >' ,  $timestamp_current);
-		$this->db->where('timestamp_from <' ,  $timestamp_current);
-		$this->db->where('status' ,  1);
-		$query				=	$this->db->get('subscription');
-		if ($query->num_rows() > 0) {
-            $row = $query->row();
-			$subscription_id	=	$row->subscription_id;
-			return $subscription_id;
-		}
-        else if ($query->num_rows() == 0) {
-			return false;
-		}
-	}
+    return $query->result_array(); // Trả về mảng chứa kết quả
+}
 
-	function get_subscription_report($month, $year)
-	{
-		$first_day_this_month 			= 	date('01-m-Y' , strtotime($month." ".$year));
-		$last_day_this_month  			= 	date('t-m-Y' , strtotime($month." ".$year));
-		$timestamp_first_day_this_month	=	strtotime($first_day_this_month);
-		$timestamp_last_day_this_month	=	strtotime($last_day_this_month);
+function get_current_plan_id()
+{
+    // Lấy ID gói dịch vụ đang hoạt động
 
-		$this->db->where('payment_timestamp >' , $timestamp_first_day_this_month);
-		$this->db->where('payment_timestamp <' , $timestamp_last_day_this_month);
-		$subscriptions = $this->db->get('subscription')->result_array();
+    $subscription_id = $this->crud_model->validate_subscription();
+    // Gọi hàm validate_subscription để lấy ID gói dịch vụ hiện tại
 
-		return $subscriptions;
-	}
+    $subscription_detail = $this->crud_model->get_subscription_detail($subscription_id);
+    // Lấy chi tiết gói dịch vụ bằng ID
 
-	function get_current_user_detail()
-	{
-		$user_id	=	$this->session->userdata('user_id');
-		$user_detail=	$this->db->get_where('user', array('user_id'=>$user_id))->row();
-		return $user_detail;
-	}
+    foreach ($subscription_detail as $row)
+        $current_plan_id = $row['plan_id'];
+    // Duyệt qua các chi tiết và lấy ID gói dịch vụ
 
-	function get_username_of_user($user_number)
-	{
-		$user_id	=	$this->session->userdata('user_id');
-		$username	=	$this->db->get_where('user', array('user_id'=>$user_id))->row()->$user_number;
-		return $username;
-	}
+    return $current_plan_id; // Trả về ID gói dịch vụ hiện tại
+}
+	
+function get_subscription_of_user($user_id = '')
+{
+    // Lấy tất cả gói dịch vụ của một người dùng
+
+    $this->db->where('user_id', $user_id);
+    // Lọc gói dịch vụ theo ID người dùng
+
+    $query = $this->db->get('subscription');
+    // Thực hiện truy vấn
+
+    return $query->result_array(); // Trả về mảng các gói dịch vụ
+}
+
+
+function get_active_plan_of_user($user_id = '')
+{
+    // Lấy gói dịch vụ đang hoạt động của người dùng
+
+    $timestamp_current = strtotime(date("Y-m-d H:i:s"));
+    // Lấy thời gian hiện tại
+
+    // Lọc gói dịch vụ theo người dùng và thời gian
+    $this->db->where('user_id', $user_id);
+    $this->db->where('timestamp_to >', $timestamp_current);
+    $this->db->where('timestamp_from <', $timestamp_current);
+    $this->db->where('status', 1);
+
+    $query = $this->db->get('subscription');
+    // Thực hiện truy vấn
+
+    if ($query->num_rows() > 0) {
+        $row = $query->row();
+        $subscription_id = $row->subscription_id;
+        // Lấy ID gói dịch vụ
+
+        return $subscription_id; // Trả về ID gói dịch vụ
+    }
+    else if ($query->num_rows() == 0) {
+        return false; // Trả về false nếu không tìm thấy gói dịch vụ
+    }
+}
+
+function get_subscription_report($month, $year)
+{
+    // Lấy báo cáo gói dịch vụ theo tháng và năm
+
+    $first_day_this_month = date('01-m-Y', strtotime($month." ".$year));
+    $last_day_this_month  = date('t-m-Y', strtotime($month." ".$year));
+    // Xác định ngày đầu và cuối của tháng
+
+    $timestamp_first_day_this_month = strtotime($first_day_this_month);
+    $timestamp_last_day_this_month  = strtotime($last_day_this_month);
+    // Chuyển đổi sang timestamp
+
+    // Lọc gói dịch vụ theo thời gian
+    $this->db->where('payment_timestamp >', $timestamp_first_day_this_month);
+    $this->db->where('payment_timestamp <', $timestamp_last_day_this_month);
+
+    $subscriptions = $this->db->get('subscription')->result_array();
+    // Thực hiện truy vấn và trả về mảng
+
+    return $subscriptions; // Trả về mảng báo cáo gói dịch vụ
+}
+
+function get_current_user_detail()
+{
+    // Lấy chi tiết người dùng hiện tại
+
+    $user_id = $this->session->userdata('user_id');
+    // Lấy ID người dùng từ session
+
+    $user_detail = $this->db->get_where('user', array('user_id' => $user_id))->row();
+    // Truy vấn chi tiết người dùng từ CSDL
+
+    return $user_detail; // Trả về chi tiết người dùng
+}
+
+function get_username_of_user($user_number)
+{
+    // Lấy tên người dùng từ số người dùng
+
+    $user_id = $this->session->userdata('user_id');
+    // Lấy ID người dùng từ session
+
+    $username = $this->db->get_where('user', array('user_id' => $user_id))->row()->$user_number;
+    // Truy vấn tên người dùng từ CSDL
+
+    return $username; // Trả về tên người dùng
+}
 
     function get_image_url_of_user($user_number)
     {

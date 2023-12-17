@@ -3,12 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------
-| MIME TYPES
+| LOẠI MIME
 | -------------------------------------------------------------------
-| This file contains an array of mime types.  It is used by the
-| Upload class to help identify allowed file types.
+| Tập tin này chứa một mảng các loại MIME. Nó được sử dụng bởi
+| lớp Upload để giúp xác định các loại tệp tin được phép.
 |
-*/
+*/ 
+
 return array(
 	'hqx'	=>	array('application/mac-binhex40', 'application/mac-binhex', 'application/x-binhex40', 'application/x-mac-binhex40'),
 	'cpt'	=>	'application/mac-compactpro',
